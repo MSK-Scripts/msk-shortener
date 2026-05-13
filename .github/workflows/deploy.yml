@@ -32,14 +32,20 @@ jobs:
         run: npm ci
 
       # ── 4. Build ─────────────────────────────────────────────
-      # NEXT_PUBLIC_* vars must be available at build time.
+      # NEXT_PUBLIC_* must be available at build time.
+      # DB_* sind Dummies, damit der Build durchläuft.
+      # Echte Werte stehen runtime in /opt/msk-shortener/.env auf dem Server.
       - name: 🏗️ Build
         env:
           NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+          DB_HOST:        build-dummy
+          DB_USER:        build-dummy
+          DB_PASSWORD:    build-dummy
+          DB_NAME:        build-dummy
+          IP_HASH_SECRET: build-dummy-secret-do-not-use
         run: npm run build
 
       # ── 5. Deploy via SCP ────────────────────────────────────
-      # Transfers build output + runtime files to the server.
       - name: 🚀 Deploy to server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -53,18 +59,11 @@ jobs:
       # ── 6. Server setup ──────────────────────────────────────
       - name: 🛠️ Install production deps, run migrations, restart
         uses: appleboy/ssh-action@v1.2.5
-        env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_NAME: ${{ secrets.DB_NAME }}
         with:
           host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.FTP_PORT }}
-          envs: DB_HOST,DB_PORT,DB_USER,DB_PASSWORD,DB_NAME
           script: |
             cd /opt/msk-shortener
 
@@ -78,7 +77,10 @@ jobs:
             npm ci --omit=dev
             npm install --no-save tsx
 
-            # Run database migrations
+            # Run database migrations (env from /opt/msk-shortener/.env)
+            set -a
+            source /opt/msk-shortener/.env
+            set +a
             npm run migrate
 
             # Fix permissions
