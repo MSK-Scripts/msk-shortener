@@ -1,4 +1,4 @@
-version: 2 
+version: 2
 
 updates:
   # ─── npm Dependencies ──────────────────────────────────────────────
@@ -24,12 +24,8 @@ updates:
           - minor
           - patch
     ignore:
-      # Next.js Major-Versionen manuell prüfen (Breaking Changes)
-      - dependency-name: next
-        update-types: ["version-update:semver-major"]
-      - dependency-name: react
-        update-types: ["version-update:semver-major"]
-      - dependency-name: react-dom
+      # ALLE Major-Updates erst manuell prüfen (Breaking Changes)
+      - dependency-name: "*"
         update-types: ["version-update:semver-major"]
 
   # ─── GitHub Actions ────────────────────────────────────────────────
@@ -46,3 +42,13 @@ updates:
     commit-message:
       prefix: "chore(ci)"
       include: scope
+    groups:
+      # Auch hier Minor/Patch zusammenfassen
+      actions-minor-and-patch:
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # GitHub-Action-Majors auch manuell prüfen
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
