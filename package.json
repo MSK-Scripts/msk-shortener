@@ -23,7 +23,7 @@
     "qrcode": "^1.5.4",
     "ua-parser-js": "^1.0.39",
     "recharts": "^2.13.0",
-    "dotenv": "^16.4.5",
+    "dotenv": "^17.4.2",
     "next-intl": "^4.0.0"
   },
   "devDependencies": {
