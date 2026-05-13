@@ -2,7 +2,7 @@
 
 > Self-hosted URL-Shortener mit Statistiken, QR-Codes und Passwortschutz – Teil des MSK-Ökosystems.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org)
 
@@ -93,7 +93,17 @@ curl -X POST https://s.msk-scripts.de/api/links \
 
 ## 📄 Lizenz
 
-MIT © [Moritz Kohm](https://msk-scripts.de)
+**AGPL-3.0-or-later** © [Moritz Kohm](https://msk-scripts.de)
+
+MSK Shortener steht unter der [GNU Affero General Public License v3.0](LICENSE).
+
+Das bedeutet:
+- ✅ Du darfst die Software nutzen, kopieren und modifizieren
+- ✅ Du darfst eigene Versionen verbreiten
+- ⚠️ Wenn du eine modifizierte Version als **Netzwerk-Service** anbietest (z.B. als Webdienst), musst du den Source-Code deiner Modifikationen öffentlich zugänglich machen
+- ⚠️ Abgeleitete Werke müssen ebenfalls unter AGPL-3.0 lizenziert sein
+
+Wenn du eine kommerzielle Lizenz ohne Copyleft-Verpflichtung benötigst, kontaktiere bitte den Autor.
 
 ---
 
