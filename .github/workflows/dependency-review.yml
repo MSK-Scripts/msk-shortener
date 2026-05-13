@@ -1,0 +1,29 @@
+name: Dependency Review
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    name: Review dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          # PRs blockieren, wenn Vulnerabilities ab "moderate" eingeführt werden
+          fail-on-severity: moderate
+          # Komplettes Audit-Comment im PR
+          comment-summary-in-pr: always
+          # Lizenzen, die wir akzeptieren
+          allow-licenses: >-
+            MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, 0BSD,
+            Unlicense, CC0-1.0, MPL-2.0, Python-2.0, BlueOak-1.0.0
