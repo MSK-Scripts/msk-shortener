@@ -42,7 +42,7 @@ export async function Header({ minimal = false, backLink }: HeaderProps) {
                 {t('docs')}
               </a>
               <a
-                href="https://github.com/musiker15/msk-shortener"
+                href="https://github.com/msk-scripts/msk-shortener"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-msk-muted hover:text-msk-text transition-colors"
