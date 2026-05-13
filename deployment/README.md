@@ -1,8 +1,10 @@
-# MSK Shortener – Deployment Guide
+# 🚀 MSK Shortener – Deployment Guide
 
-> Anleitung für die Installation auf einem Debian-/Ubuntu-Server.
+> Complete guide for self-hosting MSK Shortener on a Debian or Ubuntu server.
 
-## 🏗️ Deployment-Architektur
+---
+
+## 🏗️ Architecture
 
 ```
 ┌─────────────────┐      Push main      ┌─────────────────┐
@@ -12,7 +14,7 @@
                                                  │ SCP + SSH
                                                  ▼
                           ┌──────────────────────────────────────┐
-                          │  Server (Debian/Ubuntu)              │
+                          │  Server (Debian / Ubuntu)            │
                           │                                      │
                           │  /opt/msk-shortener/                 │
                           │      ├── .next/         ← Build      │
@@ -22,187 +24,279 @@
                           │                                      │
                           │  systemctl restart msk-shortener     │
                           │      ↓                               │
-                          │  localhost:3001                      │
+                          │  localhost:3011                      │
                           │      ↑                               │
                           │  Apache2 Reverse-Proxy (HTTPS)       │
                           └──────────────────────────────────────┘
 ```
 
-**Zwei Phasen:**
+The deployment has **two phases**:
 
-1. **Einmaliges Setup** mit `install.sh` (System-Pakete, DB, Apache, SSL)
-2. **Kontinuierliche Updates** automatisch via GitHub Actions bei jedem Push auf `main`
+1. **One-time server setup** with `install.sh` – installs system packages, MariaDB, Apache, SSL, and creates the systemd service.
+2. **Continuous deployment** via GitHub Actions – every push to `main` builds the app and ships it to the server.
 
-## 🚀 Erstinstallation (einmalig)
+---
 
-### Voraussetzungen
+## ✅ Prerequisites
 
-| Was | Mindestanforderung |
+| Requirement | Minimum |
 |---|---|
-| **OS** | Debian 11+ / Ubuntu 22.04+ |
-| **RAM** | 512 MB (1 GB empfohlen) |
-| **Speicher** | 2 GB frei |
-| **Domain** | A-Record auf Server-IP |
-| **User** | `musiker15` muss existieren (`sudo adduser musiker15`) |
-| **Ports** | 80 + 443 erreichbar |
+| **OS** | Debian 11+ or Ubuntu 22.04+ |
+| **RAM** | 512 MB (1 GB recommended) |
+| **Disk space** | 2 GB free |
+| **Domain** | A record pointing to your server's IP |
+| **Service user** | `musiker15` must exist (`sudo adduser musiker15`) |
+| **Open ports** | 80 and 443 reachable from the internet |
+| **SSH** | Key-based access for the deploy user |
 
-### Schritt 1 – Server-Setup ausführen
+---
 
-Auf dem Server als root:
+## 🏁 Initial Setup (one-time)
+
+### Step 1 – Run the install script
+
+SSH into your server as root or with sudo, then:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/musiker15/msk-shortener/main/deployment/scripts/install.sh \
+curl -fsSL https://raw.githubusercontent.com/MSK-Scripts/msk-shortener/main/deployment/scripts/install.sh \
   | sudo bash
 ```
 
-Das Script führt dich interaktiv durch:
-1. Domain abfragen
-2. Email für Let's Encrypt
-3. System-Pakete installieren (Node.js, MariaDB, Apache, Certbot)
-4. DB + DB-User anlegen mit sicheren Random-Passwörtern
-5. `.env` unter `/opt/msk-shortener/.env` erzeugen (chmod 600)
-6. Apache vHost konfigurieren
-7. SSL via Certbot beantragen
+The script walks you through:
 
-Am Ende werden dir alle **GitHub-Secrets** angezeigt, die du im Repo hinterlegen musst.
+1. Domain name input
+2. Email address for Let's Encrypt notifications
+3. System package installation (Node.js, MariaDB, Apache, Certbot)
+4. Database and DB user creation with auto-generated strong passwords
+5. `.env` creation at `/opt/msk-shortener/.env` (mode `600`)
+6. Apache vHost configuration
+7. Let's Encrypt SSL certificate issuance
 
-### Schritt 2 – GitHub Secrets hinterlegen
+At the end, the script prints all the **GitHub secrets** you need to add to your repository.
 
-Repo → **Settings → Secrets and variables → Actions** → **New repository secret**:
+### Step 2 – Set up SSH keys for CI/CD
 
-| Secret | Wert |
+GitHub Actions logs into the server via SSH to deploy. You need a dedicated deploy key:
+
+```bash
+# On your local machine or on the server, as the deploy user
+ssh-keygen -t ed25519 -C "github-actions-msk-shortener" -f ~/.ssh/msk-shortener-deploy
+
+# Add the public key to the server's authorized_keys
+# (If you ran the install script as root, add it to /root/.ssh/authorized_keys)
+cat ~/.ssh/msk-shortener-deploy.pub >> /root/.ssh/authorized_keys
+```
+
+The **private key** goes into the `SSH_PRIVATE_KEY` GitHub secret (see next step).
+
+### Step 3 – Add GitHub repository secrets
+
+Go to **Settings → Secrets and variables → Actions → New repository secret** and add:
+
+| Secret | Value |
 |---|---|
-| `FTP_SERVER` | IP oder Hostname des Servers |
-| `FTP_USERNAME` | `musiker15` |
-| `FTP_PORT` | `22` (oder dein SSH-Port) |
-| `SSH_PRIVATE_KEY` | Private Key für `musiker15` (mit `ssh-keygen` erstellen, Public Key in `~/.ssh/authorized_keys` des Servers ablegen) |
-| `NEXT_PUBLIC_BASE_URL` | `https://s.msk-scripts.de` |
-| `DB_HOST` | `localhost` |
-| `DB_PORT` | `3306` |
-| `DB_USER` | `msk_shortener` |
-| `DB_PASSWORD` | (aus install.sh-Output) |
-| `DB_NAME` | `msk_shortener` |
-| `IP_HASH_SECRET` | (aus install.sh-Output) |
+| `FTP_SERVER` | Your server's IP address or hostname |
+| `FTP_USERNAME` | `root` (or the user whose `authorized_keys` you updated) |
+| `FTP_PORT` | `22` (or your custom SSH port) |
+| `SSH_PRIVATE_KEY` | The full private key including `-----BEGIN…-----` and `-----END…-----` lines |
+| `NEXT_PUBLIC_BASE_URL` | `https://your-domain.example` |
 
-### Schritt 3 – Ersten Deploy auslösen
+> 💡 The database credentials are read from the server-side `.env` file during deploy, **not** from GitHub secrets — they never leave the server.
+
+### Step 4 – Trigger the first deploy
 
 ```bash
 git push origin main
 ```
 
-GitHub Actions baut die App, überträgt sie via SCP, installiert npm-Dependencies, führt Migrationen aus und startet den Service.
+That's it! Watch the deploy progress at:
+`https://github.com/MSK-Scripts/msk-shortener/actions`
 
-Status verfolgen unter: `https://github.com/musiker15/msk-shortener/actions`
+---
 
 ## 🔄 Updates
 
-**Automatisch bei jedem Push auf `main`:**
+**Just push to main.** GitHub Actions handles the rest:
 
 ```bash
 git push origin main
 ```
 
-Das war's. GitHub Actions kümmert sich um den Rest.
+The workflow will:
 
-## 💾 Datenbank-Backup
+1. Build the Next.js app
+2. SCP the build artifacts to the server
+3. Run `npm ci --omit=dev` on the server
+4. Apply any pending database migrations
+5. Restart the systemd service
+6. Verify the service is healthy
+
+---
+
+## 💾 Database Backups
+
+A backup script is included:
 
 ```bash
 sudo bash /opt/msk-shortener/deployment/scripts/backup.sh
 ```
 
-Backups landen in `/var/backups/msk-shortener/` (gzip-komprimiert, 14-Tage-Retention).
+This creates a gzipped SQL dump in `/var/backups/msk-shortener/` with a 14-day retention policy.
 
-**Tägliches Backup einrichten:**
+### Schedule daily backups
 
 ```bash
 sudo crontab -e
-# Hinzufügen:
+```
+
+Add the following line:
+
+```cron
 0 3 * * * /opt/msk-shortener/deployment/scripts/backup.sh
 ```
 
-## 🔧 Service-Befehle
+This runs the backup every day at 3:00 AM server time.
+
+---
+
+## 🔧 Service Management
 
 ```bash
-# Status prüfen
+# Check status
 sudo systemctl status msk-shortener
 
-# Logs in Echtzeit
+# Tail the logs
 sudo journalctl -u msk-shortener -f
 
-# Neu starten
+# Restart
 sudo systemctl restart msk-shortener
 
-# Stoppen
+# Stop
 sudo systemctl stop msk-shortener
+
+# Start
+sudo systemctl start msk-shortener
+
+# Enable on boot
+sudo systemctl enable msk-shortener
 ```
 
-## 📁 Wichtige Pfade
+---
 
-| Was | Pfad |
+## 📁 Important Paths
+
+| What | Where |
 |---|---|
-| App-Verzeichnis | `/opt/msk-shortener/` |
-| Konfiguration | `/opt/msk-shortener/.env` (chmod 600) |
-| systemd Unit | `/etc/systemd/system/msk-shortener.service` |
+| Application directory | `/opt/msk-shortener/` |
+| Environment file | `/opt/msk-shortener/.env` (mode `600`) |
+| systemd unit | `/etc/systemd/system/msk-shortener.service` |
 | Apache vHost | `/etc/apache2/sites-available/msk-shortener.conf` |
-| Apache Logs | `/var/log/apache2/msk-shortener-*.log` |
-| Service Logs | `journalctl -u msk-shortener` |
+| Apache access/error logs | `/var/log/apache2/msk-shortener-*.log` |
+| Service logs | `journalctl -u msk-shortener` |
 | Backups | `/var/backups/msk-shortener/` |
+
+---
 
 ## 🆘 Troubleshooting
 
-### Deploy schlägt fehl
+### Deploy fails on GitHub Actions
 
-GitHub Actions-Logs prüfen unter:
-`https://github.com/musiker15/msk-shortener/actions`
+Check the workflow logs at:
+`https://github.com/MSK-Scripts/msk-shortener/actions`
 
-Häufige Ursachen:
-- **SSH-Key falsch:** Public Key muss in `~/.ssh/authorized_keys` von `musiker15` auf dem Server liegen
-- **Secrets fehlen:** Alle 11 Secrets müssen gesetzt sein
-- **`musiker15` hat keinen Schreibzugriff** auf `/opt/msk-shortener/`
+**Common causes:**
 
-### Service startet nach Deploy nicht
+- **SSH authentication failed** — the public key isn't in `authorized_keys`, or the private key in the secret is malformed (missing `BEGIN`/`END` lines)
+- **Missing secrets** — make sure all five secrets are set (`FTP_SERVER`, `FTP_USERNAME`, `FTP_PORT`, `SSH_PRIVATE_KEY`, `NEXT_PUBLIC_BASE_URL`)
+- **Deploy user lacks write access** to `/opt/msk-shortener/` — fix with `sudo chown -R <user>:<user> /opt/msk-shortener`
+
+### Service won't start after deploy
 
 ```bash
 sudo journalctl -u msk-shortener -e --no-pager
 ```
 
-Häufigste Ursachen:
-- DB-Verbindung fehlgeschlagen → `.env`-Werte gegen install.sh-Output prüfen
-- Port 3001 belegt → `sudo ss -tlnp | grep 3001`
+**Most common causes:**
 
-### Apache zeigt 502 Bad Gateway
+- **Database connection refused** — verify the values in `/opt/msk-shortener/.env` against the install script output
+- **Port 3011 already in use** — check with `sudo ss -tlnp | grep 3011`
+- **`.env` permissions wrong** — should be `600` and owned by the service user
 
-Der Next.js-Service läuft nicht.
+### Apache returns "502 Bad Gateway"
+
+This means Apache is up, but the Next.js service isn't responding on port 3011.
 
 ```bash
 sudo systemctl status msk-shortener
+sudo journalctl -u msk-shortener -e
 ```
 
-### SSL-Erneuerung testen
+### Test SSL renewal
 
 ```bash
 sudo certbot renew --dry-run
 ```
 
-### Komplette Deinstallation
+Certbot is configured by `install.sh` to auto-renew via systemd timer, but it's good to verify once.
+
+### Full uninstall
 
 ```bash
+# Stop and disable the service
 sudo systemctl stop msk-shortener
 sudo systemctl disable msk-shortener
 sudo rm /etc/systemd/system/msk-shortener.service
 sudo systemctl daemon-reload
 
+# Remove Apache config
 sudo a2dissite msk-shortener
 sudo rm /etc/apache2/sites-available/msk-shortener.conf
 sudo systemctl reload apache2
 
+# Remove application files
 sudo rm -rf /opt/msk-shortener
 sudo rm -rf /var/backups/msk-shortener
 
-# DB optional löschen
+# Optionally drop the database
 sudo mariadb -e "DROP DATABASE msk_shortener; DROP USER 'msk_shortener'@'localhost';"
 ```
 
 ---
 
-Bei Fragen → [GitHub Issues](https://github.com/musiker15/msk-shortener/issues)
+## 🔐 Security Hardening
+
+The installation defaults are already production-ready, but here are some optional hardening steps:
+
+- **Firewall** — close all ports except 22, 80, and 443 (e.g. with `ufw`)
+- **Fail2ban** — enable for SSH and Apache to throttle brute-force attempts
+- **Non-root SSH** — disable root SSH login (`PermitRootLogin no`) after setting up a deploy user
+- **Automatic security updates** — install `unattended-upgrades` for the OS
+
+---
+
+## 🧪 GitHub Actions Workflows
+
+This repo ships with several CI workflows beyond the deploy:
+
+| Workflow | Trigger | Purpose |
+|---|---|---|
+| **Deploy** | Push to `main` | Build & deploy to production |
+| **CodeQL** | Push, PR, weekly | Static analysis for security issues |
+| **ESLint** | Push, PR | Code quality and TypeScript type-checking |
+| **Dependency Review** | PR only | Block PRs that introduce vulnerable deps |
+| **Secret Scanning (TruffleHog)** | Push, PR, weekly | Catch accidentally committed secrets |
+| **Dependabot** | Weekly | Auto-PRs for minor and patch updates |
+
+All workflows are defined in [`.github/workflows/`](../.github/workflows/).
+
+---
+
+## 💬 Questions or Issues?
+
+- Bug reports: [GitHub Issues](https://github.com/MSK-Scripts/msk-shortener/issues)
+- Security: see [`SECURITY.md`](../SECURITY.md)
+- General: [info@msk-scripts.de](mailto:info@msk-scripts.de)
+
+---
+
+[← Back to main README](../README.md)
