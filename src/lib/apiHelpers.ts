@@ -18,10 +18,11 @@ export function jsonError(
 
 /**
  * Wandelt Zod-Errors in unser ApiError-Format um.
+ * In Zod 4 heißt die Property `issues` statt `errors`.
  */
 export function zodToApiError(err: ZodError): NextResponse<ApiError> {
   const details: Record<string, string[]> = {}
-  for (const issue of err.errors) {
+  for (const issue of err.issues) {
     const field = issue.path.join('.') || '_root'
     if (!details[field]) details[field] = []
     details[field].push(issue.message)

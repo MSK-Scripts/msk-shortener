@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 import { createLinkSchema } from '@/lib/validation'
 import { createLink, LinkServiceError } from '@/lib/links'
 import { getClientIp, hashIp, checkCreateRateLimit } from '@/lib/rateLimit'
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json<ApiError>(
         {
           error:   'Validierung fehlgeschlagen',
-          details: parsed.error.flatten().fieldErrors,
+          details: z.flattenError(parsed.error).fieldErrors,
         },
         { status: 400 }
       )

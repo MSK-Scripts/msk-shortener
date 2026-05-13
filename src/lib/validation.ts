@@ -60,8 +60,8 @@ const passwordSchema = z
   .or(z.literal(''))
 
 const expiresAtSchema = z
-  .string()
-  .datetime({ message: 'Ungültiges Datum (ISO 8601 erforderlich)' })
+  .iso
+  .datetime({ error: 'Ungültiges Datum (ISO 8601 erforderlich)' })
   .refine((date) => new Date(date) > new Date(), 'Ablaufdatum muss in der Zukunft liegen')
   .optional()
   .or(z.literal(''))

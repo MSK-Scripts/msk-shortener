@@ -7,13 +7,16 @@
  * Usage: npm run migrate
  */
 
-// WICHTIG: dotenv/config MUSS als allererstes geladen werden,
-// damit ENV-Variablen verfügbar sind, bevor db.ts importiert wird.
-import 'dotenv/config'
-
+// WICHTIG: dotenv MUSS als allererstes geladen werden,
+// damit ENV-Variablen verfügbar sind, bevor db.ts darauf zugreift.
+// Quiet=true unterdrückt die dotenvx-Werbenachricht (dotenv v17+).
+import { config } from 'dotenv'
 import { readdir, readFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { getPool, queryMany, execute, closePool } from '../src/lib/db'
+
+// Beim Top-Level ausgeführt, BEVOR main() läuft
+config({ quiet: true })
 
 const MIGRATIONS_DIR = resolve(process.cwd(), 'migrations')
 

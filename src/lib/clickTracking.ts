@@ -43,10 +43,12 @@ function sanitizeReferrer(referrer: string | null): string | null {
 
 /**
  * Mapped ua-parser-js Device-Type auf unseren DeviceType.
+ * In ua-parser-js v2 gibt es außerdem 'xr' (VR/AR-Headsets), das wir als mobile zählen.
  */
 function normalizeDeviceType(uaDeviceType: string | undefined): DeviceType {
   if (uaDeviceType === 'mobile') return 'mobile'
   if (uaDeviceType === 'tablet') return 'tablet'
+  if (uaDeviceType === 'xr')     return 'mobile'
   return 'desktop'
 }
 
