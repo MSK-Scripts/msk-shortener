@@ -1,10 +1,18 @@
 import mysql from 'mysql2/promise'
 
-// ─── ENV-Validierung ──────────────────────────────────────────────────
-const requiredEnv = ['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME'] as const
-for (const key of requiredEnv) {
-  if (!process.env[key]) {
-    throw new Error(`Fehlende ENV-Variable: ${key}`)
+// ─── ENV-Validierung (lazy) ────────────────────────────────────────
+const REQUIRED_ENV = ['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME'] as const
+
+/**
+ * Prüft, ob alle benötigten ENV-Variablen gesetzt sind.
+ * Wird beim ersten getPool()-Aufruf zur Runtime ausgeführt,
+ * NICHT beim Modul-Import (damit Build-Time funktioniert).
+ */
+function validateEnv(): void {
+  for (const key of REQUIRED_ENV) {
+    if (!process.env[key]) {
+      throw new Error(`Fehlende ENV-Variable: ${key}`)
+    }
   }
 }
 
@@ -31,6 +39,9 @@ let pool: mysql.Pool | null = null
 
 export function getPool(): mysql.Pool {
   if (pool) return pool
+
+  // Lazy: ENV erst prüfen wenn die DB wirklich gebraucht wird
+  validateEnv()
 
   pool = mysql.createPool({
     host:           process.env.DB_HOST,
