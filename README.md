@@ -93,7 +93,7 @@ curl -X POST https://s.msk-scripts.de/api/links \
 
 ## 📄 Lizenz
 
-**AGPL-3.0-or-later** © [Moritz Kohm](https://msk-scripts.de)
+**AGPL-3.0-or-later** © [MSK Scripts](https://www.msk-scripts.de)
 
 MSK Shortener steht unter der [GNU Affero General Public License v3.0](LICENSE).
 
