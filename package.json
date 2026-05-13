@@ -7,7 +7,7 @@
     "dev": "next dev -p 3011",
     "build": "next build",
     "start": "next start -p 3011",
-    "lint": "next lint",
+    "lint": "eslint .",
     "migrate": "tsx scripts/migrate.ts",
     "cleanup": "tsx scripts/cleanup.ts",
     "type-check": "tsc --noEmit"
@@ -39,6 +39,7 @@
     "autoprefixer": "^10.4.0",
     "tsx": "^4.19.0",
     "eslint": "^9.0.0",
+    "@eslint/eslintrc": "^3.2.0",
     "eslint-config-next": "^15.0.0"
   }
 }

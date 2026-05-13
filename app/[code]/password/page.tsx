@@ -1,4 +1,5 @@
 import { notFound, redirect } from 'next/navigation'
+import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { getLinkByCode, isLinkExpired } from '@/lib/links'
 import { PasswordPrompt } from '@/components/PasswordPrompt'
@@ -26,12 +27,12 @@ export default async function PasswordPage({ params }: PageProps) {
     <main className="min-h-screen flex flex-col">
       {/* Header */}
       <header className="px-6 py-5 flex items-center justify-between">
-        <a href="/" className="inline-flex items-center gap-3">
+        <Link href="/" className="inline-flex items-center gap-3">
           <Logo size={28} />
           <span className="font-heading text-lg text-msk-text">
             MSK <span className="text-msk-accent">Shortener</span>
           </span>
-        </a>
+        </Link>
         <LanguageSwitcher />
       </header>
 

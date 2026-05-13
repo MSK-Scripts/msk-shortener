@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /**
  * MSK Shortener – Migration Runner
  *

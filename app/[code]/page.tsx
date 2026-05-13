@@ -1,5 +1,6 @@
 import { redirect, notFound } from 'next/navigation'
 import { headers } from 'next/headers'
+import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { getLinkByCode, incrementClickCount, isLinkExpired } from '@/lib/links'
 import { trackClick } from '@/lib/clicks'
@@ -31,12 +32,12 @@ export default async function RedirectPage({ params }: PageProps) {
           </div>
           <h1 className="font-heading text-3xl text-msk-text">{t('title')}</h1>
           <p className="text-msk-muted">{t('subtitle')}</p>
-          <a
+          <Link
             href="/"
             className="inline-block mt-4 px-6 py-2.5 bg-msk-accent hover:bg-msk-hover text-white rounded-lg font-medium transition-colors"
           >
             {t('createNew')}
-          </a>
+          </Link>
         </div>
       </main>
     )
