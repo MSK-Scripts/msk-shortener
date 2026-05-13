@@ -28,11 +28,11 @@ jobs:
             echo -e "> ⚠️ First Release – no comparison with previous tag possible.\n" > release_body.md
           else
             RANGE="$PREV_TAG..$CURR_TAG"
-            echo -e "> 🔍 Comparison: [\`$PREV_TAG\` → \`$CURR_TAG\`](https://github.com/MSK-Scripts/msk-shop/compare/$PREV_TAG...$CURR_TAG)\n" > release_body.md
+            echo -e "> 🔍 Comparison: [\`$PREV_TAG\` → \`$CURR_TAG\`](https://github.com/MSK-Scripts/msk-shortener/compare/$PREV_TAG...$CURR_TAG)\n" > release_body.md
           fi
 
           # Commits
-          REPO="MSK-Scripts/msk-shop"
+          REPO="MSK-Scripts/msk-shortener"
           echo "## 📝 Commits" >> release_body.md
           git log $RANGE --pretty=format:"%H %s (%an)" | while read hash rest; do
             SHORT=$(echo $hash | cut -c1-7)
