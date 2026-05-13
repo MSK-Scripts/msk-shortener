@@ -30,7 +30,6 @@ export type SqlParam =
   | Date
   | Buffer
   | null
-  | undefined
 
 export type SqlParams = ReadonlyArray<SqlParam>
 
@@ -79,7 +78,7 @@ export async function queryOne<T = unknown>(
   sql: string,
   params: SqlParams = []
 ): Promise<T | null> {
-  const [rows] = await getPool().execute<mysql.RowDataPacket[]>(sql, params)
+  const [rows] = await getPool().execute<mysql.RowDataPacket[]>(sql, Array.from(params))
   return (rows[0] as T | undefined) ?? null
 }
 
@@ -90,7 +89,7 @@ export async function queryMany<T = unknown>(
   sql: string,
   params: SqlParams = []
 ): Promise<T[]> {
-  const [rows] = await getPool().execute<mysql.RowDataPacket[]>(sql, params)
+  const [rows] = await getPool().execute<mysql.RowDataPacket[]>(sql, Array.from(params))
   return rows as T[]
 }
 
@@ -101,7 +100,7 @@ export async function execute(
   sql: string,
   params: SqlParams = []
 ): Promise<mysql.ResultSetHeader> {
-  const [result] = await getPool().execute<mysql.ResultSetHeader>(sql, params)
+  const [result] = await getPool().execute<mysql.ResultSetHeader>(sql, Array.from(params))
   return result
 }
 
