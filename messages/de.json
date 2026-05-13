@@ -1,0 +1,208 @@
+{
+  "common": {
+    "back": "Zurück",
+    "close": "Schließen",
+    "cancel": "Abbrechen",
+    "language": "Sprache",
+    "neverExpires": "Niemals",
+    "publicLink": "Öffentlich",
+    "protectedLink": "Passwort 🔒"
+  },
+  "header": {
+    "stats": "Statistiken",
+    "docs": "Dokumentation",
+    "github": "GitHub"
+  },
+  "home": {
+    "titleLine1": "Lange URLs?",
+    "titleLine2": "Mach sie kurz.",
+    "subtitle": "Schneller, datenschutzfreundlicher URL-Shortener. Keine Cookies, keine Tracker, keine Anmeldung.",
+    "deleteLink": "Link löschen",
+    "globalStats": "Globale Statistiken",
+    "features": {
+      "customCodes": "Custom Codes",
+      "statistics": "Statistiken",
+      "qrCodes": "QR-Codes",
+      "openSource": "Open Source"
+    }
+  },
+  "footer": {
+    "openSource": "Open Source unter MIT",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz"
+  },
+  "createForm": {
+    "urlLabel": "Lange URL",
+    "urlPlaceholder": "https://example.com/sehr/lange/url/die/gekuerzt/werden/soll",
+    "advancedToggle": "Erweiterte Optionen",
+    "customCodeLabel": "Eigener Kurz-Code",
+    "optional": "optional",
+    "customCodePlaceholder": "mein-link",
+    "customCodeHint": "3–20 Zeichen, nur Buchstaben, Zahlen, _ und -",
+    "passwordLabel": "Passwortschutz",
+    "passwordPlaceholder": "Mindestens 4 Zeichen",
+    "expiresAtLabel": "Ablaufdatum",
+    "expiresAtRemove": "Ablaufdatum entfernen",
+    "submit": "Link verkürzen",
+    "submitting": "Verkürze…",
+    "networkError": "Netzwerkfehler – bitte erneut versuchen"
+  },
+  "linkResult": {
+    "success": "Link erstellt!",
+    "subtitle": "Kopiere den Link und teile ihn",
+    "yourShortLink": "Dein Kurz-Link",
+    "copy": "Kopieren",
+    "passwordProtected": "Passwortgeschützt",
+    "expiresOn": "Läuft ab",
+    "tokenTitle": "Delete-Token speichern!",
+    "tokenWarning": "Mit diesem Token kannst du den Link später löschen. Wir speichern keinen Account – ohne Token ist der Link nicht mehr entfernbar.",
+    "showToken": "Token anzeigen",
+    "viewStats": "Statistiken",
+    "newLink": "Neuer Link"
+  },
+  "deleteForm": {
+    "title": "Link löschen",
+    "subtitle": "Gib den Short-Code und den Delete-Token ein, den du beim Erstellen erhalten hast.",
+    "shortCodeLabel": "Short-Code oder Kurz-URL",
+    "shortCodePlaceholder": "abc123 oder https://s.msk-scripts.de/abc123",
+    "tokenLabel": "Delete-Token",
+    "tokenPlaceholder": "48-stelliger Token",
+    "submit": "Löschen",
+    "submitting": "Lösche…",
+    "successTitle": "Link gelöscht",
+    "successSubtitle": "Der Kurz-Link wurde dauerhaft entfernt.",
+    "errorInvalidCode": "Bitte gib einen gültigen Short-Code ein",
+    "errorDeleteFailed": "Löschen fehlgeschlagen",
+    "networkError": "Netzwerkfehler – bitte erneut versuchen"
+  },
+  "password": {
+    "pageTitle": "Geschützter Link",
+    "pageSubtitle": "Dieser Kurz-Link ist passwortgeschützt.\nBitte gib das Passwort ein, um fortzufahren.",
+    "passwordLabel": "Passwort",
+    "submit": "Weiter",
+    "submitting": "Prüfe…",
+    "rateLimitHint": "Bei wiederholten Fehlversuchen wird die IP temporär gesperrt.",
+    "showPassword": "Passwort anzeigen",
+    "hidePassword": "Passwort verbergen",
+    "wrongPassword": "Falsches Passwort",
+    "networkError": "Netzwerkfehler – bitte erneut versuchen"
+  },
+  "expired": {
+    "title": "Link abgelaufen",
+    "subtitle": "Dieser Kurz-Link ist nicht mehr aktiv. Das Ablaufdatum wurde überschritten.",
+    "createNew": "Neuen Link erstellen"
+  },
+  "notFound": {
+    "title": "Link nicht gefunden",
+    "subtitle": "Die angeforderte Kurz-URL existiert nicht oder wurde entfernt.",
+    "backToHome": "Zur Startseite"
+  },
+  "stats": {
+    "subtitle": "Statistiken für",
+    "linkExpired": "Link ist abgelaufen",
+    "kpi": {
+      "totalClicks": "Klicks gesamt",
+      "createdAt": "Erstellt",
+      "expiresAt": "Ablauf",
+      "protection": "Schutz"
+    },
+    "timeline": "Klicks im Zeitverlauf",
+    "noClicksInPeriod": "Noch keine Klicks im gewählten Zeitraum",
+    "rangeDays": "{days}T",
+    "browser": "Browser",
+    "os": "Betriebssystem",
+    "devices": "Geräte",
+    "topReferrers": "Top Referrer",
+    "noData": "Noch keine Daten verfügbar",
+    "qrCodeTitle": "QR-Code",
+    "footerNote": "Klicks werden DSGVO-konform anonymisiert. Bots & Crawler werden ausgeschlossen."
+  },
+  "globalStats": {
+    "metaTitle": "Globale Statistiken",
+    "metaDescription": "Öffentliche, anonymisierte Statistiken aller verkürzten Links.",
+    "headerLabel": "Öffentliche Statistiken",
+    "title": "Alle Zahlen auf einen Blick",
+    "subtitle": "Anonymisierte Gesamtdaten dieser Instanz. Einzelne Links, URLs und IP-Adressen werden nicht angezeigt.",
+    "totalLinks": "Links gesamt",
+    "totalClicks": "Klicks gesamt",
+    "linksToday": "Heute erstellt",
+    "clicksToday": "Klicks heute",
+    "clicksLast7Days": "Klicks – letzte 7 Tage",
+    "percentOfTotal": "{percent}% aller Klicks",
+    "noDataYet": "Noch keine Daten",
+    "avgClicksPerLink": "Durchschnitt Klicks pro Link",
+    "avgClicksHint": "Über alle Links gerechnet",
+    "topBrowsers": "Top Browser",
+    "topOs": "Top Betriebssysteme",
+    "privacyTitle": "DSGVO-konform",
+    "privacyText": "IP-Adressen werden ausschließlich als gesalzener SHA-256-Hash gespeichert. Bots und Crawler werden aus den Statistiken ausgeschlossen. Es werden keine Cookies gesetzt und keine personenbezogenen Daten gespeichert."
+  },
+  "privacy": {
+    "metaTitle": "Datenschutzerklärung",
+    "metaDescription": "Datenschutzerklärung für MSK Shortener.",
+    "title": "Datenschutzerklärung",
+    "lastUpdated": "Stand: Mai 2026",
+    "intro": "Wir nehmen den Schutz deiner persönlichen Daten sehr ernst. Diese Datenschutzerklärung informiert dich über Art, Umfang und Zweck der Verarbeitung personenbezogener Daten bei der Nutzung von MSK Shortener.",
+
+    "section1Title": "1. Verantwortlicher",
+    "section1Text": "Verantwortlich für die Datenverarbeitung auf dieser Website ist:",
+    "section1Name": "Moritz Kohm\nc/o Impressumservice Dein-Impressum",
+    "section1Address": "Stettiner Str. 41\n35410 Hungen\nDeutschland",
+    "section1Email": "E-Mail: [info@msk-scripts.de]",
+
+    "section2Title": "2. Welche Daten wir verarbeiten",
+    "section2Intro": "MSK Shortener ist bewusst datensparsam konzipiert. Wir verarbeiten nur die folgenden Daten:",
+    "section2aTitle": "a) Eingegebene URLs und Kurz-Codes",
+    "section2aText": "Wenn du einen Link verkürzt, speichern wir die eingegebene Ziel-URL, den generierten oder von dir gewählten Kurz-Code, ein optionales Passwort (als bcrypt-Hash) und ein optionales Ablaufdatum. Diese Daten sind notwendig, um den Kurz-URL-Dienst zu erbringen.",
+    "section2bTitle": "b) IP-Adressen (anonymisiert)",
+    "section2bText": "Beim Erstellen eines Links und bei jedem Klick auf einen Kurz-Link wird deine IP-Adresse ausschließlich als gesalzener SHA-256-Hash gespeichert. Die ursprüngliche IP-Adresse wird zu keinem Zeitpunkt im Klartext abgelegt. Dies dient der Missbrauchsbekämpfung (Rate-Limiting) und der anonymen Erstellung von Klick-Statistiken.",
+    "section2cTitle": "c) Technische Informationen",
+    "section2cText": "Bei jedem Klick auf einen Kurz-Link werden Browser-Typ (z.B. Chrome), Betriebssystem (z.B. Windows) und Gerätetyp (Desktop/Mobile/Tablet) gespeichert. Diese Informationen stammen aus dem User-Agent-Header und enthalten keine personenbezogenen Daten.",
+    "section2dTitle": "d) Referrer",
+    "section2dText": "Falls dein Browser eine Referrer-Information übermittelt (also die Seite, von der aus du den Kurz-Link aufgerufen hast), speichern wir nur die Domain und den Pfad – jedoch keine Query-Parameter, da diese sensible Informationen enthalten könnten.",
+
+    "section3Title": "3. Cookies",
+    "section3Text": "MSK Shortener verwendet ausschließlich einen einzigen technisch notwendigen Cookie zur Speicherung deiner Sprachauswahl:",
+    "section3CookieName": "NEXT_LOCALE",
+    "section3CookiePurpose": "Zweck: Speicherung der gewählten Sprache (Deutsch oder Englisch)",
+    "section3CookieDuration": "Gültigkeit: 1 Jahr",
+    "section3CookieLegal": "Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse)",
+    "section3NoTracking": "Es werden keine Tracking-Cookies, Analytics-Cookies oder Werbe-Cookies verwendet.",
+
+    "section4Title": "4. Rechtsgrundlagen der Verarbeitung",
+    "section4Text": "Die Verarbeitung deiner Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigte Interessen – Missbrauchsbekämpfung und Bereitstellung anonymer Statistiken).",
+
+    "section5Title": "5. Speicherdauer",
+    "section5Links": "Kurz-Links werden gespeichert, bis sie entweder vom Ersteller über den Delete-Token gelöscht werden oder das optionale Ablaufdatum erreicht wird.",
+    "section5Clicks": "Anonymisierte Klick-Daten werden zeitlich unbefristet gespeichert, da sie keinen Personenbezug aufweisen.",
+    "section5Logs": "Server-Logs (Apache Access-Logs) werden nach maximal 14 Tagen automatisch gelöscht.",
+
+    "section6Title": "6. Empfänger der Daten",
+    "section6Intro": "Deine Daten werden nicht an Dritte weitergegeben, mit folgender Ausnahme:",
+    "section6HostingTitle": "Hosting-Provider",
+    "section6HostingText": "Diese Website wird auf Servern von Netcup GmbH (Daimlerstraße 25, 76185 Karlsruhe, Deutschland) betrieben. Mit Netcup besteht ein Auftragsverarbeitungsvertrag gemäß Art. 28 DSGVO.",
+
+    "section7Title": "7. Deine Rechte",
+    "section7Intro": "Du hast jederzeit folgende Rechte:",
+    "section7RightAccess": "Auskunft über die zu deiner Person gespeicherten Daten (Art. 15 DSGVO)",
+    "section7RightRectification": "Berichtigung unrichtiger Daten (Art. 16 DSGVO)",
+    "section7RightErasure": "Löschung deiner Daten (Art. 17 DSGVO)",
+    "section7RightRestriction": "Einschränkung der Verarbeitung (Art. 18 DSGVO)",
+    "section7RightPortability": "Datenübertragbarkeit (Art. 20 DSGVO)",
+    "section7RightObjection": "Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)",
+    "section7RightComplaint": "Beschwerde bei einer Aufsichtsbehörde (Art. 77 DSGVO)",
+    "section7Contact": "Zur Ausübung deiner Rechte wende dich an die oben genannten Kontaktdaten.",
+
+    "section8Title": "8. Aufsichtsbehörde",
+    "section8Text": "Zuständige Aufsichtsbehörde ist:",
+    "section8AuthorityName": "Der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Baden-Württemberg",
+    "section8AuthorityAddress": "Lautenschlagerstraße 20\n70173 Stuttgart",
+    "section8AuthorityWebsite": "https://www.baden-wuerttemberg.datenschutz.de",
+
+    "section9Title": "9. Sicherheit",
+    "section9Text": "Wir setzen technische und organisatorische Sicherheitsmaßnahmen ein, um deine Daten gegen Manipulation, Verlust oder unberechtigten Zugriff zu schützen. Die Übertragung erfolgt verschlüsselt über HTTPS (TLS). Passwörter werden mit bcrypt (Cost-Faktor 12) gehasht. IP-Adressen werden mit SHA-256 unter Verwendung eines geheimen Salts gehasht.",
+
+    "section10Title": "10. Änderungen dieser Datenschutzerklärung",
+    "section10Text": "Wir behalten uns vor, diese Datenschutzerklärung anzupassen, um sie an geänderte Rechtslagen oder bei Änderungen des Dienstes zu aktualisieren. Für deinen erneuten Besuch gilt dann die neue Datenschutzerklärung."
+  }
+}

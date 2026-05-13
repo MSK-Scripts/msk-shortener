@@ -1,0 +1,43 @@
+# ============================================================================
+# MSK Shortener – systemd Service Unit
+#
+# Diese Datei liegt im Repo-Root und wird via GitHub Actions Deploy
+# nach /etc/systemd/system/msk-shortener.service kopiert.
+# ============================================================================
+
+[Unit]
+Description=MSK Shortener – Self-hosted URL-Shortener
+Documentation=https://github.com/musiker15/msk-shortener
+After=network.target mariadb.service
+Wants=mariadb.service
+
+[Service]
+Type=simple
+User=musiker15
+Group=musiker15
+WorkingDirectory=/opt/msk-shortener
+
+# ─── Umgebung ────────────────────────────────────────────────────────
+Environment=NODE_ENV=production
+EnvironmentFile=/opt/msk-shortener/.env
+
+# ─── Start-Befehl ────────────────────────────────────────────────────
+ExecStart=/usr/bin/npm start
+
+# ─── Restart-Verhalten ───────────────────────────────────────────────
+Restart=on-failure
+RestartSec=10
+StartLimitBurst=5
+StartLimitIntervalSec=60
+
+# ─── Logging zu journald ─────────────────────────────────────────────
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=msk-shortener
+
+# ─── Resource-Limits ─────────────────────────────────────────────────
+LimitNOFILE=4096
+LimitNPROC=512
+
+[Install]
+WantedBy=multi-user.target

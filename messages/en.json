@@ -1,0 +1,208 @@
+{
+  "common": {
+    "back": "Back",
+    "close": "Close",
+    "cancel": "Cancel",
+    "language": "Language",
+    "neverExpires": "Never",
+    "publicLink": "Public",
+    "protectedLink": "Password 🔒"
+  },
+  "header": {
+    "stats": "Statistics",
+    "docs": "Documentation",
+    "github": "GitHub"
+  },
+  "home": {
+    "titleLine1": "Long URLs?",
+    "titleLine2": "Make them short.",
+    "subtitle": "Fast, privacy-friendly URL shortener. No cookies, no trackers, no signup.",
+    "deleteLink": "Delete link",
+    "globalStats": "Global statistics",
+    "features": {
+      "customCodes": "Custom Codes",
+      "statistics": "Statistics",
+      "qrCodes": "QR Codes",
+      "openSource": "Open Source"
+    }
+  },
+  "footer": {
+    "openSource": "Open source under MIT",
+    "imprint": "Imprint",
+    "privacy": "Privacy"
+  },
+  "createForm": {
+    "urlLabel": "Long URL",
+    "urlPlaceholder": "https://example.com/very/long/url/that/needs/shortening",
+    "advancedToggle": "Advanced options",
+    "customCodeLabel": "Custom short code",
+    "optional": "optional",
+    "customCodePlaceholder": "my-link",
+    "customCodeHint": "3–20 characters, letters, numbers, _ and - only",
+    "passwordLabel": "Password protection",
+    "passwordPlaceholder": "At least 4 characters",
+    "expiresAtLabel": "Expiry date",
+    "expiresAtRemove": "Remove expiry date",
+    "submit": "Shorten link",
+    "submitting": "Shortening…",
+    "networkError": "Network error – please try again"
+  },
+  "linkResult": {
+    "success": "Link created!",
+    "subtitle": "Copy the link and share it",
+    "yourShortLink": "Your short link",
+    "copy": "Copy",
+    "passwordProtected": "Password-protected",
+    "expiresOn": "Expires",
+    "tokenTitle": "Save your delete token!",
+    "tokenWarning": "With this token you can delete the link later. We don't store accounts – without the token the link can't be removed.",
+    "showToken": "Show token",
+    "viewStats": "Statistics",
+    "newLink": "New link"
+  },
+  "deleteForm": {
+    "title": "Delete link",
+    "subtitle": "Enter the short code and the delete token you received when creating the link.",
+    "shortCodeLabel": "Short code or short URL",
+    "shortCodePlaceholder": "abc123 or https://s.msk-scripts.de/abc123",
+    "tokenLabel": "Delete token",
+    "tokenPlaceholder": "48-character token",
+    "submit": "Delete",
+    "submitting": "Deleting…",
+    "successTitle": "Link deleted",
+    "successSubtitle": "The short link has been permanently removed.",
+    "errorInvalidCode": "Please enter a valid short code",
+    "errorDeleteFailed": "Deletion failed",
+    "networkError": "Network error – please try again"
+  },
+  "password": {
+    "pageTitle": "Protected link",
+    "pageSubtitle": "This short link is password-protected.\nPlease enter the password to continue.",
+    "passwordLabel": "Password",
+    "submit": "Continue",
+    "submitting": "Checking…",
+    "rateLimitHint": "Repeated failures will temporarily block your IP address.",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "wrongPassword": "Wrong password",
+    "networkError": "Network error – please try again"
+  },
+  "expired": {
+    "title": "Link expired",
+    "subtitle": "This short link is no longer active. The expiry date has passed.",
+    "createNew": "Create a new link"
+  },
+  "notFound": {
+    "title": "Link not found",
+    "subtitle": "The requested short URL does not exist or has been removed.",
+    "backToHome": "Back to home"
+  },
+  "stats": {
+    "subtitle": "Statistics for",
+    "linkExpired": "Link is expired",
+    "kpi": {
+      "totalClicks": "Total clicks",
+      "createdAt": "Created",
+      "expiresAt": "Expires",
+      "protection": "Protection"
+    },
+    "timeline": "Clicks over time",
+    "noClicksInPeriod": "No clicks in the selected period yet",
+    "rangeDays": "{days}d",
+    "browser": "Browser",
+    "os": "Operating system",
+    "devices": "Devices",
+    "topReferrers": "Top referrers",
+    "noData": "No data available yet",
+    "qrCodeTitle": "QR Code",
+    "footerNote": "Clicks are anonymized per GDPR. Bots & crawlers are excluded."
+  },
+  "globalStats": {
+    "metaTitle": "Global statistics",
+    "metaDescription": "Public, anonymized statistics for all shortened links.",
+    "headerLabel": "Public statistics",
+    "title": "All numbers at a glance",
+    "subtitle": "Anonymized aggregate data for this instance. Individual links, URLs and IP addresses are not shown.",
+    "totalLinks": "Total links",
+    "totalClicks": "Total clicks",
+    "linksToday": "Created today",
+    "clicksToday": "Clicks today",
+    "clicksLast7Days": "Clicks – last 7 days",
+    "percentOfTotal": "{percent}% of all clicks",
+    "noDataYet": "No data yet",
+    "avgClicksPerLink": "Average clicks per link",
+    "avgClicksHint": "Calculated across all links",
+    "topBrowsers": "Top browsers",
+    "topOs": "Top operating systems",
+    "privacyTitle": "GDPR-compliant",
+    "privacyText": "IP addresses are stored exclusively as salted SHA-256 hashes. Bots and crawlers are excluded from the statistics. No cookies are set and no personal data is stored."
+  },
+  "privacy": {
+    "metaTitle": "Privacy Policy",
+    "metaDescription": "Privacy policy for MSK Shortener.",
+    "title": "Privacy Policy",
+    "lastUpdated": "As of May 2026",
+    "intro": "We take the protection of your personal data very seriously. This privacy policy informs you about the nature, scope and purpose of processing personal data when using MSK Shortener.",
+
+    "section1Title": "1. Data Controller",
+    "section1Text": "The controller responsible for data processing on this website is:",
+    "section1Name": "Moritz Kohm\nc/o Impressumservice Dein-Impressum",
+    "section1Address": "Stettiner Str. 41\n35410 Hungen\nGermany",
+    "section1Email": "Email: [info@msk-scripts.de]",
+
+    "section2Title": "2. What data we process",
+    "section2Intro": "MSK Shortener is designed to be deliberately data-minimal. We only process the following data:",
+    "section2aTitle": "a) Submitted URLs and short codes",
+    "section2aText": "When you shorten a link, we store the submitted target URL, the generated or self-chosen short code, an optional password (as a bcrypt hash) and an optional expiry date. This data is necessary to provide the URL shortener service.",
+    "section2bTitle": "b) IP addresses (anonymized)",
+    "section2bText": "When creating a link and on every click on a short link, your IP address is stored exclusively as a salted SHA-256 hash. The original IP address is never stored in plain text. This is used for abuse prevention (rate limiting) and the anonymous creation of click statistics.",
+    "section2cTitle": "c) Technical information",
+    "section2cText": "On every click on a short link, the browser type (e.g. Chrome), operating system (e.g. Windows) and device type (desktop/mobile/tablet) are stored. This information is derived from the User-Agent header and contains no personal data.",
+    "section2dTitle": "d) Referrer",
+    "section2dText": "If your browser transmits referrer information (the page from which you accessed the short link), we store only the domain and path – not the query parameters, as they could contain sensitive information.",
+
+    "section3Title": "3. Cookies",
+    "section3Text": "MSK Shortener uses exclusively a single technically necessary cookie to store your language selection:",
+    "section3CookieName": "NEXT_LOCALE",
+    "section3CookiePurpose": "Purpose: Storing the selected language (German or English)",
+    "section3CookieDuration": "Duration: 1 year",
+    "section3CookieLegal": "Legal basis: Art. 6 (1) (f) GDPR (legitimate interest)",
+    "section3NoTracking": "No tracking cookies, analytics cookies or advertising cookies are used.",
+
+    "section4Title": "4. Legal basis for processing",
+    "section4Text": "Processing of your data is based on Art. 6 (1) (b) GDPR (contract performance) and Art. 6 (1) (f) GDPR (legitimate interests – abuse prevention and provision of anonymous statistics).",
+
+    "section5Title": "5. Storage duration",
+    "section5Links": "Short links are stored until they are either deleted by the creator using the delete token or until the optional expiry date is reached.",
+    "section5Clicks": "Anonymized click data is stored indefinitely, as it has no personal reference.",
+    "section5Logs": "Server logs (Apache access logs) are automatically deleted after a maximum of 14 days.",
+
+    "section6Title": "6. Recipients of the data",
+    "section6Intro": "Your data is not shared with third parties, with the following exception:",
+    "section6HostingTitle": "Hosting provider",
+    "section6HostingText": "This website is operated on servers of Netcup GmbH (Daimlerstraße 25, 76185 Karlsruhe, Germany). A data processing agreement pursuant to Art. 28 GDPR exists with Netcup.",
+
+    "section7Title": "7. Your rights",
+    "section7Intro": "You have the following rights at any time:",
+    "section7RightAccess": "Access to the data stored about you (Art. 15 GDPR)",
+    "section7RightRectification": "Rectification of incorrect data (Art. 16 GDPR)",
+    "section7RightErasure": "Erasure of your data (Art. 17 GDPR)",
+    "section7RightRestriction": "Restriction of processing (Art. 18 GDPR)",
+    "section7RightPortability": "Data portability (Art. 20 GDPR)",
+    "section7RightObjection": "Object to processing (Art. 21 GDPR)",
+    "section7RightComplaint": "Complaint to a supervisory authority (Art. 77 GDPR)",
+    "section7Contact": "To exercise your rights, please contact us using the contact details above.",
+
+    "section8Title": "8. Supervisory authority",
+    "section8Text": "The competent supervisory authority is:",
+    "section8AuthorityName": "The State Commissioner for Data Protection and Freedom of Information Baden-Württemberg",
+    "section8AuthorityAddress": "Lautenschlagerstraße 20\n70173 Stuttgart, Germany",
+    "section8AuthorityWebsite": "https://www.baden-wuerttemberg.datenschutz.de",
+
+    "section9Title": "9. Security",
+    "section9Text": "We use technical and organizational security measures to protect your data against manipulation, loss or unauthorized access. Transmission is encrypted via HTTPS (TLS). Passwords are hashed with bcrypt (cost factor 12). IP addresses are hashed with SHA-256 using a secret salt.",
+
+    "section10Title": "10. Changes to this privacy policy",
+    "section10Text": "We reserve the right to adapt this privacy policy to changes in legal requirements or service updates. The new privacy policy will apply on your next visit."
+  }
+}

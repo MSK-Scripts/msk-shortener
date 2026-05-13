@@ -1,0 +1,94 @@
+name: Deploy MSK Shortener
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout ──────────────────────────────────────────
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # ── 2. Node.js ───────────────────────────────────────────
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      # ── 3. Install ───────────────────────────────────────────
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      # ── 4. Build ─────────────────────────────────────────────
+      # NEXT_PUBLIC_* vars must be available at build time.
+      - name: 🏗️ Build
+        env:
+          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+        run: npm run build
+
+      # ── 5. Deploy via SCP ────────────────────────────────────
+      # Transfers build output + runtime files to the server.
+      - name: 🚀 Deploy to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.FTP_PORT }}
+          source: ".next/,public/,migrations/,messages/,scripts/,src/,package.json,package-lock.json,next.config.ts,tsconfig.json,msk-shortener.service"
+          target: /opt/msk-shortener/
+
+      # ── 6. Server setup ──────────────────────────────────────
+      - name: 🛠️ Install production deps, run migrations, restart
+        uses: appleboy/ssh-action@v1.2.5
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.FTP_PORT }}
+          envs: DB_HOST,DB_PORT,DB_USER,DB_PASSWORD,DB_NAME
+          script: |
+            cd /opt/msk-shortener
+
+            # Stop the service before touching node_modules
+            sudo systemctl stop msk-shortener || true
+
+            # Clean node_modules for a fresh install
+            rm -rf /opt/msk-shortener/node_modules
+
+            # Install production deps + tsx (for migrations)
+            npm ci --omit=dev
+            npm install --no-save tsx
+
+            # Run database migrations
+            npm run migrate
+
+            # Fix permissions
+            sudo chown -R musiker15:musiker15 /opt/msk-shortener/
+            sudo chmod 600 /opt/msk-shortener/.env
+
+            # Reload service file if changed
+            sudo cp /opt/msk-shortener/msk-shortener.service /etc/systemd/system/msk-shortener.service
+            sudo systemctl daemon-reload
+
+            # Restart the service
+            sudo systemctl restart msk-shortener
+            sudo systemctl status msk-shortener --no-pager
