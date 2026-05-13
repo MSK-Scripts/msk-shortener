@@ -68,7 +68,7 @@ jobs:
             cd /opt/msk-shortener
 
             # Stop the service before touching node_modules
-            sudo systemctl stop msk-shortener || true
+            systemctl stop msk-shortener || true
 
             # Clean node_modules for a fresh install
             rm -rf /opt/msk-shortener/node_modules
@@ -83,14 +83,14 @@ jobs:
             set +a
             npm run migrate
 
-            # Fix permissions
-            sudo chown -R musiker15:musiker15 /opt/msk-shortener/
-            sudo chmod 600 /opt/msk-shortener/.env
+            # Fix permissions for service user
+            chown -R musiker15:musiker15 /opt/msk-shortener/
+            chmod 600 /opt/msk-shortener/.env
 
             # Reload service file if changed
-            sudo cp /opt/msk-shortener/msk-shortener.service /etc/systemd/system/msk-shortener.service
-            sudo systemctl daemon-reload
+            cp /opt/msk-shortener/msk-shortener.service /etc/systemd/system/msk-shortener.service
+            systemctl daemon-reload
 
             # Restart the service
-            sudo systemctl restart msk-shortener
-            sudo systemctl status msk-shortener --no-pager
+            systemctl restart msk-shortener
+            systemctl status msk-shortener --no-pager
