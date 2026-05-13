@@ -107,4 +107,4 @@ Wenn du eine kommerzielle Lizenz ohne Copyleft-Verpflichtung benötigst, kontakt
 
 ---
 
-Teil des **MSK-Ökosystems**: [msk-scripts.de](https://msk-scripts.de) · [cloud.musiker15.de](https://cloud.musiker15.de) · [musiker15.de](https://musiker15.de)
+Teil des **MSK-Ökosystems**: [msk-scripts.de](https://www.msk-scripts.de) · [musiker15.de](https://www.musiker15.de)
