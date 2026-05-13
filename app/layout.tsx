@@ -10,9 +10,9 @@ export const metadata: Metadata = {
     template: '%s | MSK Shortener',
   },
   description:
-    'Schneller, datenschutzfreundlicher URL-Shortener mit Statistiken, QR-Codes, Passwortschutz und Ablaufdatum.',
+    'A fast, privacy-friendly URL shortener with statistics, QR codes, password protection, and expiration dates.',
   applicationName: 'MSK Shortener',
-  authors: [{ name: 'Moritz Kohm', url: 'https://msk-scripts.de' }],
+  authors: [{ name: 'Musiker15', url: 'https://www.musiker15.de' }, { name: 'MSK Scripts', url: 'https://www.msk-scripts.de' }],
   keywords: ['URL Shortener', 'Link Shortener', 'QR-Code', 'MSK', 'msk-scripts.de'],
   icons: {
     icon: [
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     type:        'website',
     siteName:    'MSK Shortener',
     title:       'MSK Shortener – URL-Shortener',
-    description: 'Schneller, datenschutzfreundlicher URL-Shortener mit Statistiken & QR-Codes.',
+    description: 'A fast, privacy-friendly URL shortener with statistics, QR codes, password protection, and expiration dates.',
     images:      ['/logo.png'],
   },
 }
