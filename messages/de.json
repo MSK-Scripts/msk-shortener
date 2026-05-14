@@ -11,7 +11,8 @@
   "header": {
     "stats": "Statistiken",
     "docs": "Dokumentation",
-    "github": "GitHub"
+    "github": "GitHub",
+    "menu": "Menü"
   },
   "home": {
     "titleLine1": "Lange URLs?",

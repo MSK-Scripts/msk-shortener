@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { Logo } from './Logo'
 import { LanguageSwitcher } from './LanguageSwitcher'
+import { MobileNav } from './MobileNav'
 
 interface HeaderProps {
   /** Wenn true: nur Logo + Sprach-Switcher, ohne Navi-Links */
@@ -14,19 +15,26 @@ export async function Header({ minimal = false, backLink }: HeaderProps) {
   const t = await getTranslations('header')
   const c = await getTranslations('common')
 
+  const showNav = !minimal && !backLink
+  const navLinks = [
+    { label: t('stats'), href: '/stats' },
+    { label: t('docs'), href: 'https://docu.msk-scripts.de', external: true },
+    { label: t('github'), href: 'https://github.com/msk-scripts/msk-shortener', external: true },
+  ]
+
   return (
-    <header className="px-6 py-5 border-b border-msk-border/50">
-      <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3">
+    <header className="px-4 sm:px-6 py-5 border-b border-msk-border/50">
+      <div className="max-w-6xl mx-auto flex items-center justify-between gap-3">
+        <Link href="/" className="flex items-center gap-2 sm:gap-3 min-w-0">
           <Logo size={32} />
-          <span className="font-heading text-xl text-msk-text">
+          <span className="font-heading text-lg sm:text-xl text-msk-text whitespace-nowrap">
             MSK <span className="text-msk-accent">Shortener</span>
           </span>
         </Link>
 
         <div className="flex items-center gap-2">
-          {!minimal && !backLink && (
-            <nav className="flex items-center gap-6 text-sm mr-2">
+          {showNav && (
+            <nav className="hidden md:flex items-center gap-6 text-sm mr-2">
               <Link
                 href="/stats"
                 className="text-msk-muted hover:text-msk-text transition-colors"
@@ -65,6 +73,8 @@ export async function Header({ minimal = false, backLink }: HeaderProps) {
           )}
 
           <LanguageSwitcher />
+
+          {showNav && <MobileNav links={navLinks} menuLabel={t('menu')} />}
         </div>
       </div>
     </header>
