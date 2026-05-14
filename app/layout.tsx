@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName:    'MSK Shortener',
     title:       'MSK Shortener – URL-Shortener',
     description: 'A fast, privacy-friendly URL shortener with statistics, QR codes, password protection, and expiration dates.',
-    images:      ['/logo.png'],
+    images:      ['/msk_shortener.png'],
   },
 }
 
