@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     'A fast, privacy-friendly URL shortener with statistics, QR codes, password protection, and expiration dates.',
   applicationName: 'MSK Shortener',
   authors: [{ name: 'Musiker15', url: 'https://www.musiker15.de' }, { name: 'MSK Scripts', url: 'https://www.msk-scripts.de' }],
-  keywords: ['URL Shortener', 'Link Shortener', 'QR-Code', 'MSK', 'msk-scripts.de'],
+  keywords: ['URL Shortener', 'Link Shortener', 'QR-Code', 'MSK', 'MSK Scripts', 'msk-scripts.de'],
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
