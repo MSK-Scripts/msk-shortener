@@ -72,7 +72,7 @@ export default async function HomePage() {
             {' · '}{f('openSource')}
           </p>
           <div className="flex items-center gap-4">
-            <a href="https://www.msk-scripts.de/terms/imprint" className="hover:text-msk-text transition-colors">{f('imprint')}</a>
+            <Link href="/imprint" className="hover:text-msk-text transition-colors">{f('imprint')}</Link>
             <Link href="/privacy" className="hover:text-msk-text transition-colors">{f('privacy')}</Link>
           </div>
         </div>

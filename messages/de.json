@@ -32,6 +32,24 @@
     "imprint": "Impressum",
     "privacy": "Datenschutz"
   },
+  "imprintPage": {
+    "title": "Impressum",
+    "section1Title": "Angaben gemäß § 5 DDG",
+    "addressName": "Moritz Kohm",
+    "addressLines": "c/o Impressumservice Dein-Impressum\nStettiner Str. 41\n35410 Hungen\nDeutschland",
+    "contactTitle": "Kontakt",
+    "contactEmail": "E-Mail: info@msk-scripts.de",
+    "noAdsTitle": "Nutzung der Kontaktdaten für Werbezwecke ausgeschlossen",
+    "noAdsText": "Der Verwendung meiner/unserer Daten für Marketing- und Werbezwecke gemäß § 7 Abs. 2 Nr. 2 UWG sowie einer Weitergabe an Dritte wird hiermit ausdrücklich widersprochen. Zuwiderhandlungen werden strafrechtlich verfolgt.",
+    "responsibleTitle": "Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV",
+    "disputeTitle": "Verbraucherstreitbeilegung / Universalschlichtungsstelle",
+    "disputeText": "Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.",
+    "liabilityTitle": "Haftungsausschluss",
+    "liabilityContentTitle": "Haftung für Inhalte",
+    "liabilityContentText": "Die Inhalte dieser Seite wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.",
+    "liabilityLinksTitle": "Haftung für Links",
+    "liabilityLinksText": "Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich."
+  },
   "createForm": {
     "urlLabel": "Lange URL",
     "urlPlaceholder": "https://example.com/sehr/lange/url/die/gekuerzt/werden/soll",
@@ -149,7 +167,7 @@
     "section1Text": "Verantwortlich für die Datenverarbeitung auf dieser Website ist:",
     "section1Name": "Moritz Kohm\nc/o Impressumservice Dein-Impressum",
     "section1Address": "Stettiner Str. 41\n35410 Hungen\nDeutschland",
-    "section1Email": "E-Mail: [info@msk-scripts.de]",
+    "section1Email": "E-Mail: info@msk-scripts.de",
 
     "section2Title": "2. Welche Daten wir verarbeiten",
     "section2Intro": "MSK Shortener ist bewusst datensparsam konzipiert. Wir verarbeiten nur die folgenden Daten:",
@@ -176,7 +194,7 @@
     "section5Title": "5. Speicherdauer",
     "section5Links": "Kurz-Links werden gespeichert, bis sie entweder vom Ersteller über den Delete-Token gelöscht werden oder das optionale Ablaufdatum erreicht wird.",
     "section5Clicks": "Anonymisierte Klick-Daten werden zeitlich unbefristet gespeichert, da sie keinen Personenbezug aufweisen.",
-    "section5Logs": "Server-Logs (Apache Access-Logs) werden nach maximal 14 Tagen automatisch gelöscht.",
+    "section5Logs": "Server-Logs (Apache Access-Logs) werden ausschließlich zu Zwecken der technischen Bereitstellung und Sicherheit verarbeitet und gelöscht, sobald sie hierfür nicht mehr erforderlich sind.",
 
     "section6Title": "6. Empfänger der Daten",
     "section6Intro": "Deine Daten werden nicht an Dritte weitergegeben, mit folgender Ausnahme:",
@@ -204,6 +222,15 @@
     "section9Text": "Wir setzen technische und organisatorische Sicherheitsmaßnahmen ein, um deine Daten gegen Manipulation, Verlust oder unberechtigten Zugriff zu schützen. Die Übertragung erfolgt verschlüsselt über HTTPS (TLS). Passwörter werden mit bcrypt (Cost-Faktor 12) gehasht. IP-Adressen werden mit SHA-256 unter Verwendung eines geheimen Salts gehasht.",
 
     "section10Title": "10. Änderungen dieser Datenschutzerklärung",
-    "section10Text": "Wir behalten uns vor, diese Datenschutzerklärung anzupassen, um sie an geänderte Rechtslagen oder bei Änderungen des Dienstes zu aktualisieren. Für deinen erneuten Besuch gilt dann die neue Datenschutzerklärung."
+    "section10Text": "Wir behalten uns vor, diese Datenschutzerklärung anzupassen, um sie an geänderte Rechtslagen oder bei Änderungen des Dienstes zu aktualisieren. Für deinen erneuten Besuch gilt dann die neue Datenschutzerklärung.",
+
+    "section11Title": "11. Datenschutzbeauftragter",
+    "section11Text": "Die Bestellung eines Datenschutzbeauftragten ist gesetzlich nicht erforderlich. Bei Anfragen zum Datenschutz wende dich bitte direkt an den Verantwortlichen unter info@msk-scripts.de.",
+
+    "section12Title": "12. Keine automatisierte Entscheidungsfindung",
+    "section12Text": "Eine automatisierte Entscheidungsfindung einschließlich Profiling im Sinne von Art. 22 DSGVO findet auf dieser Website nicht statt.",
+
+    "section13Title": "13. Schriftarten & lokale Webfonts",
+    "section13Text": "Schriftarten (Inter, JetBrains Mono) werden über das in Next.js integrierte Font-System (next/font) bereits zur Build-Zeit lokal in den Build der Anwendung aufgenommen und anschließend ausschließlich vom eigenen Server ausgeliefert. Zur Laufzeit findet keine Verbindung zu Servern Dritter (insbesondere Google Fonts) statt. Es werden auch keine weiteren externen Skripte oder Tracking-Dienste geladen."
   }
 }

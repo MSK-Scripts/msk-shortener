@@ -3,6 +3,23 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getLocale } from 'next-intl/server'
 import './globals.css'
 
+import { Inter, JetBrains_Mono } from 'next/font/google'
+
+// Fonts are downloaded at build time by `next/font/google`, bundled into
+// the build output, and served exclusively from this app's own origin.
+// No runtime connection to Google CDN is made.
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display:  'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display:  'swap',
+})
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? 'https://s.msk-scripts.de'),
   title: {
@@ -49,8 +66,10 @@ export default async function RootLayout({
 }) {
   const locale = await getLocale()
 
+  const fontClasses = `${inter.variable} ${jetbrainsMono.variable}`
+
   return (
-    <html lang={locale} className="dark">
+    <html lang={locale} className={`dark ${fontClasses}`}>
       <body className="min-h-screen bg-msk-bg text-msk-text antialiased">
         <NextIntlClientProvider>
           {children}

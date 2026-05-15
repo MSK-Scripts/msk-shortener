@@ -32,6 +32,24 @@
     "imprint": "Imprint",
     "privacy": "Privacy"
   },
+  "imprintPage": {
+    "title": "Legal Notice",
+    "section1Title": "Information according to § 5 DDG",
+    "addressName": "Moritz Kohm",
+    "addressLines": "c/o Impressumservice Dein-Impressum\nStettiner Str. 41\n35410 Hungen\nGermany",
+    "contactTitle": "Contact",
+    "contactEmail": "Email: info@msk-scripts.de",
+    "noAdsTitle": "Use of contact data for advertising purposes excluded",
+    "noAdsText": "The use of our contact data published within the scope of the imprint obligation for sending unsolicited advertising and informational materials is hereby expressly prohibited. Violations will be prosecuted under criminal law.",
+    "responsibleTitle": "Responsible for content according to § 18 Para. 2 MStV",
+    "disputeTitle": "Consumer dispute resolution",
+    "disputeText": "We are not willing or obliged to participate in dispute resolution proceedings before a consumer arbitration board.",
+    "liabilityTitle": "Disclaimer",
+    "liabilityContentTitle": "Liability for content",
+    "liabilityContentText": "The contents of this page were created with the greatest care. However, we cannot guarantee the accuracy, completeness or timeliness of the content.",
+    "liabilityLinksTitle": "Liability for links",
+    "liabilityLinksText": "Our offer contains links to external websites of third parties, on whose contents we have no influence. Therefore, we cannot assume any liability for these external contents. The respective provider or operator of the linked pages is always responsible for the content of the linked pages."
+  },
   "createForm": {
     "urlLabel": "Long URL",
     "urlPlaceholder": "https://example.com/very/long/url/that/needs/shortening",
@@ -149,7 +167,7 @@
     "section1Text": "The controller responsible for data processing on this website is:",
     "section1Name": "Moritz Kohm\nc/o Impressumservice Dein-Impressum",
     "section1Address": "Stettiner Str. 41\n35410 Hungen\nGermany",
-    "section1Email": "Email: [info@msk-scripts.de]",
+    "section1Email": "Email: info@msk-scripts.de",
 
     "section2Title": "2. What data we process",
     "section2Intro": "MSK Shortener is designed to be deliberately data-minimal. We only process the following data:",
@@ -176,7 +194,7 @@
     "section5Title": "5. Storage duration",
     "section5Links": "Short links are stored until they are either deleted by the creator using the delete token or until the optional expiry date is reached.",
     "section5Clicks": "Anonymized click data is stored indefinitely, as it has no personal reference.",
-    "section5Logs": "Server logs (Apache access logs) are automatically deleted after a maximum of 14 days.",
+    "section5Logs": "Server logs (Apache access logs) are processed exclusively for the purposes of technical operation and security, and are deleted as soon as they are no longer required for these purposes.",
 
     "section6Title": "6. Recipients of the data",
     "section6Intro": "Your data is not shared with third parties, with the following exception:",
@@ -204,6 +222,15 @@
     "section9Text": "We use technical and organizational security measures to protect your data against manipulation, loss or unauthorized access. Transmission is encrypted via HTTPS (TLS). Passwords are hashed with bcrypt (cost factor 12). IP addresses are hashed with SHA-256 using a secret salt.",
 
     "section10Title": "10. Changes to this privacy policy",
-    "section10Text": "We reserve the right to adapt this privacy policy to changes in legal requirements or service updates. The new privacy policy will apply on your next visit."
+    "section10Text": "We reserve the right to adapt this privacy policy to changes in legal requirements or service updates. The new privacy policy will apply on your next visit.",
+
+    "section11Title": "11. Data protection officer",
+    "section11Text": "The appointment of a data protection officer is not required by law in this case. For privacy-related inquiries, please contact the controller directly at info@msk-scripts.de.",
+
+    "section12Title": "12. No automated decision-making",
+    "section12Text": "Automated decision-making, including profiling within the meaning of Art. 22 GDPR, does not take place on this website.",
+
+    "section13Title": "13. Webfonts (locally hosted)",
+    "section13Text": "Webfonts (Inter, JetBrains Mono) are bundled into the application at build time via Next.js's built-in font system (next/font) and served exclusively from this application's own origin. No connection to third-party servers (in particular Google Fonts) takes place at runtime. No other external scripts or tracking services are loaded."
   }
 }

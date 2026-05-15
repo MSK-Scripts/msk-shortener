@@ -8,7 +8,7 @@ const ALPHABET = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'
 const RESERVED = new Set([
   'api', 'stats', 'admin', 'login', 'register', 'logout',
   'password', '_next', 'favicon.ico', 'robots.txt', 'sitemap.xml',
-  'about', 'help', 'docs', 'terms', 'privacy', 'imprint',
+  'about', 'help', 'docs', 'terms', 'privacy', 'imprint', 'impressum',
   'manifest.json', 'icon', 'apple-icon',
 ])
 

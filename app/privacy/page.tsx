@@ -134,6 +134,21 @@ export default async function PrivacyPage() {
             <p>{t('section10Text')}</p>
           </Section>
 
+          {/* Section 11: Datenschutzbeauftragter */}
+          <Section title={t('section11Title')}>
+            <p>{t('section11Text')}</p>
+          </Section>
+
+          {/* Section 12: Keine automatisierte Entscheidung */}
+          <Section title={t('section12Title')}>
+            <p>{t('section12Text')}</p>
+          </Section>
+
+          {/* Section 13: Lokale Webfonts */}
+          <Section title={t('section13Title')}>
+            <p>{t('section13Text')}</p>
+          </Section>
+
         </article>
       </main>
     </div>
