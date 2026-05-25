@@ -13,6 +13,9 @@
     "cleanup": "tsx scripts/cleanup.ts",
     "type-check": "tsc --noEmit"
   },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "@swc/helpers": "^0.5.21",
     "bcryptjs": "^3.0.0",

@@ -27,7 +27,7 @@ APP_NAME="msk-shortener"
 APP_USER="musiker15"
 APP_DIR="/opt/${APP_NAME}"
 DOMAIN_DEFAULT="s.msk-scripts.de"
-NODE_VERSION="20"
+NODE_VERSION="22"
 NEXT_PORT="3001"
 DB_NAME="msk_shortener"
 DB_USER="msk_shortener"
@@ -155,7 +155,7 @@ log_ok "Basis-Tools installiert"
 # ============================================================================
 
 log_step "4/10  Node.js ${NODE_VERSION} installieren"
-if ! command -v node &>/dev/null || [[ $(node -v | cut -d. -f1 | tr -d 'v') -lt 20 ]]; then
+if ! command -v node &>/dev/null || [[ $(node -v | cut -d. -f1 | tr -d 'v') -lt 22 ]]; then
     curl -fsSL "https://deb.nodesource.com/setup_${NODE_VERSION}.x" | bash - >/dev/null
     apt-get install -qq -y nodejs
 fi
