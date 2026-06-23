@@ -2,6 +2,12 @@
 
 > Diese Datei dient als Kontext-Anker für Claude bei zukünftigen Sessions.
 
+## 🌐 Sprache & Commit-Konventionen (WICHTIG)
+
+- **GitHub-Inhalte auf Englisch** (Code-Kommentare, Commit-Messages, PR-Titel/-Body, README, Issues, Workflows). Damit jeder alles versteht.
+- **Interne Doku auf Deutsch erlaubt:** `CLAUDE.md` (alle gitignored).
+- **Commits AUSSCHLIESSLICH OHNE `Co-Authored-By`-Trailer.** Niemals einen Co-Author-Trailer anhängen.
+
 ## 🎯 Projektziel
 
 Self-hosted URL-Shortener als Open-Source-Alternative zu Bitly/TinyURL.
