@@ -12,13 +12,37 @@ const RESERVED = new Set([
   'manifest.json', 'icon', 'apple-icon',
 ])
 
-const DEFAULT_LENGTH = Number(process.env.SHORTCODE_LENGTH ?? 7)
+// Grenzen kommen aus dem Schema: short_code ist VARCHAR(20) mit einem
+// CHECK auf mindestens 3 Zeichen (migrations/001_links.sql). Weil
+// generateUniqueShortCode bei Kollisionen bis zu 4 Zeichen anhängt, ist 16
+// die größte Länge, die sich noch konfigurieren lässt, ohne aus der Spalte
+// zu laufen.
+const MIN_LENGTH = 3
+const MAX_CONFIGURABLE_LENGTH = 16
+const MAX_CODE_LENGTH = 20
+const FALLBACK_LENGTH = 7
+
+/**
+ * Klemmt eine Länge auf einen Bereich, mit dem nanoid und die Datenbank
+ * etwas anfangen können. Unbrauchbare Werte fallen auf den Default zurück:
+ * `customAlphabet` mit size 0 liefert leere Codes, mit NaN gar keine.
+ */
+function clampLength(value: number, max: number): number {
+  if (!Number.isFinite(value) || Math.trunc(value) < 1) return FALLBACK_LENGTH
+  return Math.min(Math.max(Math.trunc(value), MIN_LENGTH), max)
+}
+
+const DEFAULT_LENGTH = clampLength(
+  Number(process.env.SHORTCODE_LENGTH ?? FALLBACK_LENGTH),
+  MAX_CONFIGURABLE_LENGTH
+)
 
 /**
  * Generiert einen zufälligen Short-Code mit gegebener Länge.
+ * Die Länge wird auf die Spaltenbreite begrenzt.
  */
 export function generateShortCode(length = DEFAULT_LENGTH): string {
-  const nanoid = customAlphabet(ALPHABET, length)
+  const nanoid = customAlphabet(ALPHABET, clampLength(length, MAX_CODE_LENGTH))
   return nanoid()
 }
 

@@ -165,7 +165,7 @@ Most important:
 | `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` | MariaDB connection |
 | `IP_HASH_SECRET` | Secret for HMAC-based IP hashing — generate with `openssl rand -hex 32` |
 | `RATE_LIMIT_CREATE_PER_HOUR` | Max links per IP per hour (default: `20`) |
-| `SHORTCODE_LENGTH` | Length of auto-generated short codes (default: `7`) |
+| `SHORTCODE_LENGTH` | Length of auto-generated short codes (default: `7`, clamped to `3`–`16`; anything unusable falls back to `7`) |
 
 ---
 
