@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+    # The code graph is documentation about the repository, it is never shipped.
+    # A commit that only refreshes it has nothing to deploy. Note that this only
+    # skips the run when every changed path matches: a commit touching both the
+    # graph and the app still deploys.
+    paths-ignore:
+      - 'graphify-out/**'
 
 permissions:
   contents: read
