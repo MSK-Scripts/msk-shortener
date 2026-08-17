@@ -27,14 +27,33 @@ const FALLBACK_LENGTH = 7
  * etwas anfangen können. Unbrauchbare Werte fallen auf den Default zurück:
  * `customAlphabet` mit size 0 liefert leere Codes, mit NaN gar keine.
  */
-function clampLength(value: number, max: number): number {
-  if (!Number.isFinite(value) || Math.trunc(value) < 1) return FALLBACK_LENGTH
+function clampLength(value: number, max: number, fallback = FALLBACK_LENGTH): number {
+  if (!Number.isFinite(value) || Math.trunc(value) < 1) return fallback
   return Math.min(Math.max(Math.trunc(value), MIN_LENGTH), max)
 }
 
 const DEFAULT_LENGTH = clampLength(
   Number(process.env.SHORTCODE_LENGTH ?? FALLBACK_LENGTH),
   MAX_CONFIGURABLE_LENGTH
+)
+
+// Grenzen für Custom-Codes. Sie dürfen die ganze Spalte ausnutzen, weil hier
+// nichts nachträglich verlängert wird.
+const MIN_CUSTOM = clampLength(
+  Number(process.env.SHORTCODE_MIN_CUSTOM ?? MIN_LENGTH),
+  MAX_CODE_LENGTH,
+  MIN_LENGTH
+)
+
+// Verdrehte Grenzen (min größer als max) würden jeden Custom-Code ablehnen,
+// deshalb gewinnt das Minimum.
+const MAX_CUSTOM = Math.max(
+  MIN_CUSTOM,
+  clampLength(
+    Number(process.env.SHORTCODE_MAX_CUSTOM ?? MAX_CODE_LENGTH),
+    MAX_CODE_LENGTH,
+    MAX_CODE_LENGTH
+  )
 )
 
 /**
@@ -86,10 +105,7 @@ export async function isCustomCodeAvailable(code: string): Promise<boolean> {
  * Erlaubt: a-z, A-Z, 0-9, _, -
  */
 export function isValidCustomCodeFormat(code: string): boolean {
-  const min = Number(process.env.SHORTCODE_MIN_CUSTOM ?? 3)
-  const max = Number(process.env.SHORTCODE_MAX_CUSTOM ?? 20)
-
-  if (code.length < min || code.length > max) return false
+  if (code.length < MIN_CUSTOM || code.length > MAX_CUSTOM) return false
   return /^[a-zA-Z0-9_-]+$/.test(code)
 }
 
