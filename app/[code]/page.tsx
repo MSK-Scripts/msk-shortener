@@ -2,7 +2,7 @@ import { redirect, notFound } from 'next/navigation'
 import { headers } from 'next/headers'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { getLinkByCode, incrementClickCount, isLinkExpired } from '@/lib/links'
+import { getLinkByCode, isLinkExpired } from '@/lib/links'
 import { trackClick } from '@/lib/clicks'
 import { getClientIp } from '@/lib/rateLimit'
 import { isBot } from '@/lib/botDetection'
@@ -51,18 +51,14 @@ export default async function RedirectPage({ params }: PageProps) {
   const userAgent   = headersList.get('user-agent')
   const referrer    = headersList.get('referer')
 
+  // trackClick schreibt Zeile und Zähler in einer Transaktion und filtert Bots
+  // selbst. Bewusst ohne await, damit die Weiterleitung nicht auf die DB wartet.
   if (!isBot(userAgent)) {
-    const clientIp = getClientIp(headersList)
-
-    incrementClickCount(link.id).catch((err) => {
-      console.error('[Redirect] Counter-Error:', err)
-    })
-
     trackClick({
       linkId:    link.id,
       userAgent,
       referrer,
-      clientIp,
+      clientIp:  getClientIp(headersList),
     }).catch(() => { /* bereits intern geloggt */ })
   }
 

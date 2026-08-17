@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyPasswordSchema } from '@/lib/validation'
-import { verifyLinkPassword, incrementClickCount } from '@/lib/links'
+import { verifyLinkPassword } from '@/lib/links'
 import { trackClick } from '@/lib/clicks'
 import { getClientIp, hashIp, checkRateLimit } from '@/lib/rateLimit'
 import type { ApiError } from '@/types'
@@ -57,17 +57,11 @@ export async function POST(request: NextRequest) {
     }
 
     // ─── Click tracken (fire-and-forget) ───────────────────────────
-    const userAgent = request.headers.get('user-agent')
-    const referrer  = request.headers.get('referer')
-
-    incrementClickCount(link.id).catch((err) => {
-      console.error('[Verify] Counter-Error:', err)
-    })
-
+    // Zeile und Zähler schreibt trackClick in einer Transaktion.
     trackClick({
       linkId:    link.id,
-      userAgent,
-      referrer,
+      userAgent: request.headers.get('user-agent'),
+      referrer:  request.headers.get('referer'),
       clientIp,
     }).catch(() => { /* bereits intern geloggt */ })
 

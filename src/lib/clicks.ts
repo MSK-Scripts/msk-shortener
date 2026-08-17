@@ -1,5 +1,5 @@
 import { UAParser } from 'ua-parser-js'
-import { execute } from './db'
+import { getPool } from './db'
 import { hashIp } from './rateLimit'
 import { isBot } from './botDetection'
 import type { DeviceType } from '@/types'
@@ -12,11 +12,14 @@ interface TrackClickOptions {
 }
 
 /**
- * Trackt einen Click in der `clicks`-Tabelle.
- * Bots werden ignoriert. Fire-and-forget – wirft keinen Fehler.
+ * Trackt einen Click: Insert in `clicks` und Increment von `links.click_count`
+ * in EINER Transaktion. Damit können Zähler und Tabelle nicht auseinanderlaufen.
  *
- * Der Aufrufer sollte das Promise nicht awaiten,
- * damit Redirects nicht durch DB-Latenz verzögert werden.
+ * Bots werden ignoriert, dann passiert gar nichts – weder Zeile noch Zähler.
+ *
+ * Fire-and-forget: Fehler werden geloggt, aber nicht geworfen. Der Aufrufer
+ * soll das Promise nicht awaiten, damit Redirects nicht durch DB-Latenz
+ * verzögert werden.
  */
 export async function trackClick(opts: TrackClickOptions): Promise<void> {
   const { linkId, userAgent, referrer, clientIp } = opts
@@ -24,58 +27,87 @@ export async function trackClick(opts: TrackClickOptions): Promise<void> {
   // Bots überspringen
   if (isBot(userAgent)) return
 
+  // ─── User-Agent parsen ───────────────────────────────────────────
+  // Ein kaputter UA darf das Tracking nicht verhindern, die Felder bleiben
+  // dann einfach leer.
+  let browser: string | null = null
+  let os:      string | null = null
+  let device:  DeviceType    = 'desktop'
+
+  if (userAgent) {
+    try {
+      const result = new UAParser(userAgent).getResult()
+      browser = result.browser.name ?? null
+      os      = result.os.name      ?? null
+      device  = mapDeviceType(result.device.type)
+    } catch {
+      // Stiller Fehlschlag – wir tracken trotzdem
+    }
+  }
+
+  const cleanRef = sanitizeReferrer(referrer)
+
+  // ─── Transaktion: Insert Click + Update Zähler ───────────────────
+  let conn
   try {
-    // ─── User-Agent parsen ─────────────────────────────────────────
-    const parser = new UAParser(userAgent ?? '')
-    const result = parser.getResult()
+    conn = await getPool().getConnection()
+  } catch (err) {
+    console.error('[trackClick] Keine DB-Verbindung:', err)
+    return
+  }
 
-    const browser = result.browser.name ?? null
-    const os      = result.os.name      ?? null
-    const device  = mapDeviceType(result.device.type)
+  try {
+    await conn.beginTransaction()
 
-    // ─── Referrer normalisieren (max. 500 Zeichen, ohne Querystring-Spam) ───
-    const cleanRef = referrer ? sanitizeReferrer(referrer) : null
-
-    // ─── In DB schreiben ──────────────────────────────────────────
-    await execute(
+    await conn.execute(
       `INSERT INTO clicks
          (link_id, ip_hash, referrer, browser, os, device_type)
        VALUES (?, ?, ?, ?, ?, ?)`,
-      [
-        linkId,
-        hashIp(clientIp),
-        cleanRef,
-        browser,
-        os,
-        device,
-      ]
+      [linkId, hashIp(clientIp), cleanRef, browser, os, device]
     )
+
+    await conn.execute(
+      'UPDATE links SET click_count = click_count + 1 WHERE id = ?',
+      [linkId]
+    )
+
+    await conn.commit()
   } catch (err) {
     console.error('[trackClick] Fehler beim Tracking:', err)
     // Bewusst kein Re-throw – Tracking darf den Redirect nicht stören
+    try {
+      await conn.rollback()
+    } catch (rollbackErr) {
+      console.error('[trackClick] Rollback fehlgeschlagen:', rollbackErr)
+    }
+  } finally {
+    conn.release()
   }
 }
 
 /**
  * Mappt ua-parser-js Device-Types auf unsere DeviceType-Werte.
+ * ua-parser-js v2 kennt zusätzlich 'xr' (VR/AR-Headsets), das zählt als mobile.
  */
 function mapDeviceType(type: string | undefined): DeviceType {
-  if (!type) return 'desktop'
   if (type === 'mobile') return 'mobile'
   if (type === 'tablet') return 'tablet'
+  if (type === 'xr')     return 'mobile'
   return 'desktop'
 }
 
 /**
  * Bereinigt Referrer-URLs:
- * - Schneidet auf 500 Zeichen
- * - Entfernt Query-Strings (Privacy)
+ * - Nur Origin + Pfad behalten, Query-Strings können Tokens enthalten
+ * - Auf 500 Zeichen kürzen (Spaltenbreite)
+ * - Nicht parsbare Werte verwerfen, statt sie roh zu übernehmen
  */
-function sanitizeReferrer(ref: string): string | null {
+function sanitizeReferrer(referrer: string | null): string | null {
+  if (!referrer) return null
   try {
-    const url = new URL(ref)
-    return `${url.protocol}//${url.host}${url.pathname}`.slice(0, 500)
+    const url = new URL(referrer)
+    return `${url.origin}${url.pathname}`.slice(0, 500)
   } catch {
-    return ref.slice(0, 500)
+    return null
   }
 }

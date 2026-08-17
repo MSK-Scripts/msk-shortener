@@ -123,16 +123,6 @@ export async function verifyLinkPassword(
 }
 
 /**
- * Erhöht den Click-Counter atomar.
- */
-export async function incrementClickCount(linkId: number): Promise<void> {
-  await execute(
-    'UPDATE links SET click_count = click_count + 1 WHERE id = ?',
-    [linkId]
-  )
-}
-
-/**
  * Löscht einen Link anhand seines Delete-Tokens.
  * Gibt true zurück bei Erfolg, false wenn Token ungültig.
  */
