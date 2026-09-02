@@ -85,6 +85,13 @@ jobs:
 
             # Fix permissions for service user
             chown -R musiker15:musiker15 /opt/msk-shortener/
+
+            # scripts/ gehoert root und bleibt fuer den Dienstnutzer
+            # unbeschreibbar: msk-cron.sh wird aus der root-Crontab
+            # ausgefuehrt. Waere die Datei fuer musiker15 schreibbar, waere
+            # jeder Weg in den Anwendungsnutzer auch ein Weg nach root.
+            chown -R root:root /opt/msk-shortener/scripts/
+            chmod 755 /opt/msk-shortener/scripts/msk-cron.sh
             chmod -R u+w /opt/msk-shortener/.next/
             chmod 600 /opt/msk-shortener/.env
 
