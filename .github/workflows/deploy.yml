@@ -88,6 +88,15 @@ jobs:
             chmod -R u+w /opt/msk-shortener/.next/
             chmod 600 /opt/msk-shortener/.env
 
+            # Run pending migrations while the service is stopped.
+            # This step used to install tsx "for migrations" and then never
+            # call the runner, so a migration only ever ran when someone
+            # remembered to do it by hand. A schema change would have gone
+            # live against the old schema, and in this app that fails
+            # silently: trackClick swallows its errors so the redirect keeps
+            # working while the statistics quietly stop.
+            npm run migrate
+
             # Reload service file if changed
             cp /opt/msk-shortener/msk-shortener.service /etc/systemd/system/msk-shortener.service
             systemctl daemon-reload
