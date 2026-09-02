@@ -1,6 +1,5 @@
 import { UAParser } from 'ua-parser-js'
 import { getPool } from './db'
-import { hashIp } from './rateLimit'
 import { isBot } from './botDetection'
 import type { DeviceType } from '@/types'
 
@@ -8,7 +7,6 @@ interface TrackClickOptions {
   linkId:    number
   userAgent: string | null
   referrer:  string | null
-  clientIp:  string
 }
 
 /**
@@ -22,7 +20,7 @@ interface TrackClickOptions {
  * verzögert werden.
  */
 export async function trackClick(opts: TrackClickOptions): Promise<void> {
-  const { linkId, userAgent, referrer, clientIp } = opts
+  const { linkId, userAgent, referrer } = opts
 
   // Bots überspringen
   if (isBot(userAgent)) return
@@ -60,10 +58,13 @@ export async function trackClick(opts: TrackClickOptions): Promise<void> {
     await conn.beginTransaction()
 
     await conn.execute(
+      // Bewusst ohne IP-Merkmal: die fruehere Spalte `ip_hash` wurde nie
+      // gelesen, war wegen des festen Peppers aber pseudonym. Siehe
+      // migrations/004_drop_click_ip_hash.sql.
       `INSERT INTO clicks
-         (link_id, ip_hash, referrer, browser, os, device_type)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [linkId, hashIp(clientIp), cleanRef, browser, os, device]
+         (link_id, referrer, browser, os, device_type)
+       VALUES (?, ?, ?, ?, ?)`,
+      [linkId, cleanRef, browser, os, device]
     )
 
     await conn.execute(

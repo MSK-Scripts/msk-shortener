@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { getLinkByCode, isLinkExpired } from '@/lib/links'
 import { trackClick } from '@/lib/clicks'
-import { getClientIp } from '@/lib/rateLimit'
 import { isBot } from '@/lib/botDetection'
 
 interface PageProps {
@@ -58,7 +57,6 @@ export default async function RedirectPage({ params }: PageProps) {
       linkId:    link.id,
       userAgent,
       referrer,
-      clientIp:  getClientIp(headersList),
     }).catch(() => { /* bereits intern geloggt */ })
   }
 

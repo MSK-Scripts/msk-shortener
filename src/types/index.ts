@@ -20,7 +20,6 @@ export interface Click {
   id:           number
   link_id:      number
   clicked_at:   Date
-  ip_hash:      string
   referrer:     string | null
   browser:      string | null
   os:           string | null

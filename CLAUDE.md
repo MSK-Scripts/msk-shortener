@@ -72,9 +72,10 @@ Body:     DM Sans (300-600)
 - `created_at`, `created_ip_hash` (für Rate-Limit)
 
 ### `clicks`
-- `id`, `link_id` (FK), `clicked_at`
-- `ip_hash` (DSGVO-konform), `referrer`
+- `id`, `link_id` (FK), `clicked_at`, `referrer`
 - `browser`, `os`, `device_type`
+- **Kein IP-Merkmal.** `ip_hash` gab es bis 09/2026, wurde nie gelesen und ist
+  mit `migrations/004_drop_click_ip_hash.sql` entfallen
 
 ## 📋 Roadmap
 
@@ -88,12 +89,12 @@ Body:     DM Sans (300-600)
 
 ## 🔒 Sicherheits-Prinzipien
 
-1. **DSGVO:** IPs werden nur als gesalzener SHA-256-Hash gespeichert
+1. **DSGVO:** Nur beim Anlegen eines Links wird die IP als gesalzener SHA-256-Hash abgelegt (`links.created_ip_hash`, Rate-Limit). Klicks speichern kein IP-Merkmal, siehe `migrations/004_drop_click_ip_hash.sql`
 2. **SSRF-Schutz:** Keine privaten IP-Ranges als Redirect-Ziel
 3. **Rate-Limiting:** 20 Link-Erstellungen pro IP/Stunde
 4. **CSP-Header:** Strenge Content-Security-Policy
 5. **bcrypt:** Cost 12 für Link-Passwörter
-6. **Keine Cookies:** Stateless, keine Tracking
+6. **Keine Tracking-Cookies:** Das einzige Cookie ist `NEXT_LOCALE` (Sprachauswahl, 1 Jahr), gesetzt von `POST /api/locale`
 
 ## 🌍 Deployment
 

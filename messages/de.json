@@ -17,7 +17,7 @@
   "home": {
     "titleLine1": "Lange URLs?",
     "titleLine2": "Mach sie kurz.",
-    "subtitle": "Schneller, datenschutzfreundlicher URL-Shortener. Keine Cookies, keine Tracker, keine Anmeldung.",
+    "subtitle": "Schneller, datenschutzfreundlicher URL-Shortener. Kein Tracking, keine Werbung, keine Anmeldung.",
     "deleteLink": "Link löschen",
     "globalStats": "Globale Statistiken",
     "features": {
@@ -154,7 +154,7 @@
     "topBrowsers": "Top Browser",
     "topOs": "Top Betriebssysteme",
     "privacyTitle": "DSGVO-konform",
-    "privacyText": "IP-Adressen werden ausschließlich als gesalzener SHA-256-Hash gespeichert. Bots und Crawler werden aus den Statistiken ausgeschlossen. Es werden keine Cookies gesetzt und keine personenbezogenen Daten gespeichert."
+    "privacyText": "Zu einem Klick speichern wir kein IP-Merkmal. Bots und Crawler werden aus den Statistiken ausgeschlossen. Es werden keine Tracking-, Analyse- oder Werbe-Cookies gesetzt; das einzige Cookie speichert deine Sprachauswahl."
   },
   "privacy": {
     "metaTitle": "Datenschutzerklärung",
@@ -173,8 +173,8 @@
     "section2Intro": "MSK Shortener ist bewusst datensparsam konzipiert. Wir verarbeiten nur die folgenden Daten:",
     "section2aTitle": "a) Eingegebene URLs und Kurz-Codes",
     "section2aText": "Wenn du einen Link verkürzt, speichern wir die eingegebene Ziel-URL, den generierten oder von dir gewählten Kurz-Code, ein optionales Passwort (als bcrypt-Hash) und ein optionales Ablaufdatum. Diese Daten sind notwendig, um den Kurz-URL-Dienst zu erbringen.",
-    "section2bTitle": "b) IP-Adressen (anonymisiert)",
-    "section2bText": "Beim Erstellen eines Links und bei jedem Klick auf einen Kurz-Link wird deine IP-Adresse ausschließlich als gesalzener SHA-256-Hash gespeichert. Die ursprüngliche IP-Adresse wird zu keinem Zeitpunkt im Klartext abgelegt. Dies dient der Missbrauchsbekämpfung (Rate-Limiting) und der anonymen Erstellung von Klick-Statistiken.",
+    "section2bTitle": "b) IP-Adressen (pseudonymisiert, nur beim Erstellen)",
+    "section2bText": "Beim Erstellen eines Links wird deine IP-Adresse ausschließlich als gesalzener SHA-256-Hash gespeichert; im Klartext wird sie zu keinem Zeitpunkt abgelegt. Der Hash dient allein der Missbrauchsbekämpfung (Rate-Limiting) und wird zusammen mit dem Link gelöscht. Weil das Salz gleich bleibt, ist der Wert pseudonymisiert und nicht anonym, wir behandeln ihn deshalb als personenbezogenes Datum. Beim Klick auf einen Kurz-Link speichern wir dagegen kein IP-Merkmal.",
     "section2cTitle": "c) Technische Informationen",
     "section2cText": "Bei jedem Klick auf einen Kurz-Link werden Browser-Typ (z.B. Chrome), Betriebssystem (z.B. Windows) und Gerätetyp (Desktop/Mobile/Tablet) gespeichert. Diese Informationen stammen aus dem User-Agent-Header und enthalten keine personenbezogenen Daten.",
     "section2dTitle": "d) Referrer",
@@ -193,7 +193,7 @@
 
     "section5Title": "5. Speicherdauer",
     "section5Links": "Kurz-Links werden gespeichert, bis sie entweder vom Ersteller über den Delete-Token gelöscht werden oder das optionale Ablaufdatum erreicht wird.",
-    "section5Clicks": "Anonymisierte Klick-Daten werden zeitlich unbefristet gespeichert, da sie keinen Personenbezug aufweisen.",
+    "section5Clicks": "Klick-Daten enthalten kein IP-Merkmal und keine sonstige Kennung, mit der sich eine Person wiedererkennen ließe. Sie werden deshalb zeitlich unbefristet gespeichert.",
     "section5Logs": "Server-Logs (Apache Access-Logs) werden ausschließlich zu Zwecken der technischen Bereitstellung und Sicherheit verarbeitet und gelöscht, sobald sie hierfür nicht mehr erforderlich sind.",
 
     "section6Title": "6. Empfänger der Daten",

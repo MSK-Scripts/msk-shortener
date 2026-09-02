@@ -62,7 +62,6 @@ export async function POST(request: NextRequest) {
       linkId:    link.id,
       userAgent: request.headers.get('user-agent'),
       referrer:  request.headers.get('referer'),
-      clientIp,
     }).catch(() => { /* bereits intern geloggt */ })
 
     // ─── Original-URL zurückgeben ──────────────────────────────────

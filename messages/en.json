@@ -17,7 +17,7 @@
   "home": {
     "titleLine1": "Long URLs?",
     "titleLine2": "Make them short.",
-    "subtitle": "Fast, privacy-friendly URL shortener. No cookies, no trackers, no signup.",
+    "subtitle": "Fast, privacy-friendly URL shortener. No tracking, no ads, no signup.",
     "deleteLink": "Delete link",
     "globalStats": "Global statistics",
     "features": {
@@ -154,7 +154,7 @@
     "topBrowsers": "Top browsers",
     "topOs": "Top operating systems",
     "privacyTitle": "GDPR-compliant",
-    "privacyText": "IP addresses are stored exclusively as salted SHA-256 hashes. Bots and crawlers are excluded from the statistics. No cookies are set and no personal data is stored."
+    "privacyText": "We store no IP identifier for a click. Bots and crawlers are excluded from the statistics. No tracking, analytics or advertising cookies are set; the only cookie stores your language preference."
   },
   "privacy": {
     "metaTitle": "Privacy Policy",
@@ -173,8 +173,8 @@
     "section2Intro": "MSK Shortener is designed to be deliberately data-minimal. We only process the following data:",
     "section2aTitle": "a) Submitted URLs and short codes",
     "section2aText": "When you shorten a link, we store the submitted target URL, the generated or self-chosen short code, an optional password (as a bcrypt hash) and an optional expiry date. This data is necessary to provide the URL shortener service.",
-    "section2bTitle": "b) IP addresses (anonymized)",
-    "section2bText": "When creating a link and on every click on a short link, your IP address is stored exclusively as a salted SHA-256 hash. The original IP address is never stored in plain text. This is used for abuse prevention (rate limiting) and the anonymous creation of click statistics.",
+    "section2bTitle": "b) IP addresses (pseudonymized, only when creating a link)",
+    "section2bText": "When you create a link, your IP address is stored exclusively as a salted SHA-256 hash; it is never stored in plain text. The hash serves abuse prevention (rate limiting) only and is deleted together with the link. Because the salt stays the same, the value is pseudonymized rather than anonymous, so we treat it as personal data. Clicking a short link, by contrast, stores no IP identifier at all.",
     "section2cTitle": "c) Technical information",
     "section2cText": "On every click on a short link, the browser type (e.g. Chrome), operating system (e.g. Windows) and device type (desktop/mobile/tablet) are stored. This information is derived from the User-Agent header and contains no personal data.",
     "section2dTitle": "d) Referrer",
@@ -193,7 +193,7 @@
 
     "section5Title": "5. Storage duration",
     "section5Links": "Short links are stored until they are either deleted by the creator using the delete token or until the optional expiry date is reached.",
-    "section5Clicks": "Anonymized click data is stored indefinitely, as it has no personal reference.",
+    "section5Clicks": "Click data contains no IP identifier and no other marker that could recognize a person again. It is therefore stored indefinitely.",
     "section5Logs": "Server logs (Apache access logs) are processed exclusively for the purposes of technical operation and security, and are deleted as soon as they are no longer required for these purposes.",
 
     "section6Title": "6. Recipients of the data",
