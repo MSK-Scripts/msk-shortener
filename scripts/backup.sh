@@ -5,8 +5,8 @@
 # Erstellt einen gzip-komprimierten Dump der MariaDB-Datenbank.
 # Behält die letzten 14 Backups, ältere werden automatisch gelöscht.
 #
-# Nutzung: sudo bash /opt/msk-shortener/deployment/scripts/backup.sh
-# Cron:    0 3 * * * /opt/msk-shortener/deployment/scripts/backup.sh
+# Nutzung: sudo bash /opt/msk-shortener/scripts/backup.sh
+# Cron:    0 3 * * * /opt/msk-shortener/scripts/backup.sh
 # ============================================================================
 
 set -euo pipefail

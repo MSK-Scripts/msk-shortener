@@ -138,7 +138,7 @@ The workflow will:
 A backup script is included:
 
 ```bash
-sudo bash /opt/msk-shortener/deployment/scripts/backup.sh
+sudo bash /opt/msk-shortener/scripts/backup.sh
 ```
 
 This creates a gzipped SQL dump in `/var/backups/msk-shortener/` with a 14-day retention policy.
@@ -152,7 +152,7 @@ sudo crontab -e
 Add the following line:
 
 ```cron
-0 3 * * * /opt/msk-shortener/deployment/scripts/backup.sh
+0 3 * * * /opt/msk-shortener/scripts/backup.sh
 ```
 
 This runs the backup every day at 3:00 AM server time.
