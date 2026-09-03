@@ -77,6 +77,12 @@ on_exit() {
         echo "=== $(date -Is)  ende backup rc=0"
     fi
 }
+# Ein per Signal beendeter Lauf (Reboot, OOM, systemd-stop, kill) laesst $? im
+# EXIT-Trap auf dem Status des letzten FERTIGEN Kommandos stehen, meist also
+# auf 0. Der Trap meldete dann Erfolg fuer einen abgebrochenen Lauf, und es
+# ginge keine Mail raus. Am 03.09.2026 genau so beobachtet und nachgemessen.
+trap 'exit 143' TERM
+trap 'exit 130' INT
 trap on_exit EXIT
 
 # Root-Check
