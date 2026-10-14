@@ -110,7 +110,7 @@ Body:     DM Sans (300-600)
 
 | Was              | Pfad                                                        |
 |------------------|-------------------------------------------------------------|
-| Projekt (local)  | `C:\Users\morit\OneDrive\GitHub Repositories\msk-shortener` |
+| Projekt (local)  | `G:\GitHub Repositories\MSK Scripts\Web\msk-shortener` |
 | Produktion       | `/opt/msk-shortener/`                                       |
 | .env (Server)    | `/opt/msk-shortener/.env` (chmod 600)                       |
 | Apache Config    | `/etc/apache2/sites-available/msk-shortener.conf`           |
