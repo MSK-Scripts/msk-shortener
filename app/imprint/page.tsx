@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
-import { Header } from '@/components/Header'
+import { PageHead } from '@/components/site/PageHead'
+import { SiteFrame } from '@/components/site/SiteFrame'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,22 +13,15 @@ export default async function ImprintPage() {
   const t = await getTranslations('imprintPage')
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header backLink={{ href: '/' }} />
-
-      <main className="flex-1 px-6 py-10">
-        <article className="max-w-3xl mx-auto space-y-8">
-
-          <header className="space-y-2 animate-fade-in">
-            <h1 className="font-heading text-4xl md:text-5xl text-msk-text">
-              {t('title')}
-            </h1>
-          </header>
+    <SiteFrame>
+      <PageHead title={t('title')} />
+      <div className="tool-column py-[var(--space-section)]">
+        <article className="grid max-w-[65ch] gap-8">
 
           <Section title={t('section1Title')}>
-            <div className="bg-msk-surface/50 border border-msk-border rounded-lg p-4 not-italic">
-              <p className="font-medium text-msk-text">{t('addressName')}</p>
-              <p className="whitespace-pre-line text-msk-muted text-sm mt-1">
+            <div className="bg-card border border-border rounded-lg p-4 not-italic">
+              <p className="font-medium text-foreground">{t('addressName')}</p>
+              <p className="whitespace-pre-line text-muted-foreground text-small mt-1">
                 {t('addressLines')}
               </p>
             </div>
@@ -42,9 +36,9 @@ export default async function ImprintPage() {
           </Section>
 
           <Section title={t('responsibleTitle')}>
-            <div className="bg-msk-surface/50 border border-msk-border rounded-lg p-4 not-italic">
-              <p className="font-medium text-msk-text">{t('addressName')}</p>
-              <p className="whitespace-pre-line text-msk-muted text-sm mt-1">
+            <div className="bg-card border border-border rounded-lg p-4 not-italic">
+              <p className="font-medium text-foreground">{t('addressName')}</p>
+              <p className="whitespace-pre-line text-muted-foreground text-small mt-1">
                 {t('addressLines')}
               </p>
             </div>
@@ -66,8 +60,8 @@ export default async function ImprintPage() {
           </Section>
 
         </article>
-      </main>
-    </div>
+      </div>
+    </SiteFrame>
   )
 }
 
@@ -80,8 +74,8 @@ function Section({
 }) {
   return (
     <section className="space-y-3">
-      <h2 className="font-heading text-2xl text-msk-text">{title}</h2>
-      <div className="text-msk-muted leading-relaxed space-y-3">
+      <h2 className="font-display text-h3 font-[650] text-foreground">{title}</h2>
+      <div className="text-muted-foreground leading-relaxed space-y-3">
         {children}
       </div>
     </section>
@@ -90,9 +84,9 @@ function Section({
 
 function SubSection({ title, text }: { title: string; text: string }) {
   return (
-    <div className="pl-4 border-l-2 border-msk-border space-y-1.5 mt-4">
-      <h3 className="text-base font-medium text-msk-text">{title}</h3>
-      <p className="text-sm">{text}</p>
+    <div className="pl-4 border-l-2 border-border space-y-1.5 mt-4">
+      <h3 className="text-base font-medium text-foreground">{title}</h3>
+      <p className="text-small">{text}</p>
     </div>
   )
 }

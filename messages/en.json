@@ -20,11 +20,26 @@
     "subtitle": "Fast, privacy-friendly URL shortener. No tracking, no ads, no signup.",
     "deleteLink": "Delete link",
     "globalStats": "Global statistics",
-    "features": {
-      "customCodes": "Custom Codes",
-      "statistics": "Statistics",
-      "qrCodes": "QR Codes",
-      "openSource": "Open Source"
+    "kicker": "A web tool by MSK Scripts",
+    "formTitle": "Shorten a link",
+    "factsTitle": "What it does",
+    "facts": {
+      "codes": {
+        "title": "Your own short codes",
+        "text": "Pick the code yourself, such as s.msk-scripts.de/discord, or let one be generated."
+      },
+      "stats": {
+        "title": "Statistics without tracking",
+        "text": "Clicks, browsers, devices and referrers, without IP addresses and without cookies."
+      },
+      "qr": {
+        "title": "A QR code for every link",
+        "text": "As PNG or SVG, right after shortening."
+      },
+      "protect": {
+        "title": "Password and expiry date",
+        "text": "Protect a link with a password or let it expire at a set time."
+      }
     }
   },
   "footer": {
@@ -141,6 +156,8 @@
     },
     "timeline": "Clicks over time",
     "noClicksInPeriod": "No clicks in the selected period yet",
+    "chartMax": "Peak {count}",
+    "chartDay": "Day",
     "rangeDays": "{days}d",
     "browser": "Browser",
     "os": "Operating system",
@@ -246,7 +263,52 @@
     "section12Title": "12. No automated decision-making",
     "section12Text": "Automated decision-making, including profiling within the meaning of Art. 22 GDPR, does not take place on this website.",
 
-    "section13Title": "13. Webfonts (locally hosted)",
-    "section13Text": "Webfonts (Inter, JetBrains Mono) are bundled into the application at build time via Next.js's built-in font system (next/font) and served exclusively from this application's own origin. No connection to third-party servers (in particular Google Fonts) takes place at runtime. No other external scripts or tracking services are loaded."
+    "section13Title": "13. Fonts & external scripts",
+    "section13Text": "The fonts (Archivo and Source Sans 3) are part of the application and are served exclusively from this server. No connection to font providers such as Google Fonts takes place. The only external script is the Cloudflare Turnstile spam check on the home page (section 6); no tracking services are loaded."
+  },
+  "site": {
+    "mainNav": "Main navigation",
+    "submenu": "More in {name}",
+    "newTab": "(opens in a new tab)",
+    "fivem": "FiveM scripts",
+    "fivemPaid": "Paid scripts",
+    "fivemPaidDesc": "Every script as Encrypted or Source",
+    "fivemFree": "Free scripts",
+    "fivemFreeDesc": "Open source on GitHub, msk_core included",
+    "fivemAllAccess": "All-access subscription",
+    "fivemAllAccessDesc": "Access to every resource, cancel monthly",
+    "fivemStats": "Server statistics",
+    "fivemStatsDesc": "Live server counts per script",
+    "discord": "Discord bots",
+    "ticketDesc": "Tickets with hosted transcripts and a dashboard",
+    "giveawayDesc": "Giveaways with public result pages",
+    "tools": "Web tools",
+    "images": "Image gallery",
+    "imagesDesc": "Transparent images of vehicles, weapons and items",
+    "formsDesc": "Forms and applications with Discord integration",
+    "pasteDesc": "Share code snippets with your team",
+    "shortenerDesc": "Short links without cookies or trackers",
+    "about": "About",
+    "builtBy": "Built by",
+    "menu": "Menu",
+    "language": "Language",
+    "stats": "Statistics",
+    "footerTagline": "Short links without cookies or trackers, by MSK Scripts.",
+    "license": "Open source under AGPL-3.0",
+    "footerProduct": "Product",
+    "footerEcosystem": "Ecosystem",
+    "footerLegal": "Legal",
+    "documentation": "Documentation",
+    "github": "GitHub",
+    "imprint": "Imprint",
+    "privacy": "Privacy Policy",
+    "rights": "All rights reserved.",
+    "skipToContent": "Skip to content",
+    "theme": {
+      "group": "Appearance",
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark"
+    }
   }
 }

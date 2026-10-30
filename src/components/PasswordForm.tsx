@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import type { ApiError } from '@/types'
+import { LockSimple } from '@/components/icons'
 
 interface Props {
   shortCode: string
@@ -45,19 +46,14 @@ export function PasswordForm({ shortCode }: Props) {
   }
 
   return (
-    <div className="bg-msk-surface border border-msk-border rounded-xl p-6 shadow-2xl">
+    <div className="bg-card border border-border rounded-xl p-6 shadow-[var(--shadow-card-hover)]">
       {/* Header */}
       <div className="text-center mb-6">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-msk-accent/10 mb-4">
-          <svg className="w-8 h-8 text-msk-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-            />
-          </svg>
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent-soft mb-4">
+          <LockSimple className="w-8 h-8 text-primary" />
         </div>
-        <h1 className="font-heading text-2xl font-bold mb-1">Passwort erforderlich</h1>
-        <p className="text-msk-muted text-sm">
+        <h1 className="font-display text-2xl font-bold mb-1">Passwort erforderlich</h1>
+        <p className="text-muted-foreground text-small">
           Dieser Link ist passwortgeschützt.
         </p>
       </div>
@@ -65,7 +61,7 @@ export function PasswordForm({ shortCode }: Props) {
       {/* Form */}
       <form onSubmit={handleSubmit}>
         <label className="block mb-4">
-          <span className="text-sm font-medium text-msk-text mb-2 block">Passwort</span>
+          <span className="text-small font-medium text-foreground mb-2 block">Passwort</span>
           <input
             type="password"
             required
@@ -73,13 +69,13 @@ export function PasswordForm({ shortCode }: Props) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Passwort eingeben"
-            className="w-full bg-msk-surface2 border border-msk-border rounded-lg px-4 py-3 text-msk-text placeholder-msk-dim focus:outline-none focus:border-msk-accent transition-colors"
+            className="w-full bg-muted border border-border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus-visible:border-primary transition-colors"
             disabled={loading}
           />
         </label>
 
         {error && (
-          <div className="mb-4 bg-msk-danger/10 border border-msk-danger/30 rounded-lg px-4 py-3 text-msk-danger text-sm">
+          <div className="mb-4 bg-danger/8 border border-danger/40 rounded-lg px-4 py-3 text-danger text-small">
             {error}
           </div>
         )}
@@ -87,11 +83,11 @@ export function PasswordForm({ shortCode }: Props) {
         <button
           type="submit"
           disabled={loading || !password}
-          className="w-full bg-msk-accent hover:bg-msk-hover disabled:bg-msk-surface2 disabled:text-msk-muted disabled:cursor-not-allowed text-msk-bg font-semibold px-6 py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+          className="w-full bg-primary hover:bg-primary-hover disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed text-background font-semibold px-6 py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
         >
           {loading ? (
             <>
-              <span className="w-4 h-4 border-2 border-msk-bg border-t-transparent rounded-full animate-spin" />
+              <span className="w-4 h-4 border-2 border-background border-t-transparent rounded-full animate-spin" />
               Prüfe...
             </>
           ) : (
@@ -103,7 +99,7 @@ export function PasswordForm({ shortCode }: Props) {
       <div className="mt-6 text-center">
         <Link
           href="/"
-          className="text-sm text-msk-muted hover:text-msk-accent transition-colors"
+          className="text-small text-muted-foreground hover:text-primary transition-colors"
         >
           ← Zurück zur Startseite
         </Link>
