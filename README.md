@@ -158,7 +158,7 @@ curl -X POST https://s.msk-scripts.de/api/links \
 ## 🔑 API keys
 
 Only someone with a shell on the server and read access to the app's `.env` can manage keys. A key is
-shown once when it is created; the database keeps only its SHA-256.
+shown once when it is created; the database keeps only a scrypt hash of it.
 
 ```bash
 /opt/msk-shortener/scripts/api-key.sh help                     # all commands

@@ -35,6 +35,7 @@ export type GuardCode =
   | 'phishing'
   | 'daily-limit'
   | 'key-limit'
+  | 'key-attempts'
   | 'captcha'
   | 'captcha-unavailable'
 
@@ -47,6 +48,30 @@ export interface FormProof {
   website?:        unknown
   formStamp?:      unknown
   turnstileToken?: unknown
+}
+
+// ─── Wrong keys per address ──────────────────────────────────────────
+// Checking a key costs a scrypt hash, so an address that keeps sending wrong
+// keys is stopped before hashing: 10 wrong keys per 10 minutes.
+const KEY_FAILURE_LIMIT = 10
+const KEY_FAILURE_WINDOW_MS = 10 * 60 * 1000
+const keyFailures = new Map<string, { count: number; resetAt: number }>()
+
+function keyFailuresExceeded(address: string, now = Date.now()): boolean {
+  const entry = keyFailures.get(address)
+  return entry !== undefined && entry.resetAt > now && entry.count >= KEY_FAILURE_LIMIT
+}
+
+function recordKeyFailure(address: string, now = Date.now()): void {
+  const entry = keyFailures.get(address)
+  if (entry && entry.resetAt > now) {
+    entry.count++
+    return
+  }
+  if (keyFailures.size > 10_000) {
+    for (const [key, value] of keyFailures) if (value.resetAt <= now) keyFailures.delete(key)
+  }
+  keyFailures.set(address, { count: 1, resetAt: now + KEY_FAILURE_WINDOW_MS })
 }
 
 function deny(status: number, code: GuardCode, message: string): GuardResult {
@@ -95,8 +120,14 @@ export async function guardCreate(params: {
   // ─── A script with an API key ───────────────────────────────────
   const key = bearerKey(headers)
   if (key !== null) {
+    if (keyFailuresExceeded(ipHash)) {
+      return deny(429, 'key-attempts', 'Too many invalid API keys, try again later')
+    }
     const row = await findActiveApiKey(key)
-    if (!row) return deny(401, 'api-key-invalid', 'Invalid API key')
+    if (!row) {
+      recordKeyFailure(ipHash)
+      return deny(401, 'api-key-invalid', 'Invalid API key')
+    }
 
     const refused = checkTarget(url)
     if (refused) return refused

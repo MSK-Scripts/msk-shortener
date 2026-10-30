@@ -124,6 +124,21 @@ describe('an API key', () => {
     expect(await keyRequest('Bearer msks_unknown')).toMatchObject({ status: 401, code: 'api-key-invalid' })
   })
 
+  it('stops an address after ten wrong keys, before hashing again', async () => {
+    const attempt = () =>
+      guardCreate({
+        headers: headers({ authorization: 'Bearer msks_wrong' }),
+        url:     TARGET,
+        proof:   {},
+        ip:      '198.51.100.9',
+        ipHash:  'b'.repeat(64),
+      })
+    for (let i = 0; i < 10; i++) expect(await attempt()).toMatchObject({ status: 401 })
+    vi.mocked(findActiveApiKey).mockClear()
+    expect(await attempt()).toMatchObject({ ok: false, status: 429, code: 'key-attempts' })
+    expect(findActiveApiKey).not.toHaveBeenCalled()
+  })
+
   it('still checks the target', async () => {
     vi.mocked(findActiveApiKey).mockResolvedValue(KEY_ROW)
     expect(await keyRequest('Bearer msks_valid', 'http://203.0.113.7/login')).toMatchObject({ code: 'ip-host' })
