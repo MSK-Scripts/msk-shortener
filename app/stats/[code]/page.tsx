@@ -9,10 +9,12 @@ import {
   getDeviceStats,
   getTopReferrers,
 } from '@/lib/stats'
-import { Header }          from '@/components/Header'
+import { PageHead } from '@/components/site/PageHead'
+import { SiteFrame } from '@/components/site/SiteFrame'
 import { TimelineChart }   from '@/components/TimelineChart'
 import { AggregateBars }   from '@/components/AggregateBars'
 import { QRCodeDisplay }   from '@/components/QRCodeDisplay'
+import { ChartBar, DeviceMobile, Globe, LinkSimple, Monitor, WarningCircle } from '@/components/icons'
 
 interface PageProps {
   params:        Promise<{ code: string }>
@@ -48,34 +50,31 @@ export default async function StatsPage({ params, searchParams }: PageProps) {
   const expired  = isLinkExpired(link)
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header backLink={{ href: '/' }} />
-
-      <main className="flex-1 px-6 py-10">
-        <div className="max-w-6xl mx-auto space-y-6">
-
-          {/* Title-Block */}
-          <div className="space-y-2 animate-fade-in">
-            <p className="text-xs uppercase tracking-wider text-msk-muted">{t('subtitle')}</p>
-            <h1 className="font-heading text-3xl md:text-4xl text-msk-text break-all">
-              <a
-                href={shortUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-msk-accent transition-colors"
-              >
-                {shortUrl}
-              </a>
-            </h1>
-            {expired && (
-              <p className="inline-flex items-center gap-1.5 text-sm text-msk-danger">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                {t('linkExpired')}
-              </p>
-            )}
-          </div>
+    <SiteFrame>
+      <PageHead
+        kicker={t('subtitle')}
+        title={
+          <a
+            href={shortUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            translate="no"
+            className="font-mono text-[0.8em] break-all hover:text-band-accent"
+          >
+            {shortUrl}
+          </a>
+        }
+        lead={
+          expired ? (
+            <span className="inline-flex items-center gap-1.5 text-band-foreground">
+              <WarningCircle className="h-5 w-5 text-band-accent" />
+              {t('linkExpired')}
+            </span>
+          ) : undefined
+        }
+      />
+      <div className="container-page py-[var(--space-section)]">
+        <div className="grid gap-6">
 
           {/* KPI Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -93,27 +92,24 @@ export default async function StatsPage({ params, searchParams }: PageProps) {
 
           {/* Timeline + QR */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 bg-msk-surface/50 border border-msk-border rounded-xl p-5">
+            <div className="lg:col-span-2 bg-card border border-border rounded-lg p-5 shadow-[var(--shadow-card)]">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-msk-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                  <h2 className="text-sm font-medium text-msk-text uppercase tracking-wider">
+                  <ChartBar className="w-4 h-4 text-primary" />
+                  <h2 className="font-display text-lead font-[650] text-foreground">
                     {t('timeline')}
                   </h2>
                 </div>
 
-                <div className="flex gap-1 text-xs">
+                <div className="flex gap-1 text-small">
                   {[7, 30, 90].map((d) => (
                     <Link
                       key={d}
                       href={`/stats/${code}?days=${d}`}
-                      className={`px-3 py-1.5 rounded-md transition-colors ${
+                      className={`inline-flex min-h-11 items-center px-3 rounded-md transition-colors ${
                         days === d
-                          ? 'bg-msk-accent text-white'
-                          : 'text-msk-muted hover:text-msk-text hover:bg-msk-surface'
+                          ? 'bg-primary text-primary-foreground'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                       }`}
                     >
                       {t('rangeDays', { days: d })}
@@ -133,52 +129,36 @@ export default async function StatsPage({ params, searchParams }: PageProps) {
               title={t('browser')}
               data={browsers}
               icon={
-                <svg className="w-4 h-4 text-msk-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                </svg>
+                <Globe className="w-4 h-4 text-primary" />
               }
             />
             <AggregateBars
               title={t('os')}
               data={operatingSystems}
               icon={
-                <svg className="w-4 h-4 text-msk-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
+                <Monitor className="w-4 h-4 text-primary" />
               }
             />
             <AggregateBars
               title={t('devices')}
               data={devices}
               icon={
-                <svg className="w-4 h-4 text-msk-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
+                <DeviceMobile className="w-4 h-4 text-primary" />
               }
             />
             <AggregateBars
               title={t('topReferrers')}
               data={referrers}
               icon={
-                <svg className="w-4 h-4 text-msk-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                </svg>
+                <LinkSimple className="w-4 h-4 text-primary" />
               }
             />
           </div>
         </div>
-      </main>
+      </div>
 
-      <footer className="px-6 py-6 border-t border-msk-border/50">
-        <div className="max-w-6xl mx-auto text-center text-xs text-msk-muted">
-          <p>{t('footerNote')}</p>
-        </div>
-      </footer>
-    </div>
+      <p className="container-page pb-[var(--space-section)] text-small text-muted-foreground">{t('footerNote')}</p>
+    </SiteFrame>
   )
 }
 
@@ -192,14 +172,14 @@ function KpiCard({
   highlight?: boolean
 }) {
   return (
-    <div className={`p-4 rounded-xl border ${
+    <div className={`p-4 rounded-lg border ${
       highlight
-        ? 'bg-msk-accent/10 border-msk-accent/30'
-        : 'bg-msk-surface/50 border-msk-border'
+        ? 'bg-accent-soft border-primary/40'
+        : 'bg-card border-border'
     }`}>
-      <p className="text-xs uppercase tracking-wider text-msk-muted mb-1">{label}</p>
-      <p className={`font-heading text-2xl truncate ${
-        highlight ? 'text-msk-accent' : 'text-msk-text'
+      <p className="text-label font-semibold uppercase tracking-[0.08em] text-muted-foreground mb-1">{label}</p>
+      <p className={`font-display text-h3 font-[650] tabular-nums truncate ${
+        highlight ? 'text-primary' : 'text-foreground'
       }`}>
         {value}
       </p>

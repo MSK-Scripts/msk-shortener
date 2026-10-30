@@ -20,11 +20,26 @@
     "subtitle": "Schneller, datenschutzfreundlicher URL-Shortener. Kein Tracking, keine Werbung, keine Anmeldung.",
     "deleteLink": "Link löschen",
     "globalStats": "Globale Statistiken",
-    "features": {
-      "customCodes": "Custom Codes",
-      "statistics": "Statistiken",
-      "qrCodes": "QR-Codes",
-      "openSource": "Open Source"
+    "kicker": "Web-Tool von MSK Scripts",
+    "formTitle": "Link kürzen",
+    "factsTitle": "Was der Shortener kann",
+    "facts": {
+      "codes": {
+        "title": "Eigene Kurz-Codes",
+        "text": "Wähle den Code selbst, etwa s.msk-scripts.de/discord, oder lass einen erzeugen."
+      },
+      "stats": {
+        "title": "Statistiken ohne Tracking",
+        "text": "Klicks, Browser, Geräte und Referrer, ohne IP-Adresse und ohne Cookie."
+      },
+      "qr": {
+        "title": "QR-Code zu jedem Link",
+        "text": "Als PNG oder SVG, direkt nach dem Kürzen."
+      },
+      "protect": {
+        "title": "Passwort und Ablaufdatum",
+        "text": "Schütze einen Link mit einem Passwort oder lass ihn zu einem Zeitpunkt ablaufen."
+      }
     }
   },
   "footer": {
@@ -141,6 +156,8 @@
     },
     "timeline": "Klicks im Zeitverlauf",
     "noClicksInPeriod": "Noch keine Klicks im gewählten Zeitraum",
+    "chartMax": "Höchstwert {count}",
+    "chartDay": "Tag",
     "rangeDays": "{days}T",
     "browser": "Browser",
     "os": "Betriebssystem",
@@ -246,7 +263,52 @@
     "section12Title": "12. Keine automatisierte Entscheidungsfindung",
     "section12Text": "Eine automatisierte Entscheidungsfindung einschließlich Profiling im Sinne von Art. 22 DSGVO findet auf dieser Website nicht statt.",
 
-    "section13Title": "13. Schriftarten & lokale Webfonts",
-    "section13Text": "Schriftarten (Inter, JetBrains Mono) werden über das in Next.js integrierte Font-System (next/font) bereits zur Build-Zeit lokal in den Build der Anwendung aufgenommen und anschließend ausschließlich vom eigenen Server ausgeliefert. Zur Laufzeit findet keine Verbindung zu Servern Dritter (insbesondere Google Fonts) statt. Es werden auch keine weiteren externen Skripte oder Tracking-Dienste geladen."
+    "section13Title": "13. Schriftarten & externe Skripte",
+    "section13Text": "Die Schriftarten (Archivo und Source Sans 3) sind Teil der Anwendung und werden ausschließlich vom eigenen Server ausgeliefert. Es findet keine Verbindung zu Schriftanbietern wie Google Fonts statt. Das einzige externe Skript ist die Spam-Prüfung Cloudflare Turnstile auf der Startseite (Abschnitt 6); Tracking-Dienste werden nicht geladen."
+  },
+  "site": {
+    "mainNav": "Hauptnavigation",
+    "submenu": "Mehr unter {name}",
+    "newTab": "(öffnet in neuem Tab)",
+    "fivem": "FiveM-Scripts",
+    "fivemPaid": "Bezahl-Scripts",
+    "fivemPaidDesc": "Jedes Script als Encrypted oder Source",
+    "fivemFree": "Kostenlose Scripts",
+    "fivemFreeDesc": "Open Source auf GitHub, samt msk_core",
+    "fivemAllAccess": "Alle Scripts im Abo",
+    "fivemAllAccessDesc": "Zugriff auf sämtliche Ressourcen, monatlich kündbar",
+    "fivemStats": "Serverstatistiken",
+    "fivemStatsDesc": "Live-Serverzahlen je Script",
+    "discord": "Discord-Bots",
+    "ticketDesc": "Tickets mit gehosteten Transkripten und Dashboard",
+    "giveawayDesc": "Verlosungen mit öffentlichen Ergebnisseiten",
+    "tools": "Web-Tools",
+    "images": "Bildergalerie",
+    "imagesDesc": "Freigestellte Bilder von Fahrzeugen, Waffen und Items",
+    "formsDesc": "Formulare und Bewerbungen mit Discord-Anbindung",
+    "pasteDesc": "Code-Schnipsel mit deinem Team teilen",
+    "shortenerDesc": "Kurzlinks ohne Cookies und Tracker",
+    "about": "Über MSK",
+    "builtBy": "Erstellt von",
+    "menu": "Menü",
+    "language": "Sprache",
+    "stats": "Statistiken",
+    "footerTagline": "Kurzlinks ohne Cookies und Tracker, von MSK Scripts.",
+    "license": "Open Source unter AGPL-3.0",
+    "footerProduct": "Produkt",
+    "footerEcosystem": "Ökosystem",
+    "footerLegal": "Rechtliches",
+    "documentation": "Dokumentation",
+    "github": "GitHub",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "rights": "Alle Rechte vorbehalten.",
+    "skipToContent": "Zum Inhalt springen",
+    "theme": {
+      "group": "Darstellung",
+      "system": "System",
+      "light": "Hell",
+      "dark": "Dunkel"
+    }
   }
 }

@@ -1,75 +1,82 @@
-# Graph Report - msk-shortener  (2026-09-03)
+# Graph Report - msk-shortener  (2026-10-30)
 
 ## Corpus Check
-- 73 files · ~40,851 words
+- 106 files · ~51,476 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 412 nodes · 616 edges · 37 communities (25 shown, 12 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 6 edges (avg confidence: 0.84)
+- 635 nodes · 1098 edges · 42 communities (23 shown, 15 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.84)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b2366bad`
+- Built from commit: `c27a98a0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - links.ts
-- TypeScript Configuration
-- Header.tsx
-- Project Dependencies
-- index.ts
+- compilerOptions
+- index.tsx
+- dependencies
+- tokens.ts
 - stats/[code]/page.tsx
-- db.ts
-- Development Dependencies
-- Package Metadata
-- Global Usage Statistics
-- getLinkByCode
-- Internationalization and Localization
+- api-key.ts
+- devDependencies
+- Design System: MSK Shortener
+- stats/page.tsx
+- app/page.tsx
+- HeaderBar.tsx
 - Project Documentation and Schema
-- Contribution and Deployment Documentation
+- Contributing Guidelines
 - Installation Scripts
-- Abuse and Domain Filtering
-- Root Layout and Fonts
-- ESLint Configuration
+- abuseFilter.ts
+- layout.tsx
 - backup.sh
 - next.config.ts
+- MSK Shortener README
 - Update Scripts
-- Tailwind CSS Configuration
+- Deployment Guide
 - CodeQL Security Workflow
 - Dependency Review Workflow
 - ESLint Linting Workflow
 - Repository Mirroring Workflow
 - Release Management Workflow
+- postcss.config.mjs
 - UI Screenshots
 - Database Schema Definitions
-- middleware.ts
+- turnstile.ts
+- 📡 REST API
+- Development
 - msk-cron.sh
+- features.md
+- proxy.ts
+- 005_api_keys.sql
+- api-key.sh script
 
 ## God Nodes (most connected - your core abstractions)
 1. `compilerOptions` - 20 edges
-2. `getLinkByCode()` - 15 edges
-3. `getGlobalStats()` - 12 edges
-4. `MSK Shortener – Claude Projekt-Doku` - 12 edges
-5. `StatsPage()` - 10 edges
-6. `createLink()` - 10 edges
-7. `isLinkExpired()` - 10 edges
-8. `ApiError` - 10 edges
-9. `trackClick()` - 9 edges
-10. `getPool()` - 9 edges
+2. `guardCreate()` - 16 edges
+3. `execute()` - 15 edges
+4. `getLinkByCode()` - 15 edges
+5. `cn()` - 13 edges
+6. `Design System: MSK Shortener` - 13 edges
+7. `MSK Shortener README` - 13 edges
+8. `getGlobalStats()` - 12 edges
+9. `MSK Shortener – Claude Projekt-Doku` - 12 edges
+10. `StatsPage()` - 10 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `MSK Logo` --references--> `MSK Shortener README`  [INFERRED]
   public/logo.png → README.md
 - `MSK Shortener UI Screenshot` --references--> `MSK Shortener README`  [INFERRED]
   public/msk_shortener.png → README.md
-- `GET()` --calls--> `getLinkByCode()`  [EXTRACTED]
-  app/api/links/[code]/qr/route.ts → src/lib/links.ts
-- `GET()` --calls--> `getLinkByCode()`  [EXTRACTED]
-  app/api/links/[code]/stats/route.ts → src/lib/links.ts
-- `POST()` --calls--> `isLocale()`  [EXTRACTED]
-  app/api/locale/route.ts → src/i18n/config.ts
+- `GET()` --calls--> `getGlobalStats()`  [EXTRACTED]
+  app/api/stats/route.ts → src/lib/globalStats.ts
+- `RedirectPage()` --calls--> `getLinkByCode()`  [EXTRACTED]
+  app/[code]/page.tsx → src/lib/links.ts
+- `RedirectPage()` --calls--> `isLinkExpired()`  [EXTRACTED]
+  app/[code]/page.tsx → src/lib/links.ts
 
 ## Import Cycles
 - None detected.
@@ -78,103 +85,119 @@
 - **CI/CD Pipeline** — github_workflows_deploy, github_workflows_codeql, github_workflows_eslint, github_workflows_dependency_review [EXTRACTED 1.00]
 - **MSK Ecosystem Documentation** — readme, contributing, code_of_conduct, security, license [EXTRACTED 1.00]
 
-## Communities (37 total, 12 thin omitted)
+## Communities (42 total, 15 thin omitted)
 
 ### Community 0 - "links.ts"
-Cohesion: 0.09
-Nodes (35): POST(), POST(), queryOne(), createLink(), CreateLinkOptions, CreateLinkResult, LinkServiceError, verifyLinkPassword() (+27 more)
-
-### Community 1 - "TypeScript Configuration"
 Cohesion: 0.06
-Nodes (32): ./app/*, dom, dom.iterable, esnext, next-env.d.ts, .next/types/**/*.ts, node_modules, **/*.ts (+24 more)
+Nodes (58): POST(), POST(), bearerKey(), queryOne(), checkFormStamp(), issueFormStamp(), MAX_FORM_AGE_MS, MIN_FILL_MS (+50 more)
 
-### Community 2 - "Header.tsx"
+### Community 1 - "compilerOptions"
 Cohesion: 0.06
-Nodes (15): dynamic, dynamic, CreateLinkForm(), DeleteForm(), DeleteFormProps, State, DeleteLinkButton(), Header() (+7 more)
+Nodes (33): ./app/*, dom, dom.iterable, esnext, .next/dev/types/**/*.ts, next-env.d.ts, .next/types/**/*.ts, node_modules (+25 more)
 
-### Community 3 - "Project Dependencies"
-Cohesion: 0.07
-Nodes (27): bcryptjs, dotenv, mysql2, nanoid, next, next-intl, dependencies, bcryptjs (+19 more)
+### Community 2 - "index.tsx"
+Cohesion: 0.06
+Nodes (42): CreateLinkForm(), handleReset(), handleSubmit(), renewCaptcha(), GUARD_MESSAGES, RENEW_CAPTCHA, DeleteForm(), DeleteFormProps (+34 more)
 
-### Community 4 - "index.ts"
-Cohesion: 0.12
-Nodes (16): GET(), QR_OPTIONS, RouteContext, LinkResult(), LinkResultProps, PasswordForm(), Props, jsonError() (+8 more)
+### Community 3 - "dependencies"
+Cohesion: 0.05
+Nodes (41): bcryptjs, class-variance-authority, clsx, dotenv, @fontsource-variable/archivo, @fontsource-variable/source-sans-3, mysql2, nanoid (+33 more)
+
+### Community 4 - "tokens.ts"
+Cohesion: 0.11
+Nodes (25): NO_PAIR, Pair, PAIRS, Ref, resolve(), STATUS, tokens, utilities (+17 more)
 
 ### Community 5 - "stats/[code]/page.tsx"
+Cohesion: 0.07
+Nodes (42): GET(), QR_OPTIONS, RouteContext, DELETE(), GET(), RouteContext, GET(), RouteContext (+34 more)
+
+### Community 6 - "api-key.ts"
+Cohesion: 0.14
+Nodes (29): create(), fail(), findKeys(), findOne(), formatDate(), list(), main(), printTable() (+21 more)
+
+### Community 7 - "devDependencies"
+Cohesion: 0.04
+Nodes (46): eslint, eslint-config-next, description, devDependencies, eslint, eslint-config-next, postcss, tailwindcss (+38 more)
+
+### Community 8 - "Design System: MSK Shortener"
+Cohesion: 0.15
+Nodes (13): Accessibility, Adding a colour, Adding an icon, Colour, Components, Design System: MSK Shortener, Exclusion list, Icons (+5 more)
+
+### Community 9 - "stats/page.tsx"
 Cohesion: 0.16
-Nodes (21): GET(), RouteContext, dynamic, formatDate(), PageProps, parseDays(), revalidate, StatsPage() (+13 more)
+Nodes (16): dynamic, GlobalStatsPage(), revalidate, AggregateBars(), AggregateBarsProps, ShieldCheck, aggregateBrowsersGlobal(), aggregateOsGlobal() (+8 more)
 
-### Community 6 - "db.ts"
-Cohesion: 0.24
-Nodes (14): main(), ensureMigrationsTable(), getExecutedMigrations(), main(), MIGRATIONS_DIR, runMigration(), closePool(), execute() (+6 more)
+### Community 10 - "app/page.tsx"
+Cohesion: 0.07
+Nodes (28): dynamic, PageProps, RedirectPage(), revalidate, dynamic, PageProps, revalidate, dynamic (+20 more)
 
-### Community 7 - "Development Dependencies"
-Cohesion: 0.09
-Nodes (23): autoprefixer, eslint, eslint-config-next, devDependencies, autoprefixer, eslint, eslint-config-next, postcss (+15 more)
-
-### Community 8 - "Package Metadata"
-Cohesion: 0.10
-Nodes (20): description, engines, node, license, name, overrides, brace-expansion, eslint (+12 more)
-
-### Community 9 - "Global Usage Statistics"
-Cohesion: 0.16
-Nodes (16): GET(), dynamic, GlobalStatsPage(), revalidate, AggregateBars(), AggregateBarsProps, aggregateBrowsersGlobal(), aggregateOsGlobal() (+8 more)
-
-### Community 10 - "getLinkByCode"
-Cohesion: 0.12
-Nodes (22): DELETE(), GET(), RouteContext, dynamic, PageProps, RedirectPage(), revalidate, dynamic (+14 more)
-
-### Community 11 - "Internationalization and Localization"
-Cohesion: 0.29
-Nodes (9): POST(), DEFAULT_LOCALE, isLocale(), Locale, LOCALE_COOKIE, LOCALE_FLAGS, LOCALE_LABELS, LOCALES (+1 more)
+### Community 11 - "HeaderBar.tsx"
+Cohesion: 0.08
+Nodes (36): POST(), GithubMark(), ArrowSquareOut, CaretDown, Globe, List, X, currentFor() (+28 more)
 
 ### Community 12 - "Project Documentation and Schema"
 Cohesion: 0.13
 Nodes (14): 💬 Arbeitsweise, `clicks`, 🗄️ Datenbank-Schema, 🌍 Deployment, 📦 Features, `links`, 🎨 MSK Design-System, MSK Shortener – Claude Projekt-Doku (+6 more)
 
-### Community 13 - "Contribution and Deployment Documentation"
-Cohesion: 0.13
-Nodes (15): Code of Conduct, Contributing Guidelines, Deployment Guide, Additional Notes, Checklist, Description, Related Issue, Screenshots (+7 more)
+### Community 13 - "Contributing Guidelines"
+Cohesion: 0.18
+Nodes (8): Code of Conduct, Contributing Guidelines, Additional Notes, Checklist, Description, Related Issue, Screenshots, Type of Change
 
 ### Community 14 - "Installation Scripts"
 Cohesion: 0.43
 Nodes (7): DEBIAN_FRONTEND, log_err(), log_info(), log_ok(), log_step(), log_warn(), install.sh script
 
-### Community 15 - "Abuse and Domain Filtering"
+### Community 15 - "abuseFilter.ts"
 Cohesion: 0.29
-Nodes (4): AbuseCheckResult, BLOCKED_DOMAINS, BLOCKED_TLDS, SHORTENER_DOMAINS
+Nodes (8): BAIT_WORDS, BLOCKED_HOSTS, CHEAP_TLDS, checkUrlForAbuse(), hostIn(), looksLikePhishingHost(), SHORTENER_DOMAINS, UrlVerdict
 
-### Community 16 - "Root Layout and Fonts"
-Cohesion: 0.33
-Nodes (4): inter, jetbrainsMono, metadata, viewport
-
-### Community 17 - "ESLint Configuration"
+### Community 16 - "layout.tsx"
 Cohesion: 0.40
-Nodes (4): compat, __dirname, eslintConfig, __filename
+Nodes (3): metadata, viewport, ThemeProvider()
 
 ### Community 18 - "backup.sh"
 Cohesion: 0.60
 Nodes (3): log_err(), log_ok(), backup.sh script
 
+### Community 20 - "MSK Shortener README"
+Cohesion: 0.22
+Nodes (8): Contributing, Contributing and license, License, What this means in plain English, GNU Affero General Public License v3.0, MSK Logo, MSK Shortener UI Screenshot, MSK Shortener README
+
+### Community 22 - "Deployment Guide"
+Cohesion: 0.20
+Nodes (8): Deployment Guide, ⚙️ Configuration, Operations, 🖥️ Production server, Security and privacy, 🔒 Security & Privacy, Deploy Workflow, Security Policy
+
+### Community 31 - "turnstile.ts"
+Cohesion: 0.29
+Nodes (6): expectedHostname(), isProduction(), SiteverifyResponse, TURNSTILE_ACTION, TurnstileVerdict, verifyTurnstile()
+
+### Community 32 - "📡 REST API"
+Cohesion: 0.33
+Nodes (5): 🔑 API keys, Create a link, Other endpoints, 📡 REST API, REST API and API keys
+
+### Community 34 - "Development"
+Cohesion: 0.33
+Nodes (6): Development, 📋 Installation, 🌍 Internationalization, Local development, Prerequisites, 🛠️ Tech Stack
+
 ## Knowledge Gaps
-- **161 isolated node(s):** `PageProps`, `dynamic`, `revalidate`, `PageProps`, `dynamic` (+156 more)
-  These have ≤1 connection - possible missing edges or undocumented components.
-- **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **221 isolated node(s):** `PageProps`, `dynamic`, `revalidate`, `PageProps`, `dynamic` (+216 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 267 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **15 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Header()` connect `Header.tsx` to `Global Usage Statistics`, `stats/[code]/page.tsx`?**
-  _High betweenness centrality (0.018) - this node is a cross-community bridge._
-- **Why does `dependencies` connect `Project Dependencies` to `Package Metadata`?**
-  _High betweenness centrality (0.017) - this node is a cross-community bridge._
-- **Why does `getLinkByCode()` connect `getLinkByCode` to `links.ts`, `index.ts`, `stats/[code]/page.tsx`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
+- **Why does `execute()` connect `api-key.ts` to `links.ts`, `stats/[code]/page.tsx`?**
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+- **Why does `dependencies` connect `dependencies` to `devDependencies`?**
+  _High betweenness centrality (0.013) - this node is a cross-community bridge._
+- **Why does `PageHead()` connect `app/page.tsx` to `stats/page.tsx`, `stats/[code]/page.tsx`?**
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
 - **What connects `PageProps`, `dynamic`, `revalidate` to the rest of the system?**
-  _161 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _221 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `links.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.09407665505226481 - nodes in this community are weakly interconnected._
-- **Should `TypeScript Configuration` be split into smaller, more focused modules?**
-  _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._
-- **Should `Header.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.05897435897435897 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.059154929577464786 - nodes in this community are weakly interconnected._
+- **Should `compilerOptions` be split into smaller, more focused modules?**
+  _Cohesion score 0.058823529411764705 - nodes in this community are weakly interconnected._
+- **Should `index.tsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.056866303690260134 - nodes in this community are weakly interconnected._

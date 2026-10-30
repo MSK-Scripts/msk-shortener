@@ -16,16 +16,16 @@ export async function AggregateBars({ title, data, icon }: AggregateBarsProps) {
   const total = data.reduce((sum, d) => sum + d.count, 0)
 
   return (
-    <div className="bg-msk-surface/50 border border-msk-border rounded-xl p-5">
+    <div className="bg-card border border-border rounded-lg p-5 shadow-[var(--shadow-card)]">
       <div className="flex items-center gap-2 mb-4">
         {icon}
-        <h3 className="text-sm font-medium text-msk-text uppercase tracking-wider">
+        <h3 className="font-display text-lead font-[650] text-foreground">
           {title}
         </h3>
       </div>
 
       {data.length === 0 ? (
-        <p className="text-xs text-msk-muted text-center py-6">
+        <p className="text-small text-muted-foreground text-center py-6">
           {t('noData')}
         </p>
       ) : (
@@ -34,16 +34,16 @@ export async function AggregateBars({ title, data, icon }: AggregateBarsProps) {
             const percent = total > 0 ? (entry.count / total) * 100 : 0
             return (
               <li key={entry.name} className="space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-msk-text truncate pr-2">{entry.name}</span>
-                  <span className="text-msk-muted flex-shrink-0">
+                <div className="flex items-center justify-between text-small">
+                  <span className="text-foreground truncate pr-2">{entry.name}</span>
+                  <span className="text-muted-foreground flex-shrink-0 tabular-nums">
                     {entry.count.toLocaleString()}{' '}
-                    <span className="text-msk-dim">({percent.toFixed(1)}%)</span>
+                    <span className="text-muted-foreground">({percent.toFixed(1)}%)</span>
                   </span>
                 </div>
-                <div className="h-1.5 bg-msk-surface2 rounded-full overflow-hidden">
+                <div className="h-1.5 bg-muted rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-msk-accent rounded-full transition-all duration-500"
+                    className="h-full bg-primary rounded-full transition-all duration-500"
                     style={{ width: `${percent}%` }}
                   />
                 </div>

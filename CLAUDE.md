@@ -17,37 +17,27 @@ Teil des MSK-Ökosystems unter `s.msk-scripts.de`.
 
 | Bereich      | Technologie             |
 |--------------|-------------------------|
-| Framework    | Next.js 15 (App Router) |
+| Framework    | Next.js 16 (App Router) |
 | Sprache      | TypeScript (strict)     |
 | Datenbank    | MariaDB (`mysql2`)      |
-| Styling      | Tailwind CSS            |
+| Styling      | Tailwind CSS 4          |
 | Validation   | Zod                     |
 | Short-Codes  | nanoid                  |
 | QR-Codes     | qrcode                  |
 | Passwörter   | bcrypt                  |
 | UA-Parsing   | ua-parser-js            |
-| Charts       | recharts                |
+| Charts       | SVG, ohne Bibliothek    |
 
 **Bewusst kein:** Prisma (Overhead), Redis (Single-Server), Drittanbieter-Auth.
 
 ## 🎨 MSK Design-System
 
-```css
-/* Farben */
---msk-bg:       #1b1b1d
---msk-surface:  #242526
---msk-surface2: #2a2b2e
---msk-border:   #3d3d3f
---msk-accent:   #5eb131    /* MSK-Grün */
---msk-hover:    #4e9827
---msk-text:     #e3e3e3
---msk-muted:    #8d9096
---msk-danger:   #e05c4b
-
-/* Fonts */
-Headings: Syne (700/800/900)
-Body:     DM Sans (300-600)
-```
+Das Designsystem von msk-scripts.de, wie in MSK Forms: Tokens, Typografie, Layout, Komponenten und
+Barrierefreiheit stehen in **`DESIGN.md`**, die Werte in `app/globals.css`. Kurz: Hell und Dunkel
+(System als Vorgabe), Archivo und Source Sans 3 lokal über Fontsource, Phosphor-Icons nur aus
+`src/components/icons`, Kopf- und Fußleiste des Shops (`src/components/site`), Diagramme als
+SVG ohne Bibliothek. `src/test/contrast.test.ts` rechnet jedes Farbpaar in beiden Themes nach.
+Ausgeschlossen: Inter, JetBrains Mono, GitHub-Dark-Palette, Emoji als Icons.
 
 ## 📦 Features
 

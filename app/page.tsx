@@ -2,90 +2,72 @@ import Link from 'next/link'
 import Script from 'next/script'
 import { headers } from 'next/headers'
 import { getTranslations } from 'next-intl/server'
-import { CreateLinkForm }   from '@/components/CreateLinkForm'
+
+import { CreateLinkForm } from '@/components/CreateLinkForm'
 import { DeleteLinkButton } from '@/components/DeleteLinkButton'
-import { Header }           from '@/components/Header'
-import { issueFormStamp }   from '@/lib/formStamp'
+import { ChartBar } from '@/components/icons'
+import { PageHead } from '@/components/site/PageHead'
+import { SiteFrame } from '@/components/site/SiteFrame'
+import { Button } from '@/components/ui/Button'
+import { issueFormStamp } from '@/lib/formStamp'
 import { turnstileSiteKey } from '@/lib/turnstile'
 
 // Every render carries a fresh form stamp.
 export const dynamic = 'force-dynamic'
 
+const FACTS = ['codes', 'stats', 'qr', 'protect'] as const
+
 export default async function HomePage() {
   const t       = await getTranslations('home')
-  const f       = await getTranslations('footer')
   const nonce   = (await headers()).get('x-nonce') ?? undefined
   const siteKey = turnstileSiteKey()
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
+    <SiteFrame>
+      <PageHead
+        size="tool"
+        kicker={t('kicker')}
+        title={
+          <>
+            {t('titleLine1')} <span className="text-band-accent">{t('titleLine2')}</span>
+          </>
+        }
+        lead={t('subtitle')}
+      />
 
-      {/* ─── Main ──────────────────────────────────────────────── */}
-      <main className="flex-1 flex items-center justify-center px-6 py-12">
-        <div className="w-full max-w-xl">
-
-          {/* Hero */}
-          <div className="text-center mb-10 space-y-3 animate-fade-in">
-            <h1 className="font-heading text-4xl md:text-5xl text-msk-text leading-tight">
-              {t('titleLine1')}<br />
-              <span className="text-msk-accent">{t('titleLine2')}</span>
-            </h1>
-            <p className="text-msk-muted max-w-md mx-auto">
-              {t('subtitle')}
-            </p>
-          </div>
-
-          {/* Form Card */}
-          <div className="bg-msk-surface/50 border border-msk-border rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur-sm">
+      <div className="tool-column grid gap-[var(--space-stack)] py-[var(--space-section)]">
+        <section aria-labelledby="create-heading" className="grid gap-4">
+          <h2 id="create-heading" className="sr-only">
+            {t('formTitle')}
+          </h2>
+          <div className="rounded-lg border border-border bg-card p-[clamp(1.25rem,0.75rem+1.5vw,2.5rem)] shadow-[var(--shadow-card)]">
             <CreateLinkForm siteKey={siteKey} formStamp={issueFormStamp()} />
           </div>
-
-          {/* Sekundäre Aktionen */}
-          <div className="mt-4 flex items-center justify-center gap-6">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <DeleteLinkButton />
-            <Link
-              href="/stats"
-              className="text-xs text-msk-muted hover:text-msk-accent transition-colors inline-flex items-center gap-1.5"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-              {t('globalStats')}
-            </Link>
+            <Button asChild variant="link" className="min-h-11">
+              <Link href="/stats">
+                <ChartBar className="h-5 w-5" />
+                {t('globalStats')}
+              </Link>
+            </Button>
           </div>
+        </section>
 
-          {/* Feature-Strip */}
-          <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-xs text-msk-muted">
-            <Feature icon="🔗" text={t('features.customCodes')} />
-            <Feature icon="📊" text={t('features.statistics')} />
-            <Feature icon="📱" text={t('features.qrCodes')} />
-            <Feature icon="🔒" text={t('features.openSource')} />
-          </div>
-        </div>
-      </main>
-
-      {/* ─── Footer ────────────────────────────────────────────── */}
-      <footer className="px-6 py-6 border-t border-msk-border/50">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-msk-muted">
-          <p>
-            © {new Date().getFullYear()}{' '}
-            <a
-              href="https://www.msk-scripts.de"
-              className="hover:text-msk-accent transition-colors"
-              target="_blank" rel="noopener noreferrer"
-            >
-              MSK Scripts
-            </a>
-            {' · '}{f('openSource')}
-          </p>
-          <div className="flex items-center gap-4">
-            <Link href="/imprint" className="hover:text-msk-text transition-colors">{f('imprint')}</Link>
-            <Link href="/privacy" className="hover:text-msk-text transition-colors">{f('privacy')}</Link>
-          </div>
-        </div>
-      </footer>
+        <section aria-labelledby="facts-heading" className="grid gap-4 border-t border-border pt-[var(--space-stack)]">
+          <h2 id="facts-heading" className="font-display text-h3 font-[650]">
+            {t('factsTitle')}
+          </h2>
+          <ul className="grid gap-x-10 [grid-template-columns:repeat(auto-fill,minmax(min(100%,18rem),1fr))]">
+            {FACTS.map((key) => (
+              <li key={key} className="grid content-start gap-1 border-t border-border py-4">
+                <p className="font-semibold">{t(`facts.${key}.title`)}</p>
+                <p className="max-w-[65ch] text-small text-muted-foreground">{t(`facts.${key}.text`)}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
 
       {siteKey && (
         <Script
@@ -94,15 +76,6 @@ export default async function HomePage() {
           nonce={nonce}
         />
       )}
-    </div>
-  )
-}
-
-function Feature({ icon, text }: { icon: string; text: string }) {
-  return (
-    <div className="flex flex-col items-center gap-1.5 p-3 rounded-lg hover:bg-msk-surface/50 transition-colors">
-      <span className="text-xl" aria-hidden="true">{icon}</span>
-      <span>{text}</span>
-    </div>
+    </SiteFrame>
   )
 }

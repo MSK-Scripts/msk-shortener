@@ -1,88 +1,100 @@
-'use client'
+import { getLocale, getTranslations } from 'next-intl/server'
 
-import {
-  AreaChart, Area,
-  XAxis, YAxis,
-  CartesianGrid, Tooltip,
-  ResponsiveContainer,
-} from 'recharts'
-import { useTranslations, useLocale } from 'next-intl'
 import type { TimelinePoint } from '@/types'
 
-interface TimelineChartProps {
-  data: TimelinePoint[]
-}
-
-export function TimelineChart({ data }: TimelineChartProps) {
-  const t      = useTranslations('stats')
-  const locale = useLocale()
+/**
+ * Clicks per day as bars, hand-written SVG rendered on the server: no chart
+ * library, no client script, nothing the CSP has to allow. Every bar names
+ * its day and figure (`<title>`), and a table carries the same values for a
+ * screen reader, so no value is told by length alone.
+ */
+export async function TimelineChart({ data }: { data: TimelinePoint[] }) {
+  const [t, locale] = await Promise.all([getTranslations('stats'), getLocale()])
 
   if (data.length === 0 || data.every((d) => d.clicks === 0)) {
     return (
-      <div className="flex items-center justify-center h-64 text-msk-muted text-sm">
+      <div className="flex h-64 items-center justify-center text-small text-muted-foreground">
         {t('noClicksInPeriod')}
       </div>
     )
   }
 
-  const chartData = data.map((p) => ({
-    ...p,
-    label: new Date(p.date).toLocaleDateString(locale === 'de' ? 'de-DE' : 'en-GB', {
-      day:   '2-digit',
-      month: '2-digit',
-    }),
-  }))
+  const format = new Intl.DateTimeFormat(locale === 'de' ? 'de-DE' : 'en-GB', { day: '2-digit', month: '2-digit' })
+  const points = data.map((p) => ({ ...p, label: format.format(new Date(p.date)) }))
+  const max = Math.max(...points.map((p) => p.clicks))
+
+  // A unit per day; bars take 70 % of it, the rest is the gap.
+  const width = points.length
+  const height = 100
+  const bar = 0.7
+
+  // First, middle and last day under the axis.
+  const ticks = [0, Math.floor((points.length - 1) / 2), points.length - 1].filter(
+    (value, index, all) => all.indexOf(value) === index,
+  )
 
   return (
-    <div className="w-full h-64">
-      <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-          <defs>
-            <linearGradient id="msk-gradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%"   stopColor="#5eb131" stopOpacity={0.4} />
-              <stop offset="100%" stopColor="#5eb131" stopOpacity={0}   />
-            </linearGradient>
-          </defs>
-
-          <CartesianGrid strokeDasharray="3 3" stroke="#3d3d3f" vertical={false} />
-
-          <XAxis
-            dataKey="label"
-            stroke="#8d9096"
-            fontSize={11}
-            tickLine={false}
-            axisLine={{ stroke: '#3d3d3f' }}
-          />
-          <YAxis
-            stroke="#8d9096"
-            fontSize={11}
-            tickLine={false}
-            axisLine={false}
-            allowDecimals={false}
-          />
-
-          <Tooltip
-            contentStyle={{
-              background:   '#242526',
-              border:       '1px solid #3d3d3f',
-              borderRadius: '8px',
-              color:        '#e3e3e3',
-              fontSize:     '12px',
-            }}
-            labelStyle={{ color: '#8d9096' }}
-            cursor={{ stroke: '#5eb131', strokeWidth: 1, strokeDasharray: '3 3' }}
-          />
-
-          <Area
-            type="monotone"
-            dataKey="clicks"
-            name={t('kpi.totalClicks')}
-            stroke="#5eb131"
-            strokeWidth={2}
-            fill="url(#msk-gradient)"
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
+    <figure className="grid gap-2">
+      <p className="text-right text-label text-muted-foreground tabular-nums">{t('chartMax', { count: max })}</p>
+      <div className="relative h-60">
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          className="h-full w-full overflow-visible"
+        >
+          <line x1="0" x2={width} y1="0.5" y2="0.5" className="stroke-border" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+          <line x1="0" x2={width} y1={height} y2={height} className="stroke-input" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+          {points.map((p, i) => {
+            const h = max > 0 ? (p.clicks / max) * (height - 4) : 0
+            return (
+              <rect
+                key={p.date}
+                x={i + (1 - bar) / 2}
+                y={height - h}
+                width={bar}
+                height={h}
+                className="fill-chart-1"
+              >
+                <title>{`${p.label}: ${p.clicks}`}</title>
+              </rect>
+            )
+          })}
+        </svg>
+      </div>
+      <div className="relative h-5 text-label text-muted-foreground tabular-nums">
+        {ticks.map((i) => (
+          <span
+            key={i}
+            className={
+              i === 0
+                ? 'absolute left-0'
+                : i === points.length - 1
+                  ? 'absolute right-0'
+                  : 'absolute left-1/2 -translate-x-1/2'
+            }
+          >
+            {points[i]!.label}
+          </span>
+        ))}
+      </div>
+      <table className="sr-only">
+        <caption>{t('timeline')}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{t('chartDay')}</th>
+            <th scope="col">{t('kpi.totalClicks')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {points.map((p) => (
+            <tr key={p.date}>
+              <td>{p.label}</td>
+              <td>{p.clicks}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </figure>
   )
 }

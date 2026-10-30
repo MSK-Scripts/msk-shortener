@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
-import { Header } from '@/components/Header'
+import { PageHead } from '@/components/site/PageHead'
+import { SiteFrame } from '@/components/site/SiteFrame'
 
 export const dynamic = 'force-dynamic'
 
@@ -15,32 +16,23 @@ export default async function PrivacyPage() {
   const t = await getTranslations('privacy')
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header backLink={{ href: '/' }} />
-
-      <main className="flex-1 px-6 py-10">
-        <article className="max-w-3xl mx-auto space-y-8">
-
-          {/* Title */}
-          <header className="space-y-2 animate-fade-in">
-            <h1 className="font-heading text-4xl md:text-5xl text-msk-text">
-              {t('title')}
-            </h1>
-            <p className="text-sm text-msk-muted">{t('lastUpdated')}</p>
-          </header>
+    <SiteFrame>
+      <PageHead title={t('title')} lead={t('lastUpdated')} />
+      <div className="tool-column py-[var(--space-section)]">
+        <article className="grid max-w-[65ch] gap-8">
 
           {/* Intro */}
-          <p className="text-msk-muted leading-relaxed">{t('intro')}</p>
+          <p className="text-muted-foreground leading-relaxed">{t('intro')}</p>
 
           {/* Section 1: Verantwortlicher */}
           <Section title={t('section1Title')}>
             <p>{t('section1Text')}</p>
-            <div className="bg-msk-surface/50 border border-msk-border rounded-lg p-4 mt-3 not-italic">
-              <p className="font-medium text-msk-text">{t('section1Name')}</p>
-              <p className="whitespace-pre-line text-msk-muted text-sm mt-1">
+            <div className="bg-card border border-border rounded-lg p-4 mt-3 not-italic">
+              <p className="font-medium text-foreground">{t('section1Name')}</p>
+              <p className="whitespace-pre-line text-muted-foreground text-small mt-1">
                 {t('section1Address')}
               </p>
-              <p className="text-msk-muted text-sm mt-2">{t('section1Email')}</p>
+              <p className="text-muted-foreground text-small mt-2">{t('section1Email')}</p>
             </div>
           </Section>
 
@@ -56,13 +48,13 @@ export default async function PrivacyPage() {
           {/* Section 3: Cookies */}
           <Section title={t('section3Title')}>
             <p>{t('section3Text')}</p>
-            <div className="bg-msk-surface/50 border border-msk-border rounded-lg p-4 mt-3 space-y-1.5 text-sm">
-              <p className="font-mono text-msk-accent">{t('section3CookieName')}</p>
-              <p className="text-msk-muted">{t('section3CookiePurpose')}</p>
-              <p className="text-msk-muted">{t('section3CookieDuration')}</p>
-              <p className="text-msk-muted">{t('section3CookieLegal')}</p>
+            <div className="bg-card border border-border rounded-lg p-4 mt-3 space-y-1.5 text-small">
+              <p className="font-mono text-primary">{t('section3CookieName')}</p>
+              <p className="text-muted-foreground">{t('section3CookiePurpose')}</p>
+              <p className="text-muted-foreground">{t('section3CookieDuration')}</p>
+              <p className="text-muted-foreground">{t('section3CookieLegal')}</p>
             </div>
-            <p className="text-sm italic text-msk-muted mt-3">
+            <p className="text-small italic text-muted-foreground mt-3">
               {t('section3NoTracking')}
             </p>
           </Section>
@@ -74,7 +66,7 @@ export default async function PrivacyPage() {
 
           {/* Section 5: Speicherdauer */}
           <Section title={t('section5Title')}>
-            <ul className="space-y-2 list-disc list-inside marker:text-msk-accent">
+            <ul className="space-y-2 list-disc list-inside marker:text-primary">
               <li>{t('section5Links')}</li>
               <li>{t('section5Clicks')}</li>
               <li>{t('section5Logs')}</li>
@@ -84,20 +76,20 @@ export default async function PrivacyPage() {
           {/* Section 6: Empfänger */}
           <Section title={t('section6Title')}>
             <p>{t('section6Intro')}</p>
-            <div className="bg-msk-surface/50 border border-msk-border rounded-lg p-4 mt-3">
-              <p className="font-medium text-msk-text mb-1">{t('section6HostingTitle')}</p>
-              <p className="text-sm text-msk-muted">{t('section6HostingText')}</p>
+            <div className="bg-card border border-border rounded-lg p-4 mt-3">
+              <p className="font-medium text-foreground mb-1">{t('section6HostingTitle')}</p>
+              <p className="text-small text-muted-foreground">{t('section6HostingText')}</p>
             </div>
-            <div className="bg-msk-surface/50 border border-msk-border rounded-lg p-4 mt-3">
-              <p className="font-medium text-msk-text mb-1">{t('section6TurnstileTitle')}</p>
-              <p className="text-sm text-msk-muted">{t('section6TurnstileText')}</p>
+            <div className="bg-card border border-border rounded-lg p-4 mt-3">
+              <p className="font-medium text-foreground mb-1">{t('section6TurnstileTitle')}</p>
+              <p className="text-small text-muted-foreground">{t('section6TurnstileText')}</p>
             </div>
           </Section>
 
           {/* Section 7: Deine Rechte */}
           <Section title={t('section7Title')}>
             <p>{t('section7Intro')}</p>
-            <ul className="mt-3 space-y-2 list-disc list-inside marker:text-msk-accent">
+            <ul className="mt-3 space-y-2 list-disc list-inside marker:text-primary">
               <li>{t('section7RightAccess')}</li>
               <li>{t('section7RightRectification')}</li>
               <li>{t('section7RightErasure')}</li>
@@ -106,22 +98,22 @@ export default async function PrivacyPage() {
               <li>{t('section7RightObjection')}</li>
               <li>{t('section7RightComplaint')}</li>
             </ul>
-            <p className="text-sm text-msk-muted mt-3">{t('section7Contact')}</p>
+            <p className="text-small text-muted-foreground mt-3">{t('section7Contact')}</p>
           </Section>
 
           {/* Section 8: Aufsichtsbehörde */}
           <Section title={t('section8Title')}>
             <p>{t('section8Text')}</p>
-            <div className="bg-msk-surface/50 border border-msk-border rounded-lg p-4 mt-3 text-sm">
-              <p className="font-medium text-msk-text">{t('section8AuthorityName')}</p>
-              <p className="whitespace-pre-line text-msk-muted mt-1">
+            <div className="bg-card border border-border rounded-lg p-4 mt-3 text-small">
+              <p className="font-medium text-foreground">{t('section8AuthorityName')}</p>
+              <p className="whitespace-pre-line text-muted-foreground mt-1">
                 {t('section8AuthorityAddress')}
               </p>
               <a
                 href={t('section8AuthorityWebsite')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-msk-accent hover:underline mt-2 inline-block break-all"
+                className="text-primary hover:underline mt-2 inline-block break-all"
               >
                 {t('section8AuthorityWebsite')}
               </a>
@@ -154,8 +146,8 @@ export default async function PrivacyPage() {
           </Section>
 
         </article>
-      </main>
-    </div>
+      </div>
+    </SiteFrame>
   )
 }
 
@@ -170,8 +162,8 @@ function Section({
 }) {
   return (
     <section className="space-y-3">
-      <h2 className="font-heading text-2xl text-msk-text">{title}</h2>
-      <div className="text-msk-muted leading-relaxed space-y-3">
+      <h2 className="font-display text-h3 font-[650] text-foreground">{title}</h2>
+      <div className="text-muted-foreground leading-relaxed space-y-3">
         {children}
       </div>
     </section>
@@ -180,9 +172,9 @@ function Section({
 
 function SubSection({ title, text }: { title: string; text: string }) {
   return (
-    <div className="pl-4 border-l-2 border-msk-border space-y-1.5 mt-4">
-      <h3 className="text-base font-medium text-msk-text">{title}</h3>
-      <p className="text-sm">{text}</p>
+    <div className="pl-4 border-l-2 border-border space-y-1.5 mt-4">
+      <h3 className="text-base font-medium text-foreground">{title}</h3>
+      <p className="text-small">{text}</p>
     </div>
   )
 }
