@@ -64,7 +64,21 @@
     "expiresAtRemove": "Ablaufdatum entfernen",
     "submit": "Link verkürzen",
     "submitting": "Verkürze…",
-    "networkError": "Netzwerkfehler – bitte erneut versuchen"
+    "networkError": "Netzwerkfehler – bitte erneut versuchen",
+    "spam": {
+      "rejected": "Die Anfrage wurde abgelehnt. Bitte lade die Seite neu und versuche es noch einmal.",
+      "reload": "Die Seite ist abgelaufen. Bitte lade sie neu und versuche es noch einmal.",
+      "tooFast": "Das ging sehr schnell. Bitte warte einen Moment und sende noch einmal.",
+      "ownLink": "Kurz-Links dieses Dienstes können nicht noch einmal gekürzt werden.",
+      "shortener": "Links anderer URL-Shortener werden nicht angenommen. Bitte nutze die ursprüngliche Adresse.",
+      "blockedHost": "Diese Domain ist nicht erlaubt.",
+      "ipHost": "Links auf reine IP-Adressen werden nicht angenommen.",
+      "phishing": "Diese Adresse sieht nach einer Phishing-Seite aus und kann nicht gekürzt werden.",
+      "rateLimit": "Du hast in kurzer Zeit viele Links gekürzt. Bitte warte eine Weile und versuche es dann noch einmal.",
+      "dailyLimit": "Du hast das Tageslimit für neue Links erreicht. Bitte versuche es morgen wieder.",
+      "captcha": "Bitte schließe die Spam-Prüfung über dem Button ab.",
+      "captchaUnavailable": "Die Spam-Prüfung ist gerade nicht erreichbar. Bitte versuche es gleich noch einmal."
+    }
   },
   "linkResult": {
     "success": "Link erstellt!",
@@ -160,7 +174,7 @@
     "metaTitle": "Datenschutzerklärung",
     "metaDescription": "Datenschutzerklärung für MSK Shortener.",
     "title": "Datenschutzerklärung",
-    "lastUpdated": "Stand: Mai 2026",
+    "lastUpdated": "Stand: Oktober 2026",
     "intro": "Wir nehmen den Schutz deiner persönlichen Daten sehr ernst. Diese Datenschutzerklärung informiert dich über Art, Umfang und Zweck der Verarbeitung personenbezogener Daten bei der Nutzung von MSK Shortener.",
 
     "section1Title": "1. Verantwortlicher",
@@ -189,7 +203,7 @@
     "section3NoTracking": "Es werden keine Tracking-Cookies, Analytics-Cookies oder Werbe-Cookies verwendet.",
 
     "section4Title": "4. Rechtsgrundlagen der Verarbeitung",
-    "section4Text": "Die Verarbeitung deiner Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigte Interessen – Missbrauchsbekämpfung und Bereitstellung anonymer Statistiken).",
+    "section4Text": "Die Verarbeitung deiner Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigte Interessen – Missbrauchsbekämpfung einschließlich der Spam-Prüfung mit Cloudflare Turnstile und Bereitstellung anonymer Statistiken).",
 
     "section5Title": "5. Speicherdauer",
     "section5Links": "Kurz-Links werden gespeichert, bis sie entweder vom Ersteller über den Delete-Token gelöscht werden oder das optionale Ablaufdatum erreicht wird.",
@@ -197,9 +211,11 @@
     "section5Logs": "Server-Logs (Apache Access-Logs) werden ausschließlich zu Zwecken der technischen Bereitstellung und Sicherheit verarbeitet und gelöscht, sobald sie hierfür nicht mehr erforderlich sind.",
 
     "section6Title": "6. Empfänger der Daten",
-    "section6Intro": "Deine Daten werden nicht an Dritte weitergegeben, mit folgender Ausnahme:",
+    "section6Intro": "Deine Daten werden nicht an Dritte weitergegeben, mit folgenden Ausnahmen:",
     "section6HostingTitle": "Hosting-Provider",
     "section6HostingText": "Diese Website wird auf Servern von Netcup GmbH (Daimlerstraße 25, 76185 Karlsruhe, Deutschland) betrieben. Mit Netcup besteht ein Auftragsverarbeitungsvertrag gemäß Art. 28 DSGVO.",
+    "section6TurnstileTitle": "Spam-Prüfung (Cloudflare Turnstile)",
+    "section6TurnstileText": "Das Formular zum Kürzen eines Links nutzt Cloudflare Turnstile, einen Dienst der Cloudflare, Inc. (101 Townsend St, San Francisco, CA 94107, USA), um Menschen von automatisierten Anfragen zu unterscheiden. Beim Aufruf der Startseite lädt dein Browser ein Skript von challenges.cloudflare.com, und Turnstile wertet technische Daten wie deine IP-Adresse und Eigenschaften deines Browsers aus. Wir erhalten nur das Ergebnis der Prüfung. Beim Aufruf eines Kurz-Links wird Turnstile nicht geladen. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO, unser berechtigtes Interesse am Schutz des Dienstes vor Spam, Phishing und Missbrauch. Cloudflare ist unter dem EU-US Data Privacy Framework zertifiziert; zusätzlich gelten Standardvertragsklauseln. Datenschutzerklärung von Cloudflare: https://www.cloudflare.com/privacypolicy/",
 
     "section7Title": "7. Deine Rechte",
     "section7Intro": "Du hast jederzeit folgende Rechte:",

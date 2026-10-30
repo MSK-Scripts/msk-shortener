@@ -36,6 +36,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 // sind bewusst fast gleich; wer eine ändert, sieht bitte in die andere.
 
 const isDev = process.env.NODE_ENV === 'development'
+const TURNSTILE = 'https://challenges.cloudflare.com'
 
 export function middleware(request: NextRequest) {
   // In der Entwicklung kein Nonce: Nexts React Refresh lädt seinen
@@ -54,8 +55,8 @@ export function middleware(request: NextRequest) {
     "default-src 'none'",
 
     nonce
-      ? `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`
-      : "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      ? `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${TURNSTILE}`
+      : `script-src 'self' 'unsafe-inline' 'unsafe-eval' ${TURNSTILE}`,
 
     // Next hängt den Nonce automatisch an seine eigenen inline <style>-Tags
     // (next/font, Critical CSS), sobald er im Request-Header steht.
@@ -70,7 +71,11 @@ export function middleware(request: NextRequest) {
     // data: und blob: für den QR-Code, den `/api/links/[code]/qr` liefert.
     "img-src 'self' data: blob:",
     "font-src 'self'",
-    `connect-src 'self'${isDev ? ' ws: wss:' : ''}`,
+    `connect-src 'self' ${TURNSTILE}${isDev ? ' ws: wss:' : ''}`,
+    // Cloudflare Turnstile on the home page: api.js above (the nonce on its
+    // <script> is what counts under 'strict-dynamic'), the challenge in an
+    // iframe of its own.
+    `frame-src ${TURNSTILE}`,
     // Next benutzt blob:-Worker für sein Streaming-Hydration-System.
     "worker-src 'self' blob:",
     "media-src 'self'",

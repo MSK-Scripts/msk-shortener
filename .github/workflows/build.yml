@@ -1,8 +1,8 @@
 # =============================================================================
 # Build
 # -----------------------------------------------------------------------------
-# Compiles the app the same way the deploy workflow does, but on every pull
-# request. Without it a change that breaks the build only shows up after the
+# Type-checks, tests and compiles the app the same way the deploy workflow
+# does, but on every pull request. Without it a change that breaks the build only shows up after the
 # merge, when deploy.yml runs on main.
 #
 # No repository secrets are used on purpose. Pull requests from bots run in a
@@ -43,6 +43,12 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Type-check
+        run: npm run type-check
+
+      - name: Test
+        run: npm test
 
       - name: Build
         env:

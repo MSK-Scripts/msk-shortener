@@ -3,6 +3,8 @@ import { z } from 'zod'
 import { createLinkSchema } from '@/lib/validation'
 import { createLink, LinkServiceError } from '@/lib/links'
 import { getClientIp, hashIp, checkCreateRateLimit } from '@/lib/rateLimit'
+import { bearerKey } from '@/lib/apiKeys'
+import { guardCreate } from '@/lib/spamGuard'
 import type { CreateLinkResponse, ApiError } from '@/types'
 
 // ─── POST /api/links – Link erstellen ────────────────────────────────
@@ -12,12 +14,17 @@ export async function POST(request: NextRequest) {
     const ipHash   = hashIp(clientIp)
 
     // ─── Rate-Limit prüfen ──────────────────────────────────────────
-    const rateLimit = checkCreateRateLimit(ipHash)
+    // Per address for the form; an API key has a limit of its own.
+    const viaKey    = bearerKey(request.headers) !== null
+    const rateLimit = viaKey
+      ? { allowed: true, remaining: 0, resetAt: Date.now() }
+      : checkCreateRateLimit(ipHash)
     if (!rateLimit.allowed) {
       const retryAfter = Math.ceil((rateLimit.resetAt - Date.now()) / 1000)
       return NextResponse.json<ApiError>(
         {
           error: 'Zu viele Anfragen. Bitte später erneut versuchen.',
+          code:  'rate-limit',
         },
         {
           status: 429,
@@ -55,6 +62,19 @@ export async function POST(request: NextRequest) {
     }
 
     const { url, customCode, password, expiresAt } = parsed.data
+
+    // ─── Spam guard ──────────────────────────────────────────────────
+    const raw   = (typeof body === 'object' && body !== null ? body : {}) as Record<string, unknown>
+    const guard = await guardCreate({
+      headers: request.headers,
+      url,
+      proof:   { website: raw.website, formStamp: raw.formStamp, turnstileToken: raw.turnstileToken },
+      ip:      clientIp,
+      ipHash,
+    })
+    if (!guard.ok) {
+      return NextResponse.json<ApiError>({ error: guard.message, code: guard.code }, { status: guard.status })
+    }
 
     // ─── Link erstellen ──────────────────────────────────────────────
     const { link, deleteToken } = await createLink({
