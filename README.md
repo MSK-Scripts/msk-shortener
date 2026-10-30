@@ -29,7 +29,7 @@ Part of the **MSK ecosystem** – open source, privacy-friendly, no tracking, no
 | 🔌 **REST API** | Fully documented endpoints for automation |
 | 🌍 **Bilingual UI** | German and English, switchable per user (cookie-based) |
 | 🛡️ **Privacy-friendly** | IP hashing, no GeoIP, no third-party trackers, no analytics cookies |
-| ⚡ **Rate limiting** | 20 links/hour per IP to prevent abuse |
+| ⚡ **Spam protection** | Cloudflare Turnstile, daily limits per IP, phishing and shortener-chain checks, API keys for scripts |
 | 🗑️ **Delete tokens** | Every short link comes with a one-time delete token |
 
 ---
@@ -111,7 +111,8 @@ This walks you through domain setup, MariaDB, Apache, Let's Encrypt SSL, systemd
 
 ## 📡 REST API
 
-Every feature in the web UI is available through the REST API.
+Reading is open. Shortening a link from a script needs an API key, issued by the operator on the
+server (see [API keys](#-api-keys)); without one, `POST /api/links` only accepts the site's own form.
 
 Full documentation: **[docu.msk-scripts.de/shortener](https://docu.msk-scripts.de/shortener)**
 
@@ -119,6 +120,7 @@ Full documentation: **[docu.msk-scripts.de/shortener](https://docu.msk-scripts.d
 
 ```bash
 curl -X POST https://s.msk-scripts.de/api/links \
+  -H "Authorization: Bearer msks_…" \
   -H "Content-Type: application/json" \
   -d '{
     "url":        "https://msk-scripts.de",
@@ -143,13 +145,28 @@ curl -X POST https://s.msk-scripts.de/api/links \
 
 | Method | Path | Description |
 |---|---|---|
-| `POST`   | `/api/links` | Create a new short link |
+| `POST`   | `/api/links` | Create a new short link (API key required) |
 | `GET`    | `/api/links/:code` | Look up a link |
 | `DELETE` | `/api/links/:code` | Delete a link (requires `deleteToken`) |
 | `GET`    | `/api/links/:code/stats` | Get click statistics for one link |
 | `GET`    | `/api/links/:code/qr` | QR code as PNG or SVG |
 | `GET`    | `/api/stats` | Global statistics across all links |
 | `POST`   | `/api/verify` | Verify a password-protected link |
+
+---
+
+## 🔑 API keys
+
+Only someone with a shell on the server and read access to the app's `.env` can manage keys. A key is
+shown once when it is created; the database keeps only a scrypt hash of it.
+
+```bash
+/opt/msk-shortener/scripts/api-key.sh help                     # all commands
+/opt/msk-shortener/scripts/api-key.sh list                     # id, prefix, label, last use, state
+/opt/msk-shortener/scripts/api-key.sh create "<label>"         # issue a key
+/opt/msk-shortener/scripts/api-key.sh revoke <key|prefix|id>   # block it, keep the row
+/opt/msk-shortener/scripts/api-key.sh delete <key|prefix|id>   # remove it
+```
 
 ---
 
@@ -180,6 +197,8 @@ MSK Shortener is built with GDPR compliance and personal privacy in mind.
 - **Password hashing** — bcrypt with cost factor 12
 - **SSRF protection** — private IP ranges (RFC 1918, loopback, link-local) are rejected as targets
 - **Rate limiting** — abuse protection per IP
+- **Spam and phishing protection** — Cloudflare Turnstile on the form, a honeypot, a signed form timestamp,
+  daily limits per IP, and targets checked for phishing hostnames, IP hosts and other shorteners
 - **Strict CSP headers** — defense in depth against XSS
 
 A full **privacy policy** in German and English is available at [`/privacy`](https://s.msk-scripts.de/privacy) on every instance.

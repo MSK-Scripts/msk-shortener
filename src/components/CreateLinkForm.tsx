@@ -1,12 +1,47 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
+import { useCallback, useState, FormEvent } from 'react'
 import { useTranslations } from 'next-intl'
 import type { CreateLinkResponse, ApiError } from '@/types'
 import { LinkResult } from './LinkResult'
+import { TurnstileWidget } from './TurnstileWidget'
 
-export function CreateLinkForm() {
-  const t = useTranslations('createForm')
+/** Must match TURNSTILE_ACTION in src/lib/turnstile.ts. */
+const TURNSTILE_ACTION = 'create-link'
+
+/** Spam guard codes (src/lib/spamGuard.ts) and their message keys. */
+const GUARD_MESSAGES: Record<string, string> = {
+  'origin':              'rejected',
+  'rejected':            'rejected',
+  'api-key-required':    'rejected',
+  'stamp-invalid':       'reload',
+  'stamp-expired':       'reload',
+  'too-fast':            'tooFast',
+  'own-link':            'ownLink',
+  'shortener':           'shortener',
+  'blocked-host':        'blockedHost',
+  'ip-host':             'ipHost',
+  'phishing':            'phishing',
+  'rate-limit':          'rateLimit',
+  'daily-limit':         'dailyLimit',
+  'captcha':             'captcha',
+  'captcha-unavailable': 'captchaUnavailable',
+}
+
+/** After these the token may be spent, so the widget gets a fresh one. */
+const RENEW_CAPTCHA = new Set(['captcha', 'captcha-unavailable'])
+
+export function CreateLinkForm({
+  siteKey,
+  formStamp,
+}: {
+  /** Turnstile site key, null where no captcha is configured (development). */
+  siteKey:   string | null
+  /** Signed render time, see src/lib/formStamp.ts. */
+  formStamp: string
+}) {
+  const t     = useTranslations('createForm')
+  const tSpam = useTranslations('createForm.spam')
 
   // ─── State ──────────────────────────────────────────────────────
   const [url, setUrl]               = useState('')
@@ -15,6 +50,16 @@ export function CreateLinkForm() {
   const [expiresAt, setExpiresAt]   = useState('')
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [website, setWebsite]       = useState('')
+
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
+  const [captchaKey, setCaptchaKey]     = useState(0)
+  const onCaptchaToken = useCallback((token: string | null) => setCaptchaToken(token), [])
+
+  function renewCaptcha() {
+    setCaptchaToken(null)
+    setCaptchaKey((k) => k + 1)
+  }
 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError]         = useState<string | null>(null)
@@ -39,6 +84,9 @@ export function CreateLinkForm() {
           customCode: customCode.trim() || undefined,
           password:   password || undefined,
           expiresAt:  expiresAtIso,
+          website,
+          formStamp,
+          turnstileToken: captchaToken ?? undefined,
         }),
       })
 
@@ -46,8 +94,10 @@ export function CreateLinkForm() {
 
       if (!res.ok) {
         const err = data as ApiError
-        setError(err.error)
+        const key = err.code ? GUARD_MESSAGES[err.code] : undefined
+        setError(key ? tSpam(key) : err.error)
         if (err.details) setFieldErrors(err.details)
+        if (res.status >= 500 || (err.code && RENEW_CAPTCHA.has(err.code))) renewCaptcha()
         return
       }
 
@@ -69,6 +119,8 @@ export function CreateLinkForm() {
     setShowPassword(false)
     setError(null)
     setFieldErrors({})
+    // The last token was spent on the link just created.
+    renewCaptcha()
   }
 
   const now = new Date()
@@ -226,15 +278,39 @@ export function CreateLinkForm() {
         </div>
       )}
 
+      {/* A field people never see (off-screen, out of the tab order); bots fill it. */}
+      <div aria-hidden="true" className="absolute -left-[10000px] top-auto w-px h-px overflow-hidden">
+        <label>
+          Website
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
+        </label>
+      </div>
+
+      {siteKey && (
+        <TurnstileWidget
+          key={captchaKey}
+          siteKey={siteKey}
+          action={TURNSTILE_ACTION}
+          onToken={onCaptchaToken}
+        />
+      )}
+
       {error && (
-        <div className="px-4 py-3 bg-msk-danger/10 border border-msk-danger/30 rounded-lg text-sm text-msk-danger animate-fade-in">
+        <div role="alert" className="px-4 py-3 bg-msk-danger/10 border border-msk-danger/30 rounded-lg text-sm text-msk-danger animate-fade-in">
           {error}
         </div>
       )}
 
       <button
         type="submit"
-        disabled={isLoading || !url.trim()}
+        disabled={isLoading || !url.trim() || (siteKey !== null && !captchaToken)}
         className="w-full px-6 py-3.5 bg-msk-accent hover:bg-msk-hover disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
       >
         {isLoading ? (

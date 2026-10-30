@@ -95,6 +95,17 @@ export async function createLink(opts: CreateLinkOptions): Promise<CreateLinkRes
   return { link, deleteToken }
 }
 
+/** Links an address created in the last 24 hours (`ipHash` from hashIp). */
+export async function recentLinkCountByIp(ipHash: string): Promise<number> {
+  const row = await queryOne<{ count: number | string }>(
+    `SELECT COUNT(*) AS count
+       FROM links
+      WHERE created_ip_hash = ? AND created_at > NOW() - INTERVAL 1 DAY`,
+    [ipHash]
+  )
+  return Number(row?.count ?? 0)
+}
+
 /**
  * Holt einen Link anhand seines Short-Codes.
  * Gibt null zurück, wenn nicht gefunden.

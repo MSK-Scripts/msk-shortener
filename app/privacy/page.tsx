@@ -88,6 +88,10 @@ export default async function PrivacyPage() {
               <p className="font-medium text-msk-text mb-1">{t('section6HostingTitle')}</p>
               <p className="text-sm text-msk-muted">{t('section6HostingText')}</p>
             </div>
+            <div className="bg-msk-surface/50 border border-msk-border rounded-lg p-4 mt-3">
+              <p className="font-medium text-msk-text mb-1">{t('section6TurnstileTitle')}</p>
+              <p className="text-sm text-msk-muted">{t('section6TurnstileText')}</p>
+            </div>
           </Section>
 
           {/* Section 7: Deine Rechte */}

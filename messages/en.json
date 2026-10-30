@@ -64,7 +64,21 @@
     "expiresAtRemove": "Remove expiry date",
     "submit": "Shorten link",
     "submitting": "Shortening…",
-    "networkError": "Network error – please try again"
+    "networkError": "Network error – please try again",
+    "spam": {
+      "rejected": "Your request was rejected. Please reload the page and try again.",
+      "reload": "This page has expired. Please reload it and try again.",
+      "tooFast": "That was quick. Please wait a moment and send again.",
+      "ownLink": "Short links of this service cannot be shortened again.",
+      "shortener": "Links of other URL shorteners are not accepted. Please use the original address.",
+      "blockedHost": "This domain is not allowed.",
+      "ipHost": "Links to bare IP addresses are not accepted.",
+      "phishing": "This address looks like a phishing page and cannot be shortened.",
+      "rateLimit": "You have shortened many links in a short time. Please wait a while and try again.",
+      "dailyLimit": "You have reached the daily limit for new links. Please try again tomorrow.",
+      "captcha": "Please complete the spam check above the button.",
+      "captchaUnavailable": "The spam check is unavailable right now. Please try again in a moment."
+    }
   },
   "linkResult": {
     "success": "Link created!",
@@ -160,7 +174,7 @@
     "metaTitle": "Privacy Policy",
     "metaDescription": "Privacy policy for MSK Shortener.",
     "title": "Privacy Policy",
-    "lastUpdated": "As of May 2026",
+    "lastUpdated": "As of October 2026",
     "intro": "We take the protection of your personal data very seriously. This privacy policy informs you about the nature, scope and purpose of processing personal data when using MSK Shortener.",
 
     "section1Title": "1. Data Controller",
@@ -189,7 +203,7 @@
     "section3NoTracking": "No tracking cookies, analytics cookies or advertising cookies are used.",
 
     "section4Title": "4. Legal basis for processing",
-    "section4Text": "Processing of your data is based on Art. 6 (1) (b) GDPR (contract performance) and Art. 6 (1) (f) GDPR (legitimate interests – abuse prevention and provision of anonymous statistics).",
+    "section4Text": "Processing of your data is based on Art. 6 (1) (b) GDPR (contract performance) and Art. 6 (1) (f) GDPR (legitimate interests – abuse prevention including the spam check with Cloudflare Turnstile, and provision of anonymous statistics).",
 
     "section5Title": "5. Storage duration",
     "section5Links": "Short links are stored until they are either deleted by the creator using the delete token or until the optional expiry date is reached.",
@@ -197,9 +211,11 @@
     "section5Logs": "Server logs (Apache access logs) are processed exclusively for the purposes of technical operation and security, and are deleted as soon as they are no longer required for these purposes.",
 
     "section6Title": "6. Recipients of the data",
-    "section6Intro": "Your data is not shared with third parties, with the following exception:",
+    "section6Intro": "Your data is not shared with third parties, with the following exceptions:",
     "section6HostingTitle": "Hosting provider",
     "section6HostingText": "This website is operated on servers of Netcup GmbH (Daimlerstraße 25, 76185 Karlsruhe, Germany). A data processing agreement pursuant to Art. 28 GDPR exists with Netcup.",
+    "section6TurnstileTitle": "Spam check (Cloudflare Turnstile)",
+    "section6TurnstileText": "The form for shortening a link uses Cloudflare Turnstile, a service of Cloudflare, Inc. (101 Townsend St, San Francisco, CA 94107, USA), to tell people from automated requests. When the home page is opened, your browser loads a script from challenges.cloudflare.com, and Turnstile evaluates technical data such as your IP address and properties of your browser. We only receive the result of the check. Turnstile is not loaded when a short link is opened. Legal basis: Art. 6 (1) (f) GDPR, our legitimate interest in protecting the service against spam, phishing and abuse. Cloudflare is certified under the EU-US Data Privacy Framework; in addition, Standard Contractual Clauses apply. Cloudflare's privacy policy: https://www.cloudflare.com/privacypolicy/",
 
     "section7Title": "7. Your rights",
     "section7Intro": "You have the following rights at any time:",

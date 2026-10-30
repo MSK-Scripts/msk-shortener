@@ -1,12 +1,21 @@
 import Link from 'next/link'
+import Script from 'next/script'
+import { headers } from 'next/headers'
 import { getTranslations } from 'next-intl/server'
 import { CreateLinkForm }   from '@/components/CreateLinkForm'
 import { DeleteLinkButton } from '@/components/DeleteLinkButton'
 import { Header }           from '@/components/Header'
+import { issueFormStamp }   from '@/lib/formStamp'
+import { turnstileSiteKey } from '@/lib/turnstile'
+
+// Every render carries a fresh form stamp.
+export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
-  const t = await getTranslations('home')
-  const f = await getTranslations('footer')
+  const t       = await getTranslations('home')
+  const f       = await getTranslations('footer')
+  const nonce   = (await headers()).get('x-nonce') ?? undefined
+  const siteKey = turnstileSiteKey()
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -29,7 +38,7 @@ export default async function HomePage() {
 
           {/* Form Card */}
           <div className="bg-msk-surface/50 border border-msk-border rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur-sm">
-            <CreateLinkForm />
+            <CreateLinkForm siteKey={siteKey} formStamp={issueFormStamp()} />
           </div>
 
           {/* Sekundäre Aktionen */}
@@ -77,6 +86,14 @@ export default async function HomePage() {
           </div>
         </div>
       </footer>
+
+      {siteKey && (
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+          strategy="afterInteractive"
+          nonce={nonce}
+        />
+      )}
     </div>
   )
 }

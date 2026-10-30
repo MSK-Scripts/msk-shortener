@@ -1,104 +1,89 @@
+import { isIP } from 'net'
+
 /**
- * Anti-Abuse-Filter für URL-Shortener:
+ * What a short link may point to.
  *
- * 1. Verhindert "Shortener-Chaining" (Verschachtelung anderer Kurz-URLs)
- * 2. Verhindert Selbst-Shortening (Endlosschleifen)
- * 3. Blockiert bekannte Phishing-/Malware-Domains
- * 4. Optionale TLD-Blacklist
- *
- * Diese Liste ist absichtlich konservativ. Erweitern bei Bedarf.
+ * 1. No chains through other shorteners, no links to our own short links.
+ * 2. No hosts on the operator's block lists.
+ * 3. No IP addresses as hosts: real sites have names, phishing kits often don't.
+ * 4. No hostnames built like phishing pages. Measured on the production data
+ *    in October 2026: `iaccess-update-login.org.nz`,
+ *    `lbpiaccess-mobile-login.info`, `vinted.verificationpage.sbs`. They pile
+ *    up words that promise a login or an account, or pair one of them with a
+ *    cheap TLD or a hyphenated name. A real login page sits on its own short
+ *    domain (`login.microsoftonline.com`, `accounts.google.com`) and passes.
  */
 
-// ─── Andere Shortener (Verkettung verhindern) ─────────────────────────
+export type UrlVerdict =
+  | { blocked: false }
+  | { blocked: true; reason: 'invalid' | 'own-link' | 'shortener' | 'blocked-host' | 'ip-host' | 'phishing' }
+
 const SHORTENER_DOMAINS = new Set<string>([
-  'bit.ly', 'bitly.com',
-  'tinyurl.com',
-  't.co',
-  'goo.gl',
-  'is.gd',
-  'ow.ly',
-  'buff.ly',
-  'tiny.cc',
-  'shorturl.at',
-  'rebrand.ly',
-  'cutt.ly',
-  's.id',
-  'rb.gy',
+  'bit.ly', 'bitly.com', 'tinyurl.com', 't.co', 'goo.gl', 'is.gd', 'ow.ly', 'buff.ly',
+  'tiny.cc', 'shorturl.at', 'rebrand.ly', 'cutt.ly', 's.id', 'rb.gy',
 ])
 
-// ─── Bekannte Phishing/Abuse-Domains ──────────────────────────────────
-// (Hier können bei Bedarf weitere Domains ergänzt werden)
-const BLOCKED_DOMAINS = new Set<string>([
-  // Beispiel-Einträge
+/** Hosts seen in phishing links; a host matches itself and its subdomains. */
+const BLOCKED_HOSTS = new Set<string>([])
+
+/** TLDs given away cheaply and common in phishing; not blocked alone. */
+const CHEAP_TLDS = new Set<string>([
+  'sbs', 'top', 'xyz', 'icu', 'cfd', 'rest', 'buzz', 'monster', 'cyou', 'quest', 'click',
+  'link', 'live', 'site', 'online', 'info', 'store', 'tk', 'ml', 'ga', 'cf', 'gq', 'zip',
+  'mov', 'support', 'help', 'cam', 'lol', 'bond', 'pw', 'website', 'space', 'fun', 'world',
 ])
 
-// ─── Optional: TLDs mit hoher Abuse-Quote ─────────────────────────────
-// Aktiv = nicht gesetzt. Wenn du z. B. .tk oder .gq blocken willst, hier einfügen.
-const BLOCKED_TLDS = new Set<string>([])
+/** Words that promise a login, an account or a payment. */
+const BAIT_WORDS = [
+  'login', 'logon', 'signin', 'sign-in', 'verify', 'verification', 'validate', 'secure',
+  'security', 'account', 'update', 'confirm', 'auth', 'access', 'wallet', 'recover', 'unlock',
+  'unblock', 'billing', 'payment', 'invoice', 'refund', 'banking', 'webmail', 'password',
+]
 
-export interface AbuseCheckResult {
-  blocked:  boolean
-  reason?:  string
+/** True when the host or one of its parents is in the set. */
+function hostIn(set: Set<string>, host: string): boolean {
+  const labels = host.split('.')
+  for (let i = 0; i < labels.length - 1; i++) {
+    if (set.has(labels.slice(i).join('.'))) return true
+  }
+  return false
 }
 
-/**
- * Prüft eine URL gegen alle Abuse-Filter.
- */
-export function checkUrlForAbuse(url: string): AbuseCheckResult {
-  let hostname: string
+/** True for a hostname built like a phishing page (see the module comment). */
+export function looksLikePhishingHost(host: string): boolean {
+  const labels = host.split('.')
+  const tld = labels[labels.length - 1] ?? ''
+  const name = labels.slice(0, -1).join('.')
+
+  const bait = BAIT_WORDS.filter((word) => name.includes(word)).length
+  if (bait >= 2) return true
+  if (bait === 0) return false
+
+  const hyphens = (name.match(/-/g) ?? []).length
+  const punycode = labels.some((label) => label.startsWith('xn--'))
+  return CHEAP_TLDS.has(tld) || hyphens >= 2 || punycode
+}
+
+/** Checks the target of a new short link. */
+export function checkUrlForAbuse(url: string, ownBaseUrl = process.env.NEXT_PUBLIC_BASE_URL): UrlVerdict {
+  let host: string
   try {
-    hostname = new URL(url).hostname.toLowerCase()
+    host = new URL(url).hostname.toLowerCase().replace(/\.$/, '')
   } catch {
-    return { blocked: true, reason: 'Ungültige URL' }
+    return { blocked: true, reason: 'invalid' }
   }
 
-  // ─── 1. Selbst-Shortening verhindern ──────────────────────────────
-  const baseUrlEnv = process.env.NEXT_PUBLIC_BASE_URL
-  if (baseUrlEnv) {
+  if (ownBaseUrl) {
     try {
-      const ourHost = new URL(baseUrlEnv).hostname.toLowerCase()
-      if (hostname === ourHost) {
-        return {
-          blocked: true,
-          reason:  'Eigene Kurz-URLs können nicht weiter gekürzt werden',
-        }
-      }
+      if (host === new URL(ownBaseUrl).hostname.toLowerCase()) return { blocked: true, reason: 'own-link' }
     } catch {
-      // Falls BASE_URL fehlerhaft ist: ignorieren
+      // A broken base URL is a configuration problem, not the visitor's.
     }
   }
 
-  // ─── 2. Andere Shortener blockieren ───────────────────────────────
-  if (SHORTENER_DOMAINS.has(hostname)) {
-    return {
-      blocked: true,
-      reason:  'Kurz-URLs anderer Shortener werden nicht akzeptiert',
-    }
-  }
-
-  // ─── 3. Phishing/Abuse-Blacklist ──────────────────────────────────
-  if (BLOCKED_DOMAINS.has(hostname)) {
-    return {
-      blocked: true,
-      reason:  'Diese Domain ist nicht erlaubt',
-    }
-  }
-
-  // ─── 4. TLD-Check ─────────────────────────────────────────────────
-  const tld = hostname.split('.').pop()
-  if (tld && BLOCKED_TLDS.has(tld)) {
-    return {
-      blocked: true,
-      reason:  `Die TLD .${tld} ist nicht erlaubt`,
-    }
-  }
-
+  if (hostIn(SHORTENER_DOMAINS, host)) return { blocked: true, reason: 'shortener' }
+  if (hostIn(BLOCKED_HOSTS, host)) return { blocked: true, reason: 'blocked-host' }
+  if (isIP(host.replace(/^\[|\]$/g, ''))) return { blocked: true, reason: 'ip-host' }
+  if (looksLikePhishingHost(host)) return { blocked: true, reason: 'phishing' }
   return { blocked: false }
-}
-
-/**
- * Helper, um neue Domains zur Blacklist hinzuzufügen (z. B. via Admin-Skript).
- */
-export function addBlockedDomain(domain: string): void {
-  BLOCKED_DOMAINS.add(domain.toLowerCase())
 }
