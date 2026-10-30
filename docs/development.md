@@ -59,8 +59,8 @@ The app will be available at **[http://localhost:3000](http://localhost:3000)**.
 The UI is available in **German** and **English**.
 
 - Language is detected from the user's browser on first visit (`Accept-Language` header)
-- Users can switch languages via the header dropdown — the choice is stored in a cookie
-- **No URL prefix** (no `/de/…` or `/en/…`) — short links stay as short as possible
+- Users can switch languages via the header dropdown; the choice is stored in a cookie
+- **No URL prefix** (no `/de/…` or `/en/…`), so short links stay as short as possible
 - All UI strings live in [`messages/de.json`](../messages/de.json) and [`messages/en.json`](../messages/en.json)
 
 Want to add another language? PRs welcome!

@@ -76,6 +76,9 @@ function MainNav({
   className?: string
 }) {
   const [open, setOpen] = useState<string | null>(null)
+  // A panel the pointer opened stays open when its button is clicked next;
+  // otherwise moving onto the button and clicking it would close it again.
+  const openedByHover = useRef(false)
   const ref = useRef<HTMLUListElement>(null)
 
   useDismiss(open !== null, ref, (reason) => {
@@ -101,7 +104,10 @@ function MainNav({
             <li
               key={line.id}
               className="relative flex items-center"
-              onMouseEnter={() => setOpen(line.id)}
+              onMouseEnter={() => {
+                openedByHover.current = open !== line.id
+                setOpen(line.id)
+              }}
               onMouseLeave={() => setOpen((current) => (current === line.id ? null : current))}
               onBlur={(e) => {
                 if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
@@ -118,7 +124,14 @@ function MainNav({
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 aria-label={copy.submenu.replace('{name}', line.label)}
-                onClick={() => setOpen(isOpen ? null : line.id)}
+                onClick={() => {
+                  if (isOpen && openedByHover.current) {
+                    openedByHover.current = false
+                    return
+                  }
+                  openedByHover.current = false
+                  setOpen(isOpen ? null : line.id)
+                }}
                 className="-ml-1 inline-flex min-h-11 w-11 items-center justify-center rounded-md text-muted-foreground transition-colors duration-150 hover:text-primary"
               >
                 <CaretDown className={cn('h-4 w-4 transition-transform duration-150', isOpen && 'rotate-180')} />

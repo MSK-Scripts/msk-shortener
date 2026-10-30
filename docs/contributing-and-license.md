@@ -5,7 +5,7 @@
 Contributions are welcome! This is a single-maintainer project, so please:
 
 1. Open an issue first to discuss larger changes
-2. Keep PRs focused — one concern per PR
+2. Keep PRs focused, one concern per PR
 3. Run `npm run lint` and `npm run type-check` before submitting
 4. Follow the existing code style
 
