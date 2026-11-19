@@ -10,6 +10,9 @@ Description=MSK Shortener – Self-hosted URL-Shortener
 Documentation=https://github.com/musiker15/msk-shortener
 After=network.target mariadb.service
 Wants=mariadb.service
+# Restart limit. systemd only reads these two keys in [Unit].
+StartLimitBurst=5
+StartLimitIntervalSec=60
 
 [Service]
 Type=simple
@@ -27,8 +30,6 @@ ExecStart=/usr/bin/npm start
 # ─── Restart-Verhalten ───────────────────────────────────────────────
 Restart=on-failure
 RestartSec=10
-StartLimitBurst=5
-StartLimitIntervalSec=60
 
 # ─── Logging zu journald ─────────────────────────────────────────────
 StandardOutput=journal
