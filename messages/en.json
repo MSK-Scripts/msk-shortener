@@ -48,6 +48,8 @@
     "privacy": "Privacy"
   },
   "imprintPage": {
+    "metaTitle": "Imprint and contact",
+    "metaDescription": "Legal notice of MSK Shortener, a service by MSK Scripts: provider under § 5 DDG, postal address and contact details.",
     "title": "Legal Notice",
     "section1Title": "Information according to § 5 DDG",
     "addressName": "Moritz Kohm",
@@ -169,7 +171,7 @@
   },
   "globalStats": {
     "metaTitle": "Global statistics",
-    "metaDescription": "Public, anonymized statistics for all shortened links.",
+    "metaDescription": "Public, anonymized statistics of all shortened links: links and clicks in total, today and over the last 7 days, plus the most common browsers.",
     "headerLabel": "Public statistics",
     "title": "All numbers at a glance",
     "subtitle": "Anonymized aggregate data for this instance. Individual links, URLs and IP addresses are not shown.",
@@ -189,7 +191,7 @@
   },
   "privacy": {
     "metaTitle": "Privacy Policy",
-    "metaDescription": "Privacy policy for MSK Shortener.",
+    "metaDescription": "How MSK Shortener handles data: the target URL and short code are stored, IP addresses only as a salted hash. Plus your rights under the GDPR.",
     "title": "Privacy Policy",
     "lastUpdated": "As of October 2026",
     "intro": "We take the protection of your personal data very seriously. This privacy policy informs you about the nature, scope and purpose of processing personal data when using MSK Shortener.",
@@ -271,12 +273,8 @@
     "submenu": "More in {name}",
     "newTab": "(opens in a new tab)",
     "fivem": "FiveM scripts",
-    "fivemPaid": "Paid scripts",
-    "fivemPaidDesc": "Every script as Encrypted or Source",
     "fivemFree": "Free scripts",
     "fivemFreeDesc": "Open source on GitHub, msk_core included",
-    "fivemAllAccess": "All-access subscription",
-    "fivemAllAccessDesc": "Access to every resource, cancel monthly",
     "fivemStats": "Server statistics",
     "fivemStatsDesc": "Live server counts per script",
     "discord": "Discord bots",

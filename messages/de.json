@@ -48,6 +48,8 @@
     "privacy": "Datenschutz"
   },
   "imprintPage": {
+    "metaTitle": "Impressum und Kontakt",
+    "metaDescription": "Impressum von MSK Shortener, einem Dienst von MSK Scripts: Anbieter nach § 5 DDG, Anschrift und Kontakt.",
     "title": "Impressum",
     "section1Title": "Angaben gemäß § 5 DDG",
     "addressName": "Moritz Kohm",
@@ -169,7 +171,7 @@
   },
   "globalStats": {
     "metaTitle": "Globale Statistiken",
-    "metaDescription": "Öffentliche, anonymisierte Statistiken aller verkürzten Links.",
+    "metaDescription": "Öffentliche, anonymisierte Statistiken aller verkürzten Links: Links und Klicks gesamt, heute und in den letzten 7 Tagen, dazu die häufigsten Browser.",
     "headerLabel": "Öffentliche Statistiken",
     "title": "Alle Zahlen auf einen Blick",
     "subtitle": "Anonymisierte Gesamtdaten dieser Instanz. Einzelne Links, URLs und IP-Adressen werden nicht angezeigt.",
@@ -189,7 +191,7 @@
   },
   "privacy": {
     "metaTitle": "Datenschutzerklärung",
-    "metaDescription": "Datenschutzerklärung für MSK Shortener.",
+    "metaDescription": "Wie MSK Shortener mit Daten umgeht: Ziel-URL und Kurz-Code werden gespeichert, IP-Adressen nur als gesalzener Hash. Dazu deine Rechte nach der DSGVO.",
     "title": "Datenschutzerklärung",
     "lastUpdated": "Stand: Oktober 2026",
     "intro": "Wir nehmen den Schutz deiner persönlichen Daten sehr ernst. Diese Datenschutzerklärung informiert dich über Art, Umfang und Zweck der Verarbeitung personenbezogener Daten bei der Nutzung von MSK Shortener.",
@@ -271,12 +273,8 @@
     "submenu": "Mehr unter {name}",
     "newTab": "(öffnet in neuem Tab)",
     "fivem": "FiveM-Scripts",
-    "fivemPaid": "Bezahl-Scripts",
-    "fivemPaidDesc": "Jedes Script als Encrypted oder Source",
     "fivemFree": "Kostenlose Scripts",
     "fivemFreeDesc": "Open Source auf GitHub, samt msk_core",
-    "fivemAllAccess": "Alle Scripts im Abo",
-    "fivemAllAccessDesc": "Zugriff auf sämtliche Ressourcen, monatlich kündbar",
     "fivemStats": "Serverstatistiken",
     "fivemStatsDesc": "Live-Serverzahlen je Script",
     "discord": "Discord-Bots",

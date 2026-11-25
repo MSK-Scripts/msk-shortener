@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Script from 'next/script'
 import { headers } from 'next/headers'
@@ -16,6 +17,9 @@ import { turnstileSiteKey } from '@/lib/turnstile'
 export const dynamic = 'force-dynamic'
 
 const FACTS = ['codes', 'stats', 'qr', 'protect'] as const
+
+// The home page names itself; metadataBase in the root layout makes it absolute.
+export const metadata: Metadata = { alternates: { canonical: '/' } }
 
 export default async function HomePage() {
   const t       = await getTranslations('home')

@@ -6,7 +6,11 @@ export const dynamic = 'force-dynamic'
 
 export async function generateMetadata() {
   const t = await getTranslations('imprintPage')
-  return { title: t('title') }
+  return {
+    title:       t('metaTitle'),
+    description: t('metaDescription'),
+    alternates:  { canonical: '/imprint' },
+  }
 }
 
 export default async function ImprintPage() {

@@ -15,7 +15,7 @@ import { ThemeProvider } from '@/components/theme/ThemeProvider'
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? 'https://s.msk-scripts.de'),
   title: {
-    default:  'MSK Shortener – URL-Shortener',
+    default:  'MSK Shortener: URL shortener with QR codes',
     template: '%s | MSK Shortener',
   },
   description:
